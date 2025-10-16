@@ -50,31 +50,47 @@ const NewsDetails = () => {
                 </div>
                 <div className='right-content'>
                     <div className='most-viewed'>
-                        <p>Ən çox baxılanlar</p>
-                        <div className='items'>
-                            {news
-                                .filter(item => item.id !== singlenews.id && item.viewCount > 250)
-                                .map((item) => (
-                                    <div className='item' key={item.id}>
-                                        <div className='little-img'>
-                                            <img src={item.image} alt={item.title} />
-                                        </div>
-                                        <div className='text'>
-                                            <p>{item.title.substring(0, 25)}...</p>
-                                            <span>{item.date.slice(0, 10)}</span>
-                                        </div>
-                                    </div>
-                                ))
-                            }
-                        </div>
+                        {news.some(item => item.id !== singlenews.id && item.viewCount > 200) ? (
+                            <>
+                                <p>Ən çox baxılanlar</p>
+                                <div className='items'>
+                                    {news
+                                        .filter(item => item.id !== singlenews.id && item.viewCount > 200)
+                                        .map((item) => (
+                                            <div className='item' key={item.id}>
+                                                <div className='little-img'>
+                                                    <img src={item.image} alt={item.title} />
+                                                </div>
+                                                <div className='text'>
+                                                    <p>{item.title.substring(0, 25)}...</p>
+                                                    <span>{item.date.slice(0, 10)}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <p>Digər xəbərlər</p>
+                                <div className='items'>
+                                    {news
+                                        .filter(item => item.id !== singlenews.id)
+                                        .map((item) => (
+                                            <div className='item' key={item.id}>
+                                                <div className='little-img'>
+                                                    <img src={item.image} alt={item.title} />
+                                                </div>
+                                                <div className='text'>
+                                                    <p>{item.title.substring(0, 25)}...</p>
+                                                    <span>{item.date.slice(0, 10)}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
+                            </>
+                        )}
                     </div>
-                    <div className='subscribe-area'>
-                        <h5>Heç bir yeniliyi qaçırmamaq üçün abunə olun</h5>
-                        <form>
-                            <input type='email' placeholder='E-mail' />
-                            <button>Abunə ol</button>
-                        </form>
-                    </div>
+
                 </div>
             </div>
             <div className='news-list-con'>

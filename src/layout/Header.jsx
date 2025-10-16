@@ -228,7 +228,7 @@ const Header = () => {
 
             <div className={`main-navbar ${isScrolled ? "fixed" : ""}`}>
                 <Link to="/" className="logo">
-                    <img src="https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/0fef33f15554b0a71a7e14c0bed45243~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=5de4fbda&x-expires=1760731200&x-signature=6UYxk2FL3%2B586n0eN6E8hZ4loOQ%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=maliva" alt="Logo" />
+                    Fido
                 </Link>
                 <div className={`search-bar ${isSearchOpen ? "active" : ""}`}>
                     <input

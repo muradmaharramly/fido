@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background-color: $main-light;
     .page-title{
         text-align: left;
         display: none;
@@ -27,6 +28,9 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        h1,p{
+            color: $black;
+        }
         .img-div{
             width: 100%;
             overflow: hidden;

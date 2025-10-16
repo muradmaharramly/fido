@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebookF } from "react-icons/fa";
+import { FaFacebookF, FaTiktok } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
@@ -12,10 +12,10 @@ const Footer = () => {
     return (
         <footer className="footer">
             <div className="footer-top">
-                <div className="footer-logo">
-                    <img src="https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/0fef33f15554b0a71a7e14c0bed45243~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=5de4fbda&x-expires=1760731200&x-signature=6UYxk2FL3%2B586n0eN6E8hZ4loOQ%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=maliva"></img>
-                </div>
-                
+                <Link to='/' className="footer-logo">
+                    Fido
+                </Link>
+
                 <div className="footer-links">
                     <div>
                         <h5>Alıcılara</h5>
@@ -45,18 +45,16 @@ const Footer = () => {
                     <div className="social">
                         <p>Bizi sosial mediada izləyin:</p>
                         <div className="footer-icons">
-                            <Link to="https://www.facebook.com/bakuelectronics.mmc" target="_blank"><FaFacebookF /></Link>
-                            <Link to="https://t.me/baku_electronics" target="_blank"><FaTelegramPlane /></Link>
-                            <Link to="https://www.linkedin.com/company/bakuelectronics/" target="_blank"><FaLinkedinIn /></Link>
-                            <Link to="https://www.instagram.com/bakuelectronics.az/" target="_blank"><FaInstagram /></Link>
-                            <Link to="https://www.youtube.com/user/BakuElectronicsMMC" target="_blank"><FaYoutube /></Link>
+                            <Link to="#" target="_blank"><FaInstagram /></Link>
+                            <Link to="#" target="_blank"><FaTiktok /></Link>
+                            <Link to="#" target="_blank"><FaTelegramPlane /></Link>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="footer-copyright">
                 <p>
-                    Copyright © {currentYear} <strong>Baku Electronics</strong>. <span>Bütün hüquqlar qorunur.</span>
+                    Copyright © {currentYear} <strong>Fido Parfum & Accessories</strong>. <span>Bütün hüquqlar qorunur.</span>
                 </p>
             </div>
         </footer>

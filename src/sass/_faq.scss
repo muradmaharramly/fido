@@ -1,14 +1,17 @@
 .faq-container {
-    padding: 20px 9.5%;  
+    padding: 20px 9.5%; 
+    background-color: $main-light; 
     .faq-header {
       text-align: left;
       margin: 20px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-  
+      h3{
+        color: $black;
+      }
       p {
-        color: #555;
+        color: $red;
       }
   
       .intro-call-button {
@@ -44,11 +47,14 @@
   
         .faq-item {
           background-color: $box-light;
-          border-radius: 8px;
+          border-radius: 15px;
           padding: 15px;
           cursor: pointer;
           @include transition();
-
+          -webkit-border-radius: 15px;
+          -moz-border-radius: 15px;
+          -ms-border-radius: 15px;
+          -o-border-radius: 15px;
           &:hover{
             background-color: $box-hover-light;
           }
@@ -56,7 +62,7 @@
           &.active {
             background-color: $box-hover-light;
             .faq-question{
-                color: $red;
+                color: $main-dark;
             }
   
             .faq-answer {
@@ -65,6 +71,7 @@
           }
   
           .faq-question {
+            color: $black;
             display: flex;
             justify-content: space-between;
             font-size: 1rem;

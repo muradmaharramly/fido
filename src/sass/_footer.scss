@@ -11,19 +11,12 @@
       margin-bottom: 20px;
       gap: 30px;
       .footer-logo{
-        background-color: $red;
-        height: 60px;
-        width: 60px;
-        border-radius: 50%;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        -ms-border-radius: 50%;
-        -o-border-radius: 50%;
-        overflow: hidden;
-       img{
-        width: 100%;
+        font-size: 1.5em;
+        color: $red;
+        text-decoration: none;
+        font-weight:bold;
       }
-    }
+    
   
       .footer-subscribe {
         flex: 1 1 28%;

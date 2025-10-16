@@ -8,6 +8,7 @@
         align-items: center;
         flex-wrap: wrap;
         h2{
+            color: $black;
             font-size: 18px;
             font-weight: bold;
             text-align: left;
@@ -65,34 +66,34 @@
                     font-size: 13px;
                     font-weight: 500;
                     text-transform: capitalize;
-                    color: $black-2nd;
+                    color: $red;
                     @include transition();
                     &::after{
                         position: absolute;
                         content: "";
                         height: 1px;
                         width: 0%;
-                        background-color: $black-2nd;
+                        background-color: $black;
                         bottom: 0px;
                         left: 50%;
                         transform-origin: center;
                         @include transition();
                     }
                     &:hover{
-                        color: $black-2nd;
+                        color: $black;
                         &::after{
                             width: 100%;
-                            background-color: $black-2nd;
+                            background-color: $black;
                             left: 0;
                         }
                     }
                     &.selected{
-                        color: $main-dark;
+                        color: $black;
                         &:hover{
                             &::after{
                                 left: 0;
                                 width: 100%;
-                                background-color: $main-dark;
+                                background-color: $black;
                             }
                         }
                     }
@@ -176,7 +177,7 @@
                 display: flex;
                 justify-content: space-between;
                 .reset-btn{
-                    background: #fdd;
+                    background: $red;
                     border: none;
                     padding:8px 10px;
                     cursor: pointer;
@@ -185,7 +186,7 @@
                     -moz-border-radius: 10px;
                     -ms-border-radius: 10px;
                     -o-border-radius: 10px;
-                    color: $red;
+                    color: #fff;
                     font-weight: bold;
                     font-size: 12px;
                     @include transition();
@@ -194,7 +195,7 @@
                         margin-bottom: -3px;
                     }
                     &:hover{
-                        background-color: rgb(255, 181, 181);
+                        background-color: $red-hover;
                     }
                 }
             }
@@ -203,6 +204,7 @@
                 margin-top: 20px;
               
                 h6 {
+                    color: $black;
                     margin-top: 30px;
                     margin-bottom: 10px;
                 }
@@ -347,7 +349,7 @@
                     -moz-border-radius: 50%;
                     -ms-border-radius: 50%;
                     -o-border-radius: 50%;
-                    background-color: #FDEEEE;
+                    background-color: $box-light;
                     svg{
                         font-size: 5rem;
                         margin-bottom: -4px;
