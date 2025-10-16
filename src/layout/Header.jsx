@@ -14,7 +14,7 @@ import slugify from "slugify";
 import { GoHistory } from "react-icons/go";
 import { fetchCampaigns } from "../tools/request/fetchCampaigns";
 import { supabase } from "../services/supabaseClient";
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaRegHeart, FaTelegramPlane, FaTiktok, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaRegHeart, FaTelegramPlane, FaTiktok, FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 
 
@@ -394,8 +394,8 @@ const Header = () => {
                     )}
 
                 </div>
+                <Link className="nav-contact"><FaWhatsapp /> +994 55 555 55 55</Link>
                 <div className="actions">
-
                     {totalWishlistItems === 0 ? (<NavLink to="/wishlist"><button className="wish-btn"><FaRegHeart /></button></NavLink>) :
                         (<Badge count={totalWishlistItems} className="custom-badge" showZero>
                             <NavLink to="/wishlist"><button className="wish-btn"><FaRegHeart /></button></NavLink>

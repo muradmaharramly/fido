@@ -593,6 +593,25 @@
         } 
 
       }
+      .nav-contact{
+        text-decoration: none;
+        padding: 12px 15px;
+        background-color: $box-light;
+        border-radius: 18px;
+        -webkit-border-radius: 18px;
+        -moz-border-radius: 18px;
+        -ms-border-radius: 18px;
+        -o-border-radius: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: $black;
+        svg{
+          font-size: 24px;
+        }
+}
     }
     .mobile-navbar {
         display: none;
@@ -802,6 +821,9 @@
         }
         .actions{
             display: none !important;
+        }
+        .nav-contact{
+          display: none !important;
         }
         &.fixed {
             padding: 5px 15px !important;
