@@ -9,7 +9,7 @@ import { TbDiscount } from 'react-icons/tb';
 import { RiStockLine } from 'react-icons/ri';
 import { FaRegStar } from 'react-icons/fa';
 
-const categories = ["Elektronika", "Smartfonlar", "Televizorlar", "Smart saatlar", "Kompüterlər", "Məişət texnikası", "Mətbəx texnikası", "Ev heyvanları üçün"];
+const categories = ["Parfum", "Aksesuar","Case", "Çanta"];
 
 const ProductForm = ({ existingProduct, isEditMode }) => {
     const [title, setTitle] = useState('');

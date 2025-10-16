@@ -19,7 +19,7 @@ function ProductList() {
     if (loading) return <PreLoader />;
     if (error) return <p><ErrorPage error={error} /></p>;
 
-    const categories = ["Smartfonlar", "Smart saatlar", "Kompüterlər", "Televizorlar"];
+    const categories = ["Parfum", "Aksesuar","Case", "Çanta"];
 
     const filteredProducts = products.filter((product) =>
         selectedCategory === "all"
