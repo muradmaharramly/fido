@@ -23,9 +23,9 @@ function ProductList() {
 
     const filteredProducts = products.filter((product) =>
         selectedCategory === "all"
-          ? categories.includes(product.category)
-          : product.category === selectedCategory
-      );
+            ? categories.includes(product.category)
+            : product.category === selectedCategory
+    );
     const resetFilters = () => {
         setSelectedCategory("all");
     };
@@ -46,7 +46,7 @@ function ProductList() {
                         >
                             Hamısı
                         </span>
-                        {categories.map(( category, index ) => (
+                        {categories.map((category, index) => (
                             <span
                                 key={index}
                                 onClick={() => setSelectedCategory(category)}
@@ -60,7 +60,10 @@ function ProductList() {
             </div>
 
             <div className="product-list">
-                {filteredProducts.length > 0 ? (
+                {products && products.length > 0 ? (<div className='empty-area'>
+                    <div className='icon'><PiEmpty /></div>
+                    <p>Uyğun məhsul yoxdur.</p>
+                </div>) : (filteredProducts.length > 0 ? (
                     filteredProducts.slice(0, 8).map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))
@@ -70,7 +73,7 @@ function ProductList() {
                         <p>Uyğun məhsul tapılmadı.</p>
                         <button className='reset-btn' onClick={resetFilters}><SlRefresh /> Filtrləri sıfırla</button>
                     </div>
-                )}
+                ))}
             </div>
         </div>
     );
