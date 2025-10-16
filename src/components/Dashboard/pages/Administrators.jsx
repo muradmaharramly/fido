@@ -174,7 +174,10 @@ const Administrators = () => {
           <Link to="/administrative/administrators/addadministrator">Əlavə et <GoPlus /></Link>
         </div>
       </div>
-      {filteredAdministrators.length === 0 ? (
+      {administratorCount === 1 ? (<div className='empty-area'>
+        <div className='icon'><PiEmpty /></div>
+        <p>Administrator yoxdur.</p>
+      </div>) : (filteredAdministrators.length === 0 ? (
         <div className='empty-area'>
           <div className='icon'><PiEmpty /></div>
           <p>Uyğun administrator tapılmadı.</p>
@@ -221,7 +224,7 @@ const Administrators = () => {
               ))}
             </tbody>
           </table>
-        </div>)}
+        </div>))}
       {totalPages > 1 && filteredAdministrators.length !== 0 && (
         <div className="pagination">
           <button onClick={handlePrevPage} disabled={currentPage === 1}>

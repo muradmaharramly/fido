@@ -3,6 +3,9 @@
     flex-direction: column;
     padding: 20px 9.5%;
     background-color: $main-light;
+    h2{
+      color: $black;
+    }
     a{
         text-decoration: none;
         color: $black;

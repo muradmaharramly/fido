@@ -53,7 +53,7 @@ const Cart = () => {
                         <div className="cart-item">
                             <Link to={`/products/${slugify(item.title, { lower: true })}`}>
                                 <div className="cart-item-image">
-                                    <img src={item.image} alt={item.title} />
+                                    <img src={item.image1} alt={item.title} />
                                 </div>
                             </Link>
                             <div className="cart-item-info">
@@ -103,7 +103,7 @@ const Cart = () => {
                     </div>
                     <div className="summary-total">
                         <span>Cəmi məbləğ:</span>
-                        <span className="total-price">{cartTotal.toFixed(2)}₼</span>
+                        <span className="total-price">{(cartTotal - totalDiscount).toFixed(2)}₼</span>
                     </div>
                 </div>
                 <Link to="/checkout" className="checkout-btn mobile">Sifarişi rəsmiləşdir</Link>
