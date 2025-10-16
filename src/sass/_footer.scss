@@ -1,0 +1,281 @@
+.footer {
+    background-color: $box-light;
+    font-family: Arial, sans-serif;
+    padding: 20px 9.5%;  
+    padding-top: 40px;
+    
+    &-top {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      gap: 30px;
+      .footer-logo{
+        background-color: $red;
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        overflow: hidden;
+       img{
+        width: 100%;
+      }
+    }
+  
+      .footer-subscribe {
+        flex: 1 1 28%;
+        margin-bottom: 20px;
+  
+        h5 {
+          font-size: 16px;
+          margin-bottom: 20px;
+        }
+  
+        .footer-subscribe-box {
+          display: flex;
+  
+          input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+}
+  
+          button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: $red;
+            color: $white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            @include transition();
+            font-size: 15px;
+            font-weight: bold;
+            &:hover{
+              background-color: #b71c1c;
+            }
+          }
+        }
+      }
+  
+      .footer-links {
+        display: flex;
+        flex: 2 1 60%;
+        justify-content: space-around;
+  
+        div {
+          h5 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: $black;
+          }
+  
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+  
+            li {
+              margin-bottom: 14px;
+              color: $black-2nd;
+              cursor: pointer;
+              font-weight: 500;
+              a{
+                color: $black-2nd;
+                text-decoration: none;
+                @include transition();
+                &:hover {
+                    color: $black;
+                  }
+              }
+            }
+            .footer-privacy{
+                display: none;
+            }
+          }
+        }
+      }
+    }
+  
+    &-bottom {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+      border-bottom: 2px solid $black;
+      padding-bottom: 30px;
+  
+      .footer-social {
+        flex: 1 1 40%;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+  
+        p {
+          color: $black;
+          margin-bottom: 20px;
+          font-size: 16px;
+          font-weight: 600;
+        }
+  
+        .footer-icons {
+          display: flex;
+          gap: 20px;
+  
+          svg {
+            color: $black-2nd;
+            font-size: 20px;
+            cursor: pointer;
+            @include transition();
+            &:hover{
+              color: $black;
+            }
+          }
+        }
+      }
+  
+      .footer-info {
+        flex: 1 1 1%;
+        display: flex;
+        align-items: center;
+        justify-content: right;
+  
+        .footer-apps {
+            display: flex;
+            gap: 10px;
+            .img{
+                width: 135px;
+                height: 40px;
+                margin-left: 10px;
+                background-size: contain;
+                background-repeat: no-repeat
+            } 
+            .img.play{
+                background-image: url(https://new.bakuelectronics.az/img/google-play-light.svg)
+            }
+            .img.apple{
+                background-image: url(https://new.bakuelectronics.az/img/app-store-light.svg)
+            }        
+        }    
+      }
+    }
+  
+    &-copyright {
+      @include flex-center();
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      margin-top: 20px;
+      a {
+        margin-left: 10px;
+        color: $black;
+        text-decoration: none;
+        border-bottom: 2px solid $black;
+      }
+    }
+  
+    @media (max-width: 768px) {
+      &-top {
+        flex-direction: column;
+      }
+  
+      &-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-links{
+        justify-content: center;
+        h5{
+            margin-top: 18px ;
+            margin-bottom: 8px !important;
+        }
+        li{
+            margin-bottom: 8px !important;
+        }
+        .footer-privacy{
+            display: block !important;
+        }
+      }
+      .footer-subscribe{
+        h5{
+            text-align: center;
+        }
+        input{
+          padding: 8px 15px !important;
+          border-radius: 12px !important;
+          -webkit-border-radius: 12px !important;
+          -moz-border-radius: 12px !important;
+          -ms-border-radius: 12px !important;
+          -o-border-radius: 12px !important;
+        }
+        button{
+          font-size: 14px !important;
+          padding: 8px 20px !important;
+          border-radius: 12px !important;
+          -webkit-border-radius: 12px !important;
+          -moz-border-radius: 12px !important;
+          -ms-border-radius: 12px !important;
+          -o-border-radius: 12px !important;
+        }
+      }
+      .footer-social{
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        .footer-icons{
+            justify-content: space-between;
+        }
+        .footer-call{
+            h1{
+                margin-bottom: 0;
+                margin-left: 0;
+                margin-top: 15px;
+                padding: 5px 0 15px 0;
+            }
+        }
+      }
+      .footer-info{
+        margin-top: 10px;
+      }
+      .footer-copyright{
+        justify-content: center;
+        text-align: center;
+        span{
+            display: none;
+        }
+        a{
+            display: none;
+        }
+      }
+    }
+    @media (max-width: 576px) {
+        .footer-links{
+          align-items: center;
+          flex-direction: column;
+          ul{
+            text-align: center;
+          }
+          h5{
+            text-align: center;
+          }
+        }
+      }
+  }
+  @media (max-width: 768px){
+    .footer{
+      padding-bottom: 80px;
+    }
+  }
+  

@@ -1,0 +1,544 @@
+.home-container{
+    padding: 20px 5px;
+    background-color: $main-light;
+    .area-head{
+        h3{
+            color: $black;
+        }
+    }
+    .slider-container {
+        padding: 10px 0%  0px 0%;
+        width: 100%;
+        max-width: 1230px;
+        height: 510px;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 30px;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        -ms-border-radius: 30px;
+        -o-border-radius: 30px;
+      }
+      .slide{
+        height: 500px;
+        &:focus{
+            outline: none;
+        }
+      }
+      .slide img {
+        border: 1px solid #ddd;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        margin: 0 auto;
+        border-radius: 30px;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        -ms-border-radius: 30px;
+        -o-border-radius: 30px;
+    }
+.custom-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    background-color: $white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.064);
+    @include transition();
+    &:hover{
+        background-color: $box-light;
+        box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.24);
+    }
+    svg{
+        font-size: 22px;
+        color: $red;
+        z-index: 11;
+    }
+  }  
+  .next {
+    right: 10px;
+    svg{
+        margin-left: -15px;
+    }
+  }
+  
+  .prev {
+    left: 10px;
+    svg{
+        margin-left: -20px;
+    }
+  }
+  .why-us{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 9.5%;
+    .card{
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        height: 200px;
+        padding: 25px;
+        border-radius: 25px;
+        background-color: $box-light;
+        -webkit-border-radius: 25px;
+        -moz-border-radius: 25px;
+        -ms-border-radius: 25px;
+        -o-border-radius: 25px;
+        div{
+            background-color: $box-hover-light;
+            width: 50px;
+            height: 50px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            svg{
+                font-size: 28px;
+                color: $black;
+            }
+        }
+        h2{
+            color: $black;
+            margin: 2px 0;
+        }
+        p{
+            color: $black-2nd;
+        }
+}
+}
+.news.roll-area,
+.brands.roll-area{
+    padding: 30px 9.5% 40px 9.5%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: $main-light;
+    .area-head{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p{
+            color: $red;
+        }
+        a{
+            padding: 10px 20px;
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            -ms-border-radius: 20px;
+            -o-border-radius: 20px;
+            background-color: $red;
+            color: $white;
+            text-decoration: none;
+            font-weight: bold;
+            @include transition();
+            &:hover{
+                background-color: $red-hover;
+            }
+}
+    }
+    .slider-container {
+        padding: 10px 0;
+        height: 350px;
+        border-radius: 0 !important;
+        -webkit-border-radius: 0 !important;
+        -moz-border-radius: 0 !important;
+        -ms-border-radius: 0 !important;
+        -o-border-radius: 0 !important;
+        a{
+            color: $black;
+            text-decoration: none;
+        }
+}
+      .slide{
+        width: 94% !important;
+        height: 260px;
+        h4{
+            margin: 15px 0;
+        }
+        .img-div{
+            padding: 0;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            -ms-border-radius: 20px;
+            -o-border-radius: 20px;
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 20px;
+                -webkit-border-radius: 20px;
+                -moz-border-radius: 20px;
+                -ms-border-radius: 20px;
+                -o-border-radius: 20px;
+            }
+        }
+      }
+      .slide .overlay{
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        background-color: rgba(0, 0, 0, 0.352);
+        height: 100%;
+        width: 100%;
+        a{
+            cursor: pointer;
+            padding:18px 20px;
+            border: none;
+            background-color: $white;
+            border-radius: 15px;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            @include transition();
+            svg{
+                font-size: 24px;
+                margin-bottom: -5px;
+                color: $red;
+            }
+            &:hover{
+                transform: scale(1.05);
+                -webkit-transform: scale(1.05);
+                -moz-transform: scale(1.05);
+                -ms-transform: scale(1.05);
+                -o-transform: scale(1.05);
+}
+
+}
+      }
+      .mobile-href-btn{
+        display: none;
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        background-color: $box-hover-light;
+        text-align: center;
+        color: $black;
+        text-decoration: none;
+        font-weight: 600;
+        @include transition();
+        &:hover{
+            background-color: $red;
+            color: $white;
+        }
+}
+}
+.news.roll-area{
+    .slider-container{
+        height: 400px;
+        .slide{
+            height: 330px;
+            img{
+                @include transition();
+            }
+            .overlay{
+                padding: 30px;
+                justify-content: end;
+                align-items: flex-start;
+                a{
+                    color: $black;
+                    border-radius: 20px;
+                    padding: 10px 22px;
+                    text-decoration: none;
+                    font-weight: bold;
+                    -webkit-border-radius: 20px;
+                    -moz-border-radius: 20px;
+                    -ms-border-radius: 20px;
+                    -o-border-radius: 20px;
+                    &:hover{
+                        background-color: $box-hover-light;
+                        transform: scale(1);
+                        -webkit-transform: scale(1);
+                        -moz-transform: scale(1);
+                        -ms-transform: scale(1);
+                        -o-transform: scale(1);
+                    }
+                }
+            }
+        }
+        .slide:hover img{
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -o-transform: scale(1.1);
+}
+    }
+}
+.brands.roll-area{
+    padding: 60px 0% 20px 0%;
+    background-color: transparent;
+    .slider-container{
+        height: 100px;
+        .slide{
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90px;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            img{
+                object-fit: contain;
+                @include transition();
+                filter: grayscale(100%);
+                -webkit-filter: grayscale(100%);
+}
+        }
+        .slide:hover img{
+            filter: none;
+            -webkit-filter: none;
+}
+    }
+}
+      
+}
+@media (max-width: 768px){
+    .home-container{
+        padding: 0px 0px !important;
+        .slider-container{
+            padding: 10px 15px!important;
+            border-radius: 15px;
+            width: 100%;
+            height: 220px;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            .slide{
+                height: 200px;
+                border-radius: 15px;
+                -webkit-border-radius: 15px;
+                -moz-border-radius: 15px;
+                -ms-border-radius: 15px;
+                -o-border-radius: 15px;
+                img{
+                    border-radius: 15px;
+                    -webkit-border-radius: 15px;
+                    -moz-border-radius: 15px;
+                    -ms-border-radius: 15px;
+                    -o-border-radius: 15px;
+}
+            }
+        }
+        .custom-arrow{
+            height: 30px;
+            width: 30px;
+            border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            -ms-border-radius: 6px;
+            -o-border-radius: 6px;
+            svg{
+                font-size: 12px;
+            }
+            
+        }
+        .next{
+            right: 0px;
+        }
+        .prev{
+            left: 0px;
+        }
+    }
+    .why-us{
+        padding: 20px 10px 0px 10px !important;
+        flex-wrap: wrap;
+        justify-content: center !important;
+        .card{
+            padding: 15px !important;
+            width: 160px !important;
+            height: 180px !important;
+            border-radius: 15px !important;
+            -webkit-border-radius: 15px !important;
+            -moz-border-radius: 15px !important;
+            -ms-border-radius: 15px !important;
+            -o-border-radius: 15px !important;
+            div{
+                width: 30px !important;
+                height: 30px !important;
+                border-radius: 6px !important;
+                -webkit-border-radius: 6px !important;
+                -moz-border-radius: 6px !important;
+                -ms-border-radius: 6px !important;
+                -o-border-radius: 6px !important;
+                svg{
+                    font-size: 18px !important;
+                }
+}
+            h2{
+                font-size: 14px;
+            }
+            p{
+                font-size: 11px;
+            }
+}
+    }
+.video.roll-area,
+.news.roll-area{
+    padding: 20px 15px !important;
+    gap: 20px !important;
+    .area-head{
+        a{
+            display: none;
+        }
+    }
+    .slider-container{
+        padding: 0 !important;
+        height: auto !important;
+        .slide{
+            width: 98% !important;
+            height: 200px !important;
+            .overlay{
+                a{
+                    padding: 12px 15px !important;
+                    border-radius: 10px;
+                    -webkit-border-radius: 10px;
+                    -moz-border-radius: 10px;
+                    -ms-border-radius: 10px;
+                    -o-border-radius: 10px;
+                    svg{
+                       font-size: 14px !important;
+                       margin-bottom: -2px;
+                    }
+                }
+            }
+        }
+    }
+    .mobile-href-btn{
+        display: block !important;
+    }
+}  
+.preorder-container{
+    padding: 60px 15px !important;
+    gap: 30px;
+    .card{
+        height: 180px !important;
+        padding: 20px !important;
+        border-radius: 20px !important;
+        -webkit-border-radius: 20px !important;
+        -moz-border-radius: 20px !important;
+        -ms-border-radius: 20px !important;
+        -o-border-radius: 20px !important;
+        .left{
+            .text{
+                span{
+                    font-size: 10px !important;
+                }
+                h1{
+                    max-width: 200px;
+                }
+            }
+            a{
+                padding: 8px 22px !important;
+            }
+        }
+        .right{
+            width: 120px !important;
+            height: 160px !important;
+            margin-top: -40px !important;
+}
+}
+}
+.news.roll-area{
+    .overlay{
+        a{
+            display: none !important;
+        }
+    }
+} 
+.popup-overlay {
+    .popup-content {
+        width: 95% !important;
+        max-width: 400px !important;
+        margin: 0 auto !important;
+        padding: 30px 15px 15px 15px !important;
+        border-radius: 15px !important;
+        -webkit-border-radius: 15px !important;
+        -moz-border-radius: 15px !important;
+        -ms-border-radius: 15px !important;
+        -o-border-radius: 15px !important;
+        iframe{
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+        }
+        .popup-ending{
+            p{
+                font-size: 12px !important;
+            }
+    
+            .popup-btn {
+                font-size: 12px !important;
+                padding: 4px 10px !important;
+                svg{
+                    font-size: 20px !important;
+                }
+                
+}
+        }
+        .close-btn {
+            top: 5px !important;
+            right: 5px !important;
+        }
+    }
+}
+.brands.roll-area{
+    padding: 20px 0% 0px 0% !important;
+    .slider-container{
+        height: 70px !important;
+        .slide{
+            height: 60px !important;
+            .img-div{
+                border-radius: 10px !important;
+                -webkit-border-radius: 10px !important;
+                -moz-border-radius: 10px !important;
+                -ms-border-radius: 10px !important;
+                -o-border-radius: 10px !important;
+}
+            img{
+                border-radius: 10px !important;
+                -webkit-border-radius: 10px !important;
+                -moz-border-radius: 10px !important;
+                -ms-border-radius: 10px !important;
+                -o-border-radius: 10px !important;
+}
+        }
+    }
+}
+}

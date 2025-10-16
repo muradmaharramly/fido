@@ -1,0 +1,388 @@
+.admin-products,
+.admin-news,
+.admin-campaigns,
+.administrators{
+    padding: 20px 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .page-head{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h3{
+          .count{
+            color: $black-2nd;
+            margin-left: 5px;
+            font-weight: 500;
+            font-size: 14px;
+          }
+        }
+        .procces{
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            gap: 30px;
+            .search-bar {
+                @include transition();
+                position: relative;
+                display: flex;
+                width: 400px;
+                gap: 10px;
+                background-color: $box-light;
+                border-radius: 12px;
+                padding: 10px 15px;
+                -webkit-border-radius: 12px;
+                -moz-border-radius: 12px;
+                -ms-border-radius: 12px;
+                -o-border-radius: 12px;
+                input{
+                  width: 100%;
+                  background: none;
+                  border: none;
+                  outline: none;
+                  color: $black;
+                  &::placeholder{
+                    color: $black-2nd;
+                  }
+                }
+          
+                button {
+                  background: none;
+                  border: none;
+                  color: $black-2nd;
+                  cursor: pointer;
+                  font-size: 20px;
+                }
+            }
+            a{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 15px;
+                border-radius: 15px;
+                -webkit-border-radius: 15px;
+                -moz-border-radius: 15px;
+                -ms-border-radius: 15px;
+                -o-border-radius: 15px;
+                background-color: $black;
+                color: $white;
+                text-decoration: none;
+                font-weight: 500;
+                @include transition();
+                svg{
+                    font-size: 20px;
+                }
+                &:hover{
+                    background-color: $box-hover-dark;
+                }
+              }
+        }
+    }
+    .empty-area{
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+      gap: 15px;
+      height: 40vh;
+      .icon{
+          padding: 23px 25px;
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          -ms-border-radius: 50%;
+          -o-border-radius: 50%;
+          background-color: $box-light;
+          svg{
+              font-size: 5rem;
+              margin-bottom: -4px;
+              color: $red;
+          }
+      }
+      p{
+          font-size: 16px;
+          font-weight: 500;
+      }
+      .reset-btn{
+          background:$red;
+          border: none;
+          padding:10px 15px;
+          cursor: pointer;
+          border-radius: 10px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          -ms-border-radius: 10px;
+          -o-border-radius: 10px;
+          color: $white;
+          font-weight: 500;
+          font-size: 15px;
+          @include transition();
+          svg{
+              font-size: 20px;
+              margin-bottom: -3px;
+          }
+          &:hover{
+              background-color: $red-hover;
+          }
+      }
+  }
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 0;
+      margin-top: 20px;
+    
+      .product-table,
+      .news-table,
+      .campaign-table,
+      .user-table,
+      .administrator-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
+        thead {
+          background: $black;
+          color: white;
+    
+          tr {
+            th {
+              padding: 10px;
+              text-align: left;
+              font-weight: 600;
+              font-size: 14px;
+            }
+          }
+        }
+    
+        tbody {
+          tr {
+            @include transition();
+    
+            &:hover {
+              background: $box-light;
+            }
+            .firstName,
+            .lastName{
+                text-transform: capitalize;
+              }
+            td {
+              position: relative;
+              padding:10px;
+              border: 1px solid #ddd;
+              font-size: 14px;
+              text-align: left;
+              &.price{
+                .old-price{
+                  color: $red;
+                  font-size: 14px;
+                  text-decoration: line-through;
+                }
+                .current-price{
+                  font-size: 16px;
+                  font-weight: bold;
+                  color: rgb(18, 198, 99);
+                }
+              }
+              &.reset{
+                &.done{
+                  color: green;
+                }
+                &.not{
+                  color: $red;
+                }
+              }
+              .desc-none{
+                color: red;
+              }
+              .role{
+                padding: 3px 6px;
+                border-radius: 8px;
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                -ms-border-radius: 8px;
+                -o-border-radius: 8px;
+                border: 1px solid transparent;
+                &.moderator{
+                  background-color: rgba(255, 201, 22, 0.541);
+                  border: 2px solid rgb(255, 166, 0);
+                  color: rgb(227, 128, 0);
+                }
+                &.admin{
+                  background-color: rgba(67, 123, 254, 0.273);
+                  border: 2px solid rgb(67, 123, 254);
+                  color: rgb(15, 76, 216);
+                }
+                &.superadmin{
+                  background-color: rgba(67, 254, 167, 0.445);
+                  border: 2px solid rgb(14, 218, 95);
+                  color: rgb(2, 192, 78);
+                }
+              }
+              .email-status,
+              .reset{
+                margin-left: 5px;
+                padding:2px 4px;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                -ms-border-radius: 50%;
+                -o-border-radius: 50%;
+                border: 1px solid transparent;
+                svg{
+                  margin-bottom: -2px;
+                  font-size: 14px;
+                }
+                &.done{
+                  background-color: rgba(15, 253, 15, 0.625);
+                  color: rgb(8, 110, 8);
+                }
+                &.not{
+                  background-color: rgba(255, 52, 49, 0.425);
+                  color: $red;
+                }
+              }
+              .create-hour{
+                margin-left: 10px;
+}
+              .campaign-active{
+                border: 1px solid transparent;
+                padding: 2px 8px;
+                border-radius: 6px;
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                -ms-border-radius: 6px;
+                -o-border-radius: 6px;
+                background-color: rgba(15, 253, 15, 0.625);
+                color: rgb(8, 110, 8);
+              }
+              .campaign-ended{
+                border: 1px solid transparent;
+                padding: 2px 8px;
+                border-radius: 6px;
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                -ms-border-radius: 6px;
+                -o-border-radius: 6px;
+                background-color: rgba(255, 193, 69, 0.425);
+                color: rgb(255, 140, 0);
+              } 
+              .campaign-deactive{
+                border: 1px solid transparent;
+                padding: 2px 8px;
+                border-radius: 6px;
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                -ms-border-radius: 6px;
+                -o-border-radius: 6px;
+                background-color: rgba(255, 72, 69, 0.511);
+                color: $red;
+              } 
+              .image-container {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+    
+                .product-image,
+                .news-image,
+                .campaign-image {
+                  width: 50px;
+                  height: 50px;
+                  border-radius: 5px;
+                  object-fit: contain;
+                }
+                .product-image{
+                  height: 60px;
+                }
+              }
+    
+              .actions {
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                gap: 8px;
+    
+                .edit-btn,
+                .delete-btn {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;  
+                  padding: 10px 12px;
+                  border: none;
+                  cursor: pointer;
+                  font-size: 15px;
+                  font-weight: bold;
+                  border-radius: 8px;
+                  transition: 0.3s ease;
+                  -webkit-border-radius: 8px;
+                  -moz-border-radius: 8px;
+                  -ms-border-radius: 8px;
+                  -o-border-radius: 8px;
+}
+    
+                .edit-btn {
+                  background: rgb(255, 209, 58);
+                  color: $black;    
+                  &:hover {
+                    background: rgb(199, 146, 1);
+                  }
+                }
+    
+                .delete-btn {
+                  background: $red;
+                  color:$white;  
+                  &:hover {
+                    background: $red-hover;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+}
+@media (max-width: 768px) {
+  .admin-products,
+  .admin-news,
+  .admin-campaigns,
+  .admin-users,
+  .administrators{
+    padding: 10px 10px !important;
+    .page-head{
+      flex-direction: column;
+      justify-content: left !important;
+      align-items: flex-start;
+      gap: 10px;
+      .procces{
+        gap: 15px !important;
+        .search-bar{
+          width:220px !important;
+          padding: 8px 12px !important;
+        }
+        a{
+          font-size: 12px;
+          padding: 10px;
+          border-radius: 10px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          -ms-border-radius: 10px;
+          -o-border-radius: 10px;
+}
+      }
+    }
+    .table-container{
+      max-width: 370px;
+    }
+}
+
+  
+}

@@ -1,0 +1,97 @@
+.news-card{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 60px;
+    padding: 20px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    background-color: $white;
+    width: 360px;
+    @include transition();
+    .img-div{
+        @include transition();
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        -o-border-radius: 20px;
+        overflow: hidden;
+        width: 330px;
+        height: 200px;
+        margin: 0 auto;
+        margin-top: -60px;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    h5{
+        margin-top: 20px;
+        font-weight: 500;
+    }
+    p{
+        color: $black-2nd;
+        margin: 10px 0;
+    }
+    .card-ending{
+        display: flex;
+        justify-content: space-between;
+        span{
+            font-size: 13px;
+            font-weight: 500;
+            padding-left: 15px;
+            border-left: 2px solid $red;
+        }
+        a{
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            font-size: 13px;
+            color: $black;
+            gap: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            svg{
+                font-size: 20px;
+                color: $red;
+            }
+        }
+    }
+    &:hover{
+        box-shadow: 0px 10px 40px 5px rgba(0, 0, 0, 0.07);
+    }
+}
+@media (max-width:768px){
+    .news-card{
+        margin-top: 40px;
+        padding: 15px 10px;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        width: 340px;
+        .img-div{
+            border-radius: 14px;
+            -webkit-border-radius: 14px;
+            -moz-border-radius: 14px;
+            -ms-border-radius: 14px;
+            -o-border-radius: 14px;
+            overflow: hidden;
+            width: 320px;
+            height: 180px;
+            margin: 0 auto;
+            margin-top: -40px;
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+}

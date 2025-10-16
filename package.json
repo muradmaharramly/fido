@@ -1,0 +1,48 @@
+{
+  "name": "bakuelectronics",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@supabase/supabase-js": "^2.48.1",
+    "antd": "^5.23.4",
+    "bcryptjs": "^3.0.2",
+    "react-calendar": "^5.1.0",
+    "react-dom": "18",
+    "react-icons": "^5.4.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "6",
+    "react-slick": "^0.30.3",
+    "react-spinners": "^0.15.0",
+    "react-use-cart": "^1.14.0",
+    "react-use-wishlist": "^1.0.1",
+    "recharts": "^2.15.1",
+    "redux": "^5.0.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^3.1.0",
+    "sass": "^1.83.4",
+    "slick-carousel": "^1.8.1",
+    "slugify": "^1.6.6",
+    "sweetalert2": "^11.17.2",
+    "swiper": "^11.2.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.13.0",
+    "vite": "^6.0.3"
+  }
+}

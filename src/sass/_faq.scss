@@ -1,0 +1,98 @@
+.faq-container {
+    padding: 20px 9.5%;  
+    .faq-header {
+      text-align: left;
+      margin: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  
+      p {
+        color: #555;
+      }
+  
+      .intro-call-button {
+        text-decoration: none;
+        padding: 10px 20px;
+        background-color: $red;
+        color: $white;
+        border: none;
+        font-weight: bold;
+        border-radius: 15px;
+        cursor: pointer;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        @include transition();
+        &:hover {
+            background-color: $red-hover;
+          }
+}
+    }
+  
+    .faq-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+  
+      .faq-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+  
+        .faq-item {
+          background-color: $box-light;
+          border-radius: 8px;
+          padding: 15px;
+          cursor: pointer;
+          @include transition();
+
+          &:hover{
+            background-color: $box-hover-light;
+          }
+  
+          &.active {
+            background-color: $box-hover-light;
+            .faq-question{
+                color: $red;
+            }
+  
+            .faq-answer {
+              display: block;
+            }
+          }
+  
+          .faq-question {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            font-weight: 500;
+  
+            .faq-icon {
+              font-size: 1.5rem;
+              @include transition();
+            }
+          }
+  
+          .faq-answer {
+            display: none;
+            margin-top: 10px;
+            color: #333;
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .faq-container {
+        padding: 10px 15px;
+      .faq-content {
+        flex-direction: column;
+      }
+    }
+  }
+  

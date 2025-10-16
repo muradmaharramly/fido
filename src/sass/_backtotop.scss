@@ -1,0 +1,76 @@
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.5s ease-in-out;
+  border: none;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  &:hover{
+    background: $red;
+    box-shadow: 0px 10px 10px 5px rgba(0, 0, 0, 0.2);
+    animation: bounce 1s ease-in-out infinite;
+    -webkit-animation: bounce 1s ease-in-out infinite;
+    & .arrow{
+        color: $white;
+    }
+    & .progress-ring__circle{
+        stroke: $white !important;
+    }
+}
+
+  .progress-ring {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transform: rotate(-90deg);
+  }
+  @keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    -o-transform: translateY(-10px);
+}
+}
+
+  .progress-ring__circle {
+    stroke: $red !important;
+    transition: stroke-dashoffset 0.1s;
+    -webkit-transition: stroke-dashoffset 0.1s;
+    -moz-transition: stroke-dashoffset 0.1s;
+    -ms-transition: stroke-dashoffset 0.1s;
+    -o-transition: stroke-dashoffset 0.1s;
+}
+
+  .arrow {
+    position: relative;
+    font-size: 3em;
+    margin-bottom: -5px;
+    color: $red;
+    font-weight: bold;
+    z-index: 1;
+  }
+}
+@media (max-width: 768px){
+    .back-to-top{
+        bottom: 80px;
+        right: 30px;
+    }
+    
+}

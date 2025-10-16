@@ -1,0 +1,20 @@
+.dashboard-layout {
+    display: flex;
+  }
+  
+  .dashboard-content {
+    background-color: $main-light;
+    margin-left: 0px;
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 0px;
+  }
+  
+  .page-content {
+    padding: 20px;
+  }
+@media (max-width: 768px) {
+    .page-content{
+        padding: 10px;
+    }    
+}

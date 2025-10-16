@@ -1,0 +1,182 @@
+.campaigns-page{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 9.5%;
+    a{
+        color: $black;
+        text-decoration: none;
+    }
+    .page-title{
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        a{
+            display: none;
+            color: $black;
+            background-color: $box-light;
+            padding: 10px 12px;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -ms-border-radius: 10px;
+            -o-border-radius: 10px;
+            svg{
+                font-size: 16px;
+                margin-bottom: -4px;
+            }
+        }
+    }
+    .campaign-card{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: left;
+        width: calc(50% - 20px);
+        gap: 15px;
+        .img-div{
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            height: 320px;
+            border-radius: 40px;
+            -webkit-border-radius: 40px;
+            -moz-border-radius: 40px;
+            -ms-border-radius: 40px;
+            -o-border-radius: 40px;
+            &:hover{
+                img{
+                    transform: scale(1.05);
+                    -webkit-transform: scale(1.05);
+                    -moz-transform: scale(1.05);
+                    -ms-transform: scale(1.05);
+                    -o-transform: scale(1.05);
+}
+            }
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                @include transition();
+            }
+            .overlay{
+                z-index: 999;
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                padding: 30px;
+                display: flex;
+                justify-content: start;
+                align-items: flex-start;
+                background-color: rgba(0, 0, 0, 0.241);
+                a{
+                    display: flex;
+                    align-items: center;
+                    background-color: $white;
+                    z-index: 999;
+                    color: $black;
+                    border-radius: 10px;
+                    padding: 6px 10px;
+                    text-decoration: none;
+                    -webkit-border-radius: 10px;
+                    -moz-border-radius: 10px;
+                    -ms-border-radius: 10px;
+                    -o-border-radius: 10px;
+                    font-weight: 500;
+                    text-transform: capitalize;
+                    p{
+                        font-size: 12px;
+                    }
+                    span{
+                        font-size: 20px;
+                        margin: 0 5px;
+                        font-weight: bold;
+                    }
+                    .ended{
+                        font-weight: 500;
+                        font-size: 14px;
+                        color: $red;
+                    }
+                }
+            }
+        }
+    }
+    .top-campaign{
+        width: 100%;
+        margin: 20px 0;
+        .campaign-card{
+            width: 100%;
+            .img-div{
+                height: 380px;
+            }
+        }
+
+    }
+    .other-campaigns{
+        margin: 20px 0;
+        display: flex;
+        gap: 30px 25px;
+        flex-wrap: wrap;
+        
+    }
+}
+@media (max-width: 768px){
+    .campaigns-page{
+        padding: 10px 15px;
+        .page-title{
+            font-size: 14px;
+            a{
+                display: block;
+            }
+        }
+        .campaign-card{
+            width: 100%;
+            gap: 5px;
+            .img-div{
+                width: 100%;
+                position: relative;
+                overflow: hidden;
+                height: 200px;
+                border-radius: 18px;
+                -webkit-border-radius: 18px;
+                -moz-border-radius: 18px;
+                -ms-border-radius: 18px;
+                -o-border-radius: 18px;
+                .overlay{
+                    padding: 12px;
+                    a{
+                        border-radius: 6px;
+                        padding: 2px 6px;
+                        -webkit-border-radius: 6px;
+                        -moz-border-radius: 6px;
+                        -ms-border-radius: 6px;
+                        -o-border-radius: 6px;
+                        p{
+                            font-size: 9px;
+                        }
+                        span{
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+        .top-campaign{
+            width: 100%;
+            margin: 5px 0;
+            .campaign-card{
+                .img-div{
+                    height: 200px;
+                }
+            }
+    
+        }
+        .other-campaigns{
+            justify-content: center;
+            margin: 5px 0;
+            gap: 15px;
+            
+        }
+    }
+}

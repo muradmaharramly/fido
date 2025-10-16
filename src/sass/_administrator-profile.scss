@@ -1,0 +1,200 @@
+.administrator-profile {
+    width: 100%;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: $main-light;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    .page-head{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            background-color: $red;
+            color: $white;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            svg{
+            font-size: 20px;
+            }
+            &:hover{
+                background-color: $red-hover;
+            }
+}
+    }
+  
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 30px 0;
+      .form-first, .form-double, .form-triple, .form-quater{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        .form-group{
+            position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            label{
+                font-size: 14px;
+                font-weight: 500;
+            }
+            input, textarea{
+                flex: 1;
+                border: 1px solid $black;
+                padding: 10px 40px 10px 15px;
+                border-radius: 15px;
+                -webkit-border-radius: 15px;
+                -moz-border-radius: 15px;
+                -ms-border-radius: 15px;
+                -o-border-radius: 15px;
+                @include transition();
+            }
+            textarea{
+                font-family: 'Poppins', sans-serif;
+            }
+            select {
+                padding: 12px;
+                border: 1px solid $black;
+                border-radius: 15px;
+                font-size: 16px;
+                width: 100%;
+                cursor: pointer;
+                transition: border-color 0.3s;
+                -webkit-border-radius: 15px;
+                -moz-border-radius: 15px;
+                -ms-border-radius: 15px;
+                -o-border-radius: 15px;
+                &:focus{
+                    outline: none;
+                }
+            
+                option {
+                    padding: 10px;
+                }
+            }
+            svg{
+                position: absolute;
+                right: 15px;
+                bottom: 13px;
+                font-size: 20px;
+                color: $red;
+            }
+            .pass-hider{
+                right: 10px;
+                bottom: 0px;
+                border: none;
+                background-color: transparent;
+                position: absolute;
+                cursor: pointer;
+            }
+            .error-message{
+                font-size: 12px;
+                color: $red;
+            }
+        }
+    }
+    }
+  
+    .profile-actions {
+      display: flex;
+      justify-content: start;
+      gap: 15px;
+      align-items: center;
+  
+      button {
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+        padding: 12px 30px;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        text-decoration: none;
+        font-weight: 500;
+        @include transition();
+        &.edit-btn{
+          background-color: $black;
+          color: $white;
+  
+          &:hover {
+            background-color: $box-hover-dark;
+          }
+        }
+        .cancel-btn{
+            background-color: $box-hover-light;
+            color: $black;
+            &:hover{
+                background-color: #ccc;
+            }
+        }
+  
+        &.save-btn {
+          background-color: $black;
+          color: $white;
+  
+          &:hover {
+            background-color: $box-hover-dark;
+          }
+        }
+      }
+    }
+  
+    @media (max-width: 768px) {
+      .administrator-profile {
+        padding: 15px;
+        margin: 15px;
+      }
+  
+      h2 {
+        font-size: 1.5rem;
+      }
+  
+      .profile-info {
+        gap: 12px;
+      }
+
+      .form-first, .form-double, .form-triple, .form-quater{
+        flex-wrap: wrap;
+        gap: 15px;
+        .form-group{
+            gap: 5px;
+            label{
+                font-size: 13px;
+            }
+        }
+    }
+  
+      .profile-actions {
+        flex-direction: column;
+        gap: 10px;
+  
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+  

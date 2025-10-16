@@ -1,0 +1,307 @@
+@import 'variables';
+@import 'mixin';
+@import 'header';
+@import 'footer';
+@import 'home';
+@import 'brands';
+@import 'aboutus';
+@import 'delivery-and-billing';
+@import 'productcard';
+@import 'productlist';
+@import 'productdetails';
+@import 'cart';
+@import 'wishlist';
+@import 'mobiletabbar';
+@import 'notfoundpage';
+@import 'newsdetails';
+@import 'newslist';
+@import 'newscard';
+@import 'newsandblogs';
+@import 'products';
+@import 'campaigns';
+@import 'campaigndetails';
+@import 'campaign-popup';
+@import 'faq';
+/*Admin Style*/
+@import 'dashboardlayout';
+@import 'adminsidebar';
+@import 'adminnavbar';
+@import 'admin-items';
+@import 'add-edit';
+@import 'crud-form';
+@import 'adminlogin';
+@import 'administrator-profile';
+@import 'dashboardpage';
+@import 'backtotop';
+@import 'darkmode';
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    .custom-badge .ant-badge-count {
+      background-color: $red !important;
+    }
+    .preloader{
+      height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .pagination {
+      display: flex;
+      gap: 10px;
+      margin: 0 auto;
+      margin-top: 30px;
+      .numbers{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background-color: #ffbfe6;
+        padding: 8px 20px;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        -o-border-radius: 20px;
+        span{
+            font-size: 14px;
+            cursor: pointer;
+            @include transition();
+            &:hover {
+              color: $red;
+              font-weight: bold;
+          }
+            &.active {
+                color: $red;
+                font-weight: bold;
+            }
+        }
+}
+      button {
+        padding: 8px 10px;
+        border: none;
+        background-color: #ffbfe6;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        color: $red;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        -o-border-radius: 20px;
+        svg{
+            font-size: 26px;
+            margin-bottom: -2px;
+        }
+  
+        &:hover {
+          background-color: $red;
+          color: $white;
+        }
+  
+        &:disabled {
+          background-color: #c597b3b3;
+          cursor: not-allowed;
+          color: #ea232a89;
+          &:hover{
+            color: #ea232a89;
+          }
+        }
+      }
+    }
+    h1 {
+        font-size: 26px;
+      }
+      h2 {
+        font-size: 22px;
+      }
+      h3 {
+        font-size: 20px;
+      }
+      h4 {
+        font-size: 18px;
+      }
+      h5 {
+        font-size: 16px;
+      }
+      h6 {
+        font-size: 14px;
+      }
+    
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 22px;
+        }
+        h2 {
+          font-size: 20px;
+        }
+        h3 {
+          font-size: 18px;
+        }
+        h4 {
+          font-size: 15px;
+        }
+        h5 {
+          font-size: 14px;
+        }
+        h6 {
+          font-size: 13px;
+        }
+      }
+    
+      @media (max-width: 576px) {
+        h1 {
+          font-size: 20px;
+        }
+        h2 {
+          font-size: 16px;
+        }
+        h3 {
+          font-size: 14px;
+        }
+        h4 {
+          font-size: 13px;
+        }
+        h5 {
+          font-size: 12px;
+        }
+        h6 {
+          font-size: 11px;
+        }
+      }
+      p, ul li, input, a {
+        font-size: 14px;
+        line-height: 1.6; 
+        @media (max-width: 768px) {
+          font-size: 13px;
+        }
+        @media (max-width: 576px) {
+          font-size: 13px;
+        }
+      }
+      
+}
+
+.breadcrumb{
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 2px 0px;
+    font-size: 12px;
+    gap: 5px;
+    font-weight: 600;
+    a{
+      font-size: 12px;
+    }
+    a,
+    svg{
+        color: $black-2nd;
+        text-decoration: none;
+        transition: all .3s ease;
+        -webkit-transition: all .3s ease;
+        -moz-transition: all .3s ease;
+        -ms-transition: all .3s ease;
+        -o-transition: all .3s ease;
+        &:hover{
+            color: $black;
+        }
+    }
+    span{
+      color: $black;
+    }
+
+}
+.custom-swal-popup {
+  background-color: $main-light;
+  border-radius: 30px;
+  padding: 20px;
+  box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+}
+
+.custom-swal-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: $black;
+}
+
+
+.custom-swal-confirm {
+  background-color: $red !important;
+  color: $white !important;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: 0.3s;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  &:hover{
+      background-color: $red-hover !important;
+  }
+}
+
+.custom-swal-cancel {
+  background-color: $box-dark !important;
+  color: $white !important;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: 0.3s;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  &:hover{
+      background-color: $black !important;
+  }
+}
+
+.custom-swal-icon {
+  filter: invert(100%);
+}
+
+@media (max-width: 768px){
+    .breadcrumb{
+        display: none;
+    }
+    .pagination {
+      .numbers{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 8px 10px;
+        border-radius: 8px !important;
+        -webkit-border-radius: 8px !important;
+        -moz-border-radius: 8px !important;
+        -ms-border-radius: 8px !important;
+        -o-border-radius: 8px !important;
+        span{
+            font-size: 12px !important;
+        }
+}
+      button {
+        padding: 4px 6px !important;
+        border-radius: 8px !important;
+        -webkit-border-radius: 8px !important;
+        -moz-border-radius: 8px !important;
+        -ms-border-radius: 8px !important;
+        -o-border-radius: 8px !important;
+        svg{
+            font-size: 20px !important;
+        } 
+      }
+    }
+}
