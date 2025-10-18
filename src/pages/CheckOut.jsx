@@ -48,15 +48,24 @@ const CheckoutPage = () => {
       "Təşəkkürlər!";
 
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
 
     window.open(whatsappUrl, "_blank");
+
     emptyCart();
+    navigate("/");
   };
 
   return (
     <div className="checkout-container">
-    <div className="breadcrumb"><Link to="/">Ana səhifə</Link><RiArrowRightDoubleFill /><Link to="/cart">Səbət</Link><RiArrowRightDoubleFill /><span>Sifariş təsdiqləmə</span></div>
+      <div className="breadcrumb">
+        <Link to="/">Ana səhifə</Link>
+        <RiArrowRightDoubleFill />
+        <Link to="/cart">Səbət</Link>
+        <RiArrowRightDoubleFill />
+        <span>Sifariş təsdiqləmə</span>
+      </div>
+
       <div className="checkout-card">
         <h2 className="checkout-title">Sifarişi təsdiqlə</h2>
         <p className="checkout-description">
