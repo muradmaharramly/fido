@@ -4,7 +4,7 @@ import { PuffLoader } from 'react-spinners'
 const PreLoader = () => {
   return (
     <div className='preloader'>
-        <PuffLoader color="#EA2328" />
+        <PuffLoader color="#E238A0" />
     </div>
   )
 }

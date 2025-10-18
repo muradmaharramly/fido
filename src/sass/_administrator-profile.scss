@@ -143,11 +143,11 @@
             background-color: $box-hover-dark;
           }
         }
-        .cancel-btn{
-            background-color: $box-hover-light;
+        &.cancel-btn{
+            background-color: $box-light;
             color: $black;
             &:hover{
-                background-color: #ccc;
+                background-color: $box-hover-light;
             }
         }
   
