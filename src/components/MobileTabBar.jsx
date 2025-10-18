@@ -23,9 +23,9 @@ const MobileTabBar = () => {
     const activeTab = Object.keys(tabs).includes(location.pathname) ? location.pathname : null;
 
     const indicatorPositions = {
-        "/": 5.5,
-        "/wishlist": 32,
-        "/cart": 58.5,
+        "/": 7.5,
+        "/wishlist": 43,
+        "/cart": 78,
     };
 
     return (
