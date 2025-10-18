@@ -27,7 +27,6 @@ const Footer = () => {
                         <h5>Məlumat</h5>
                         <ul>
                             <li><Link to="/campaigns">Kampaniyalar</Link></li>
-                            <li><Link to="/brands">Brendlər</Link></li>
                             <li><Link to="/news">Bloq və xəbərlər</Link></li>
                             <li><Link to="/faq">FAQ</Link></li>
                         </ul>

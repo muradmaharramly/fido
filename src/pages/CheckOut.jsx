@@ -1,8 +1,12 @@
 import React from "react";
 import { useCart } from "react-use-cart";
+import { Link, useNavigate } from "react-router-dom";
+import { RiArrowRightDoubleFill } from "react-icons/ri";
+import { FaWhatsapp } from "react-icons/fa";
 
 const CheckoutPage = () => {
   const { items, emptyCart } = useCart();
+  const navigate = useNavigate();
 
   const phoneNumber = "+994558759382";
 
@@ -51,23 +55,26 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "40px" }}>
-      <h2>Sifarişi təsdiqlə</h2>
-      <button
-        onClick={handleWhatsAppOrder}
-        style={{
-          backgroundColor: "#25D366",
-          color: "white",
-          border: "none",
-          borderRadius: "10px",
-          padding: "12px 24px",
-          fontSize: "16px",
-          cursor: "pointer",
-          marginTop: "20px",
-        }}
-      >
-        WhatsApp-da sifarişi təsdiqlə
-      </button>
+    <div className="checkout-container">
+    <div className="breadcrumb"><Link to="/">Ana səhifə</Link><RiArrowRightDoubleFill /><Link to="/cart">Səbət</Link><RiArrowRightDoubleFill /><span>Sifariş təsdiqləmə</span></div>
+      <div className="checkout-card">
+        <h2 className="checkout-title">Sifarişi təsdiqlə</h2>
+        <p className="checkout-description">
+          Sifarişinizi tamamlamaq üçün aşağıdakı düyməyə klik edin. WhatsApp üzərindən sifariş
+          təsdiq səhifəsinə yönləndiriləcəksiniz. Orada sifariş detallarınızı təsdiqləyərək
+          alış-verişinizi başa çatdıra bilərsiniz.
+        </p>
+
+        <div className="checkout-buttons">
+          <button className="whatsapp-btn" onClick={handleWhatsAppOrder}>
+            <div className="icon"><FaWhatsapp /></div>
+            WhatsApp<span>-da sifarişi təsdiqlə</span>
+          </button>
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            Geri qayıt
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

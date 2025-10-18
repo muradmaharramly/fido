@@ -8,42 +8,8 @@ import NewsSlider from '../components/sliders/NewsSlider'
 import ProductList from '../components/ProductList'
 import FilteredProductList from '../components/FilteredProductList'
 import { Link } from 'react-router-dom'
-import BrandsSlider from '../components/sliders/BrandsSlider'
 
 const Home = () => {
-  const [rotation1, setRotation1] = useState({ x: 0, y: 0, shadowX: 0, shadowY: 0 });
-  const [rotation2, setRotation2] = useState({ x: 0, y: 0, shadowX: 0, shadowY: 0 });
-
-  const handleMouseMove1 = (e) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-
-    const x = ((e.clientX - left) / width - 0.5) * 20;
-    const y = ((e.clientY - top) / height - 0.5) * 20;
-
-    const shadowX = (e.clientX - left - width / 2) / 10;
-    const shadowY = (e.clientY - top - height / 2) / 10;
-
-    setRotation1({ x, y, shadowX, shadowY });
-  };
-
-  const handleMouseLeave1 = () => {
-    setRotation1({ x: 0, y: 0, shadowX: 0, shadowY: 0 });
-  };
-  const handleMouseMove2 = (e) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-
-    const x = ((e.clientX - left) / width - 0.5) * 20;
-    const y = ((e.clientY - top) / height - 0.5) * 20;
-
-    const shadowX = (e.clientX - left - width / 2) / 10;
-    const shadowY = (e.clientY - top - height / 2) / 10;
-
-    setRotation2({ x, y, shadowX, shadowY });
-  };
-
-  const handleMouseLeave2 = () => {
-    setRotation2({ x: 0, y: 0, shadowX: 0, shadowY: 0 });
-  };
   return (
     <div className='home-container'>
       <HeroSlider />
@@ -78,7 +44,6 @@ const Home = () => {
       </div>
       <FilteredProductList />
       <NewsSlider />
-      <BrandsSlider />
     </div>
   )
 }

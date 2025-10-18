@@ -125,8 +125,7 @@
         }
 }
 }
-.news.roll-area,
-.brands.roll-area{
+.news.roll-area{
     padding: 30px 9.5% 40px 9.5%;
     display: flex;
     flex-direction: column;
@@ -298,35 +297,6 @@
 }
     }
 }
-.brands.roll-area{
-    padding: 60px 0% 20px 0%;
-    background-color: transparent;
-    .slider-container{
-        height: 100px;
-        .slide{
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 90px;
-            -webkit-border-radius: 15px;
-            -moz-border-radius: 15px;
-            -ms-border-radius: 15px;
-            -o-border-radius: 15px;
-            img{
-                object-fit: contain;
-                @include transition();
-                filter: grayscale(100%);
-                -webkit-filter: grayscale(100%);
-}
-        }
-        .slide:hover img{
-            filter: none;
-            -webkit-filter: none;
-}
-    }
-}
-      
 }
 @media (max-width: 768px){
     .home-container{
@@ -409,7 +379,6 @@
             }
 }
     }
-.video.roll-area,
 .news.roll-area{
     padding: 20px 15px !important;
     gap: 20px !important;
@@ -515,29 +484,6 @@
         .close-btn {
             top: 5px !important;
             right: 5px !important;
-        }
-    }
-}
-.brands.roll-area{
-    padding: 20px 0% 0px 0% !important;
-    .slider-container{
-        height: 70px !important;
-        .slide{
-            height: 60px !important;
-            .img-div{
-                border-radius: 10px !important;
-                -webkit-border-radius: 10px !important;
-                -moz-border-radius: 10px !important;
-                -ms-border-radius: 10px !important;
-                -o-border-radius: 10px !important;
-}
-            img{
-                border-radius: 10px !important;
-                -webkit-border-radius: 10px !important;
-                -moz-border-radius: 10px !important;
-                -ms-border-radius: 10px !important;
-                -o-border-radius: 10px !important;
-}
         }
     }
 }

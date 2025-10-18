@@ -60,7 +60,7 @@ function ProductList() {
             </div>
 
             <div className="product-list">
-                {products && products.length > 0 ? (<div className='empty-area'>
+                {products && products.length === 0 ? (<div className='empty-area'>
                     <div className='icon'><PiEmpty /></div>
                     <p>Uyğun məhsul yoxdur.</p>
                 </div>) : (filteredProducts.length > 0 ? (

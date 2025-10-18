@@ -99,7 +99,7 @@ const Wishlist = () => {
                                         <IoBan />
                                     </div>
                                 }
-                                <img src={item.image} alt={item.title} />
+                                <img src={item.image1} alt={item.title} />
                                 {item.discount > 0 && <p className="discount">{item.discount}%</p>}
                             </div>
                         </Link>

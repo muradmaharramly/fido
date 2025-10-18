@@ -201,7 +201,7 @@ const settings = {
                                 <div className="item" key={buyTogether.id}>
                                     <div className="con">
                                         <div className="img-div">
-                                            <img src={buyTogether.image} />
+                                            <img src={buyTogether.image1} />
                                         </div>
                                         <div className="item-info">
                                             <p>{buyTogether.title.substring(0, 80)}...</p>
@@ -211,7 +211,7 @@ const settings = {
                                         </div>
                                     </div>
                                     {inCart(buyTogether.id) ? (
-                                        <Link className="add clicked"><span className="tick"><MdDone /></span><span>Əlavə edildi</span></Link>
+                                        <Link className="add clicked"><span className="tick"><MdDone /></span><span>Əlavə edilib</span></Link>
                                     ) : (
                                         <Link className="add" onClick={() => {
                                             if (!inCart(buyTogether.id)) {

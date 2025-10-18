@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import AuthLayout from "./layout/AuthLayout";
 import Home from "./pages/Home";
-import Brands from "./pages/Brands";
 import AboutUs from "./pages/AboutUs";
 import DeliveryandBilling from "./pages/DeliveryandBilling";
 import ProductDetails from "./pages/ProductDetails";
@@ -45,8 +44,7 @@ const App = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/brands" element={<Brands />} />
+          <Route path="/about-us" element={<Home />} />
           <Route path="/delivery-and-billing" element={<DeliveryandBilling />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:slug" element={<ProductDetails />} />

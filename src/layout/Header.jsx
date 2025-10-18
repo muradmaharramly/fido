@@ -394,7 +394,7 @@ const Header = () => {
                     )}
 
                 </div>
-                <Link className="nav-contact"><FaWhatsapp /> +994 55 555 55 55</Link>
+                <Link className="nav-contact"><div className="icon"><FaWhatsapp /></div> +994 55 555 55 55</Link>
                 <div className="actions">
                     {totalWishlistItems === 0 ? (<NavLink to="/wishlist"><button className="wish-btn"><FaRegHeart /></button></NavLink>) :
                         (<Badge count={totalWishlistItems} className="custom-badge" showZero>
