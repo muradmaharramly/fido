@@ -10,9 +10,16 @@ import slugify from "slugify";
 import ErrorPage from "../ErrorPage";
 
 function NewsSlider() {
+    const { news, loading, error } = useSelector((state) => state.news);
+    useEffect(() => {
+        fetchNews();
+    }, [])
+    if (loading) return <PreLoader />;
+    if (error) return <p><ErrorPage error={error} /></p>;
+
     const settings = {
         dots: false,
-        infinite: true,
+        infinite: news.length > 1,
         slidesToShow: 2,
         slidesToScroll: 1,
         autoplay: true,
@@ -28,12 +35,7 @@ function NewsSlider() {
             }
         ]
     };
-    const { news, loading, error } = useSelector((state) => state.news);
-    useEffect(() => {
-        fetchNews();
-    }, [])
-    if (loading) return <PreLoader />;
-    if (error) return <p><ErrorPage error={error} /></p>;
+
 
     return (
         <div className="news roll-area">
@@ -47,8 +49,8 @@ function NewsSlider() {
             <div className="slider-container">
                 <Slider {...settings}>
                     {news
-                        .sort((a, b) => new Date(b.date) - new Date(a.date)) 
-                        .slice(0, 8) 
+                        .sort((a, b) => new Date(b.date) - new Date(a.date))
+                        .slice(0, 8)
                         .map((item) => (
                             <Link key={item.id} to={`/news/${slugify(item.title, { lower: true })}`}>
                                 <div className="slide">
@@ -60,7 +62,12 @@ function NewsSlider() {
                                             </Link>
                                         </div>
                                     </div>
-                                    <h4>{item.title.substring(0, 50)}...</h4>
+                                    <h4>
+                                        {item.title.length > 30
+                                            ? item.title.substring(0, 30) + "..."
+                                            : item.title}
+                                    </h4>
+
                                 </div>
                             </Link>
                         ))}

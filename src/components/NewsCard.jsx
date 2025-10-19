@@ -9,8 +9,8 @@ const NewsCard = ({ singlenews }) => {
     const handleMouseMove = (e) => {
         const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
 
-        const x = ((e.clientX - left) / width - 0.5) * 20; 
-        const y = ((e.clientY - top) / height - 0.5) * 20; 
+        const x = ((e.clientX - left) / width - 0.5) * 20;
+        const y = ((e.clientY - top) / height - 0.5) * 20;
 
         const shadowX = (e.clientX - left - width / 2) / 10;
         const shadowY = (e.clientY - top - height / 2) / 10;
@@ -24,24 +24,28 @@ const NewsCard = ({ singlenews }) => {
     return (
         <Link to={`/news/${slugify(singlenews.title, { lower: true })}`}>
             <div className='news-card' onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
-          boxShadow: rotation.shadowX === 0 && rotation.shadowY === 0 
-            ? "0px 0px 5px rgba(0, 0, 0, 0.3)" 
-            : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(0, 0, 0, 0.3)`,
-        }}>
+                onMouseLeave={handleMouseLeave}
+                style={{
+                    transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
+                    boxShadow: rotation.shadowX === 0 && rotation.shadowY === 0
+                        ? "0px 0px 5px rgba(0, 0, 0, 0.3)"
+                        : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(0, 0, 0, 0.3)`,
+                }}>
                 <div className='img-div' onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
-          boxShadow: rotation.shadowX === 0 && rotation.shadowY === 0 
-            ? "0px 0px 5px rgba(0, 0, 0, 0.3)" 
-            : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(0, 0, 0, 0.3)`,
-        }}>
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                        transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
+                        boxShadow: rotation.shadowX === 0 && rotation.shadowY === 0
+                            ? "0px 0px 5px rgba(0, 0, 0, 0.3)"
+                            : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(0, 0, 0, 0.3)`,
+                    }}>
                     <img src={singlenews.image} />
                 </div>
-                <h5>{singlenews.title.substring(0, 30)}...</h5>
+                <h5>
+                    {singlenews.title.length > 30
+                        ? singlenews.title.substring(0, 30) + "..."
+                        : singlenews.title}
+                </h5>
                 <p>{singlenews.category}</p>
                 <div className='card-ending'>
                     <span>{singlenews.date.slice(0, 10)}</span>

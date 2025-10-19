@@ -6,6 +6,7 @@ import ErrorPage from "./ErrorPage";
 import { Link } from "react-router-dom";
 import slugify from "slugify";
 import { IoClose } from "react-icons/io5";
+import { IoIosArrowForward } from "react-icons/io";
 
 const CampaignPopup = () => {
     const { campaigns, loading, error } = useSelector((state) => state.campaigns);
@@ -84,9 +85,14 @@ const CampaignPopup = () => {
                         <img src={topCampaign.image} alt={topCampaign.title} />
                     </div>
                     <div className="promo-text">
-                        <p className="date">{startDay} {startMonth} - {endDay} {endMonth}</p>
-                        <h2>{topCampaign.title}</h2>
-                        <Link to={`/campaigns/${slugify(topCampaign.title, { lower: true })}`} onClick={() => setIsVisible(false)} className="details-btn">Daha ətraflı</Link>
+                        <div><p className="date">{startDay} {startMonth} - {endDay} {endMonth}</p>
+                            <h2>
+                                {topCampaign.title.length > 30
+                                    ? `${topCampaign.title.substring(0, 30)}...`
+                                    : topCampaign.title}
+                            </h2></div>
+                        <Link to={`/campaigns/${slugify(topCampaign.title, { lower: true })}`} onClick={() => setIsVisible(false)} className="details-btn">Daha ətraflı<IoIosArrowForward />
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -47,12 +47,6 @@ function ProductDetails() {
     const [months, setMonths] = useState(3);
     const [initialPayment, setInitialPayment] = useState(0);
 
-    useEffect(() => {
-        const storedEmail = localStorage.getItem("email");
-        if (storedEmail) {
-            setUserEmail(storedEmail);
-        }
-    }, []);
 
     useEffect(() => {
         if (products.length === 0) {

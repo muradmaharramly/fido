@@ -50,8 +50,8 @@ const CampaignCard = ({ campaign }) => {
         try {
             const { data, error } = await supabase
                 .from('campaigns')
-                .update({ status: false })  
-                .eq('id', campaignId); 
+                .update({ status: false })
+                .eq('id', campaignId);
 
             if (error) throw error;
             console.log("Campaign status updated successfully:", data);
@@ -78,32 +78,37 @@ const CampaignCard = ({ campaign }) => {
 
     return (
         <>
-        {campaignStatus ? (
-            <Link to={`/campaigns/${slugify(campaign.title, { lower: true })}`} className='campaign-card'>
-                <div className='img-div'>
-                    <div className="overlay">
-                        <Link>
-                            {formatTimeLeft()}
-                        </Link>
+            {campaignStatus ? (
+                <Link to={`/campaigns/${slugify(campaign.title, { lower: true })}`} className='campaign-card'>
+                    <div className='img-div'>
+                        <div className="overlay">
+                            <Link>
+                                {formatTimeLeft()}
+                            </Link>
+                        </div>
+                        <img src={campaign.image} alt={campaign.title} />
                     </div>
-                    <img src={campaign.image} alt={campaign.title} />
-                </div>
-                <h2>{campaign.title}</h2>
-            </Link>
-        ) : (
-            <div className='campaign-card'>
-                <div className='img-div'>
-                    <div className="overlay">
-                        <Link>
-                           <span className='ended'>Müddəti bitib</span>
-                        </Link>
+                    <h2>{campaign.title}</h2>
+                </Link>
+            ) : (
+                <div className='campaign-card'>
+                    <div className='img-div'>
+                        <div className="overlay">
+                            <Link>
+                                <span className='ended'>Müddəti bitib</span>
+                            </Link>
+                        </div>
+                        <img src={campaign.image} alt={campaign.title} />
                     </div>
-                    <img src={campaign.image} alt={campaign.title} />
+                    <h2>
+                        {campaign.title.length > 20
+                            ? campaign.title.substring(0, 20) + "..."
+                            : campaign.title}
+                    </h2>
+
                 </div>
-                <h2>{campaign.title}</h2>
-            </div>
-        )}
-        </>        
+            )}
+        </>
     );
 };
 

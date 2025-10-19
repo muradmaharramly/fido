@@ -851,6 +851,7 @@ border-bottom: 2px solid $white;
   }
 }
 .wishlist-page{
+  background-color: $main-dark;
   h2{
     color: $white;
   }
@@ -866,6 +867,12 @@ border-bottom: 2px solid $white;
     }
     h3{
       color: $white;
+    }
+    .custom-arrow {
+      background-color: $box-dark;
+      &:hover{
+        background-color: $box-hover-dark;
+      }
     }
   }
   .cart-title{
@@ -1279,75 +1286,6 @@ border-bottom: 2px solid $white;
 }
 }
           }
-          .features-container {
-            p{
-              color: $white;
-            }            
-              .features-box {
-                  background-color: $box-dark;
-                  .box-items{
-                      .icon{
-                        background: #3d3d3d;
-                        color: $white;
-                      }
-                  
-                      .content {
-                        h3 {
-                          color: $white;
-                        }
-                  
-                        p {
-                          color: $white-2nd;
-                        }
-                      }
-                  
-                      .toggle-btn {
-                        background: $box-hover-dark;
-                        color: $white;                  
-                        &:hover {
-                          background: #6b6b6b;
-                        }
-                        &.tel{
-                          background-color: $box-hover-dark;
-                          &:hover{
-                              background-color: #6b6b6b;
-                          }
-                        }
-                      }
-              }
-              }
-            
-              .features-list {
-                li {
-                  color: $white;
-                  border-bottom: 1px solid #b9b9b994;
-                  &:last-child{
-                      border: none;
-                  }
-                }
-                &.comment{
-                  .headline{
-                      h4{
-                          color: $white;
-                      }
-                  }
-                  form{
-                      textarea{
-                          background-color: rgb(61, 61, 61);
-                          &::placeholder{
-                              color: $white-2nd;
-                          }
-                      }
-                      button{
-                          background-color: rgb(61, 61, 61);
-                          &:hover{
-                              background-color: $box-hover-dark;
-                          }
-}
-                  }
-                }
-              }
-            }
             
           
       }
@@ -1359,6 +1297,18 @@ border-bottom: 2px solid $white;
       }
       h3{
         color: $white;
+      }
+    }
+    .custom-arrow {
+         background-color: $box-dark;
+         svg{
+          background-color: $box-dark;
+         }
+      &:hover{
+        background-color: $box-hover-dark;
+        svg{
+                    background-color: $box-hover-dark;
+                }
       }
   }
 }
@@ -2705,6 +2655,12 @@ border-bottom: 2px solid $white;
     h3{
       color: $white;
     }
+    .custom-arrow {
+      background-color: $box-dark;
+      &:hover{
+        background-color: $box-hover-dark;
+      }
+    }
   }
 }
 .checkout{
@@ -3112,6 +3068,9 @@ border-bottom: 2px solid $white;
     }
   }
 } 
+.preloader{
+      background-color: $main-dark;
+}
 .back-to-top {
     background: $main-dark;
     box-shadow: 0px 0px 5px 2px rgba(255, 59, 206, 0.2);

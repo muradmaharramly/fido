@@ -33,7 +33,7 @@ function ProductSliderMain({ currentProduct }) {
             let viewedProducts = JSON.parse(localStorage.getItem("viewedProducts")) || [];
 
             viewedProducts = viewedProducts.filter((p) => p.id !== currentProduct.id);
-            viewedProducts.unshift({ id: currentProduct.id, title: currentProduct.title, image: currentProduct.image1, price: currentProduct.price, discount: currentProduct.discount, rating: currentProduct.rating, reviewCount: currentProduct.reviewCount, category: currentProduct.category, productCode: currentProduct.productCode, count: currentProduct.count });
+            viewedProducts.unshift({ id: currentProduct.id, title: currentProduct.title, image1: currentProduct.image1, price: currentProduct.price, discount: currentProduct.discount, rating: currentProduct.rating, reviewCount: currentProduct.reviewCount, category: currentProduct.category, productCode: currentProduct.productCode, count: currentProduct.count });
 
             if (viewedProducts.length > 10) {
                 viewedProducts.pop();
@@ -47,7 +47,7 @@ function ProductSliderMain({ currentProduct }) {
 
     const settings = {
         dots: false,
-        infinite: true,
+        infinite: recentProducts.length > 4,
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,

@@ -39,7 +39,7 @@ function ProductSliderRecomend({ products }) {
 
     const settings = {
         dots: false,
-        infinite: true,
+        infinite: filteredSliderProducts.length > 4,
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,

@@ -30,7 +30,7 @@ function PrevArrow(props) {
 function NewsPageSlider({ news }) {
   const settings = {
     dots: true,  
-    infinite: true,
+    infinite: news.length > 1,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,

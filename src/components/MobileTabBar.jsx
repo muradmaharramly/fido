@@ -23,9 +23,9 @@ const MobileTabBar = () => {
     const activeTab = Object.keys(tabs).includes(location.pathname) ? location.pathname : null;
 
     const indicatorPositions = {
-        "/": 7.5,
-        "/wishlist": 43,
-        "/cart": 78,
+        "/": 7,
+        "/wishlist": 44,
+        "/cart": 81,
     };
 
     return (
@@ -33,7 +33,7 @@ const MobileTabBar = () => {
             {activeTab && (
                 <div
                     className="active-indicator"
-                    style={{ left: `${indicatorPositions[activeTab] || 6.7}%` }}
+                    style={{ left: `${indicatorPositions[activeTab] || 6}%` }}
                 ></div>
             )}
 
@@ -45,7 +45,7 @@ const MobileTabBar = () => {
 
             <Link to="/wishlist">
                 <button className={activeTab === "/wishlist" ? "clicked" : ""}>
-                    <Badge count={totalWishlistItems}>
+                    <Badge count={totalWishlistItems} className="custom-badge" showZero>
                         {activeTab === "/wishlist" ? <FaHeart /> : <FaRegHeart />}
                     </Badge>
                 </button>
@@ -53,7 +53,7 @@ const MobileTabBar = () => {
 
             <Link to="/cart">
                 <button className={activeTab === "/cart" ? "clicked" : ""}>
-                    <Badge count={totalUniqueItems}>
+                    <Badge count={totalUniqueItems} className="custom-badge" showZero>
                         {activeTab === "/cart" ? <RiShoppingCart2Fill /> : <RiShoppingCart2Line />}
                     </Badge>
                 </button>

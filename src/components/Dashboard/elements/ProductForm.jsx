@@ -9,7 +9,7 @@ import { TbDiscount } from 'react-icons/tb';
 import { RiStockLine } from 'react-icons/ri';
 import { FaRegStar } from 'react-icons/fa';
 
-const categories = ["Parfum", "Aksesuar","Case", "Çanta"];
+const categories = ["Parfum", "Aksesuar", "Case", "Çanta"];
 
 const ProductForm = ({ existingProduct, isEditMode }) => {
     const [title, setTitle] = useState('');
@@ -83,13 +83,19 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
             setCategoryError('Kateqoriya seçin');
             isValid = false;
         }
-        if (!rating.trim()) {
-            setRatingError('Reytinq boş ola bilməz');
+        if (rating === "" || rating === null || rating === undefined) {
+            setRatingError("Reytinq boş ola bilməz");
             isValid = false;
-        } else if (!/^(?:[0-4](?:\.[0-9])?|5(?:\.0)?)$/.test(rating)) {
-            setRatingError('Reytinq 0-5 aralığında və yalnız bir onluq rəqəmlə ola bilər (məsələn: 3, 4.5)');
-            isValid = false;
+        } else {
+            const numericRating = parseFloat(rating);
+            if (isNaN(numericRating) || numericRating < 0 || numericRating > 5) {
+                setRatingError("Reytinq 0-5 aralığında və yalnız bir onluq rəqəmlə ola bilər (məsələn: 3, 4.5)");
+                isValid = false;
+            } else {
+                setRatingError("");
+            }
         }
+
 
 
         if (image1 && !/^https?:\/\//.test(image1)) {

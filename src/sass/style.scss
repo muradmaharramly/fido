@@ -45,10 +45,14 @@ body{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    .custom-badge .ant-badge-count {
-      background-color: $red !important;
+    .custom-badge {
+      .ant-badge-count {
+          background-color: $red !important;
+          box-shadow: none !important;
     }
+  }
     .preloader{
+      background-color: $main-light;
       height: 50vh;
       display: flex;
       justify-content: center;
