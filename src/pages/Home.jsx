@@ -8,11 +8,46 @@ import NewsSlider from '../components/sliders/NewsSlider'
 import ProductList from '../components/ProductList'
 import FilteredProductList from '../components/FilteredProductList'
 import { Link } from 'react-router-dom'
+import { FaCheck, FaHeart, FaShoppingCart, FaWhatsapp } from 'react-icons/fa'
+import { IoIosArrowForward } from 'react-icons/io'
 
 const Home = () => {
   return (
     <div className='home-container'>
-      <HeroSlider />
+      <div className='hero-div'>
+        <div className='hero-text-area'>
+          <h1>Fido Parfum & Accessories</h1>
+          <div className="sliding-box">
+
+            <div className="marquee">
+              <div className="marquee-track" style={{ animationDuration: "16s" }}>
+                {["Parfum", "Elegance", "Scent", "Luxury", "Fresh", "Parfum", "Elegance", "Scent", "Luxury", "Fresh"].map((w, i) => (
+                  <div className="marquee-item" key={i}>{w}</div>
+                ))}
+              </div>
+            </div>
+
+            <div className="marquee">
+              <div className="marquee-track" style={{ animationDuration: "10s" }}>
+                {[ "Yeni", "Xüsusi", "Seçim", "Endirim", "Gözəl", "Yeni", "Xüsusi", "Seçim", "Endirim"].map((w, i) => (
+                  <div className="marquee-item" key={i}>{w}</div>
+                ))}
+              </div>
+            </div>
+
+            <div className="marquee">
+              <div className="marquee-track" style={{ animationDuration: "20s" }}>
+                {["Original", "Premium", "Hədiyyə", "Trend", "Sevimli", "Original", "Premium", "Hədiyyə", "Trend", "Sevimli"].map((w, i) => (
+                  <div className="marquee-item" key={i}>{w}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <Link to='/products' className='hero-cta-btn'>Məhsullara bax<IoIosArrowForward /></Link>
+        </div>
+        <HeroSlider />
+      </div>
       <div className='why-us'>
         <div className='card'>
           <div><PiHandPeace /></div>

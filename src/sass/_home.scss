@@ -1,6 +1,154 @@
 .home-container{
     padding: 20px 5px;
     background-color: $main-light;
+    .hero-div{
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        padding: 10px 9.5%;
+        .hero-text-area{
+            flex: 1;
+            h1{
+                background: linear-gradient(
+    90deg,
+    $red,
+    lighten($red, 15%),
+    $red-hover,
+    $box-light
+  );
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: waveGradient 6s ease-in-out infinite;
+                font-size: 5em;
+            }
+        }
+
+    }
+    .sliding-box {
+  width: 100%;
+  max-width: 550px;
+  padding: 5px;
+  border-radius: 14px;
+}
+
+.marquee {
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px 0;
+  border-radius: 8px;
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,1) 40
+    rgba(0,0,0,1) 60%
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0,0,0,1) 30%,
+    rgba(0,0,0,1) 85%,
+    transparent 100%
+  );
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  animation: marquee-scroll linear infinite;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  padding: 6px 10px;
+  font-size: 15px;
+  border-radius: 15px;
+  background: linear-gradient(
+    90deg,
+    $box-light,
+    
+    $box-hover-light,
+    $white
+  );
+  color: $black;
+  flex-shrink: 0;
+  user-select: none;
+  box-shadow: 0px 0px 5px 1px #e238a117;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 600px) {
+  .marquee-item {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  .marquee-track {
+    gap: 24px;
+  }
+}
+.hero-cta-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    background-color: $red;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: $white;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    @include transition;
+    svg{
+        font-size: 18px;
+        @include transition;
+        margin-bottom: -2px;
+    }
+    &:hover{
+            background-color: $black;
+            svg{
+              transform: translateX(4px);
+              -webkit-transform: translateX(4px);
+              -moz-transform: translateX(4px);
+              -ms-transform: translateX(4px);
+              -o-transform: translateX(4px);
+}
+          }
+}
+
+    @keyframes waveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
     .area-head{
         h3{
             color: $black;
@@ -8,9 +156,9 @@
     }
     .slider-container {
         padding: 10px 0%  0px 0%;
-        width: 100%;
+        width: 50%;
         max-width: 1230px;
-        height: 510px;
+        height: 550px;
         margin: auto;
         overflow: hidden;
         border-radius: 30px;
@@ -20,13 +168,13 @@
         -o-border-radius: 30px;
       }
       .slide{
-        height: 500px;
+        height: 550px;
         &:focus{
             outline: none;
         }
       }
       .slide img {
-        border: 1px solid #ddd;
+        border: 1px solid $border-light;
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -43,33 +191,38 @@
     transform: translateY(-50%);
     width: 45px;
     height: 45px;
-    background-color: $white;
-    border-radius: 10px;
+    background-color: $box-light;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
     box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.064);
     @include transition();
     &:hover{
-        background-color: $box-light;
-        box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.24);
+        background-color: $box-hover-light;
+        box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.127);
+        svg{
+            background-color: $box-hover-light;
+        }
     }
     svg{
-        font-size: 22px;
+        font-size: 24px;
         color: $red;
+        background-color: $box-light;
         z-index: 11;
+         @include transition();
     }
   }  
   .next {
     right: 10px;
     svg{
-        margin-left: -15px;
+        margin-left: -20px;
     }
   }
   
@@ -300,11 +453,17 @@
 }
 @media (max-width: 768px){
     .home-container{
+        .hero-div{
+            padding: 0px 5px !important;
+            .hero-text-area{
+                display: none;
+            }
+        }
         padding: 0px 0px !important;
         .slider-container{
             padding: 10px 15px!important;
             border-radius: 15px;
-            width: 100%;
+            width: 100% !important;
             height: 220px;
             -webkit-border-radius: 15px;
             -moz-border-radius: 15px;
@@ -329,11 +488,11 @@
         .custom-arrow{
             height: 30px;
             width: 30px;
-            border-radius: 6px;
-            -webkit-border-radius: 6px;
-            -moz-border-radius: 6px;
-            -ms-border-radius: 6px;
-            -o-border-radius: 6px;
+            border-radius: 15px;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
             svg{
                 font-size: 12px;
             }
@@ -341,9 +500,17 @@
         }
         .next{
             right: 0px;
+            svg{
+                font-size: 20px;
+                margin-bottom: 2px;
+            }
         }
         .prev{
             left: 0px;
+            svg{
+                font-size: 20px;
+                margin-bottom: 2px;
+            }
         }
     }
     .why-us{

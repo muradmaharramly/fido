@@ -9,12 +9,13 @@ import PreLoader from "../PreLoader";
 import { Link } from "react-router-dom";
 import slugify from "slugify";
 import ErrorPage from "../ErrorPage";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 function NextArrow(props) {
   const { className, onClick } = props;
   return (
     <div className={`${className} custom-arrow next`} onClick={onClick}>
-      <FaArrowRight />
+      <IoIosArrowForward />
     </div>
   );
 }
@@ -23,7 +24,7 @@ function PrevArrow(props) {
   const { className, onClick } = props;
   return (
     <div className={`${className} custom-arrow prev`} onClick={onClick}>
-      <FaArrowLeft />
+      <IoIosArrowBack />
     </div>
   );
 }

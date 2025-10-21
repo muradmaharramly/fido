@@ -22,21 +22,8 @@ const MobileTabBar = () => {
 
     const activeTab = Object.keys(tabs).includes(location.pathname) ? location.pathname : null;
 
-    const indicatorPositions = {
-        "/": 7,
-        "/wishlist": 44,
-        "/cart": 81,
-    };
-
     return (
         <div className="mobile-tab-bar">
-            {activeTab && (
-                <div
-                    className="active-indicator"
-                    style={{ left: `${indicatorPositions[activeTab] || 6}%` }}
-                ></div>
-            )}
-
             <Link to="/">
                 <button className={activeTab === "/" ? "clicked" : ""}>
                     {activeTab === "/" ? <TbHomeFilled /> : <TbHome />}
