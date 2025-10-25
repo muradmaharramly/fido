@@ -51,11 +51,11 @@
 
   .progress-ring__circle {
     stroke: $red !important;
-    transition: stroke-dashoffset 0.1s;
-    -webkit-transition: stroke-dashoffset 0.1s;
-    -moz-transition: stroke-dashoffset 0.1s;
-    -ms-transition: stroke-dashoffset 0.1s;
-    -o-transition: stroke-dashoffset 0.1s;
+    transition: stroke-dashoffset 0.3s ease-in-out;
+    -webkit-transition: stroke-dashoffset 0.3s ease-in-out;
+    -moz-transition: stroke-dashoffset 0.3s ease-in-out;
+    -ms-transition: stroke-dashoffset 0.3s ease-in-out;
+    -o-transition: stroke-dashoffset 0.3s ease-in-out;
 }
 
   .arrow {

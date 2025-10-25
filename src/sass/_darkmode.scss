@@ -526,7 +526,7 @@
         margin-top: 5px;
       }
   }
-  .why-us{
+.why-us{
     .card{
         background-color: $box-dark;
         div{
@@ -536,6 +536,16 @@
                 color: $main-light;
             }
         }
+         &:hover{
+            .back-ils{
+                padding: 50px 80px 50px 200px;
+                border-radius: 50px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
+                -ms-border-radius: 50px;
+                -o-border-radius: 50px;
+            }
+        }
         h2{
             color: $main-light;
             margin: 2px 0;
@@ -543,8 +553,26 @@
         p{
             color: $white-2nd;
         }
+        .back-ils{
+            position: absolute;
+            right: -60px;
+            top: -10px;
+            z-index: 0;
+            padding: 50px 100px 50px 20px;
+            border-radius: 50%;
+            background-color: $box-hover-dark;
+            color: $box-dark;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            @include transition;
+            svg{
+              font-size: 7em;
+            }
+        }
 }
-  }
+}
 
 .product-card{
   background-color: $box-dark;
@@ -755,7 +783,7 @@
 }  
 .video.roll-area,
 .news.roll-area{
-    background-color: $box-dark;
+    background-color: $main-dark;
     .area-head{
         p{
             color: $white-2nd;
@@ -1323,6 +1351,50 @@ border-bottom: 2px solid $white;
 }
 }
           }
+          .features-container {
+            p{
+              color: $white;
+            }            
+              .features-box {
+                  background-color: $box-dark;
+                  .box-items{
+                      .icon{
+                        background: $box-hover-dark;
+                        color: $white;
+                      }
+                  
+                      .content {
+                        h3 {
+                          color: $white;
+                        }
+                  
+                        p {
+                          color: $white-2nd;
+                        }
+                      }
+                  
+                      .toggle-btn {
+                        background: $box-hover-dark;
+                        svg{
+                          color: $white;
+                        }                
+                        &:hover {
+                          background: $border-dark;
+                        }
+                      }
+              }
+              }
+            
+              .features-list {
+                li {
+                  color: $white;
+                  border-bottom: 1px solid #b9b9b994;
+                  &:last-child{
+                      border: none;
+                  }
+                }
+              }
+            }
             
           
       }
@@ -2540,7 +2612,7 @@ border-bottom: 2px solid $white;
             @include transition();
     
             &:hover {
-              background: #222;
+              background: $box-dark;
             }
             .firstName,
             .lastName{

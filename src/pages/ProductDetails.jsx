@@ -46,6 +46,7 @@ function ProductDetails() {
     const [product, setProduct] = useState(null);
     const [months, setMonths] = useState(3);
     const [initialPayment, setInitialPayment] = useState(0);
+    const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
 
 
     useEffect(() => {
@@ -85,27 +86,27 @@ function ProductDetails() {
 
     const images = [product.image1, product.image2, product.image3].filter(Boolean);
 
-const settings = {
-  customPaging: function (i) {
-    return (
-      <div className="slick-thumbnail-container">
-        <img
-          src={images[i]}
-          alt={`thumbnail-${i}`}
-          className="slick-thumbnail"
-        />
-      </div>
-    );
-  },
-  dots: true,
-  dotsClass: "slick-dots slick-thumb",
-  infinite: true,
-  speed: 300,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  nextArrow: <NextArrow />,
-  prevArrow: <PrevArrow />,
-};
+    const settings = {
+        customPaging: function (i) {
+            return (
+                <div className="slick-thumbnail-container">
+                    <img
+                        src={images[i]}
+                        alt={`thumbnail-${i}`}
+                        className="slick-thumbnail"
+                    />
+                </div>
+            );
+        },
+        dots: true,
+        dotsClass: "slick-dots slick-thumb",
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />,
+    };
 
 
     const productPrice = product.price || 0;
@@ -126,7 +127,7 @@ const settings = {
                 <div className="product-images">
                     <Slider {...settings} className="main-slider">
                         {Object.keys(product)
-                            .filter((key) => key.startsWith("image")) // yalnız image1, image2, image3 olanları seçir
+                            .filter((key) => key.startsWith("image"))
                             .map((key, index) => (
                                 <div key={index} className="main-image">
                                     {product.count === 0 && (
@@ -217,6 +218,54 @@ const settings = {
                             ))}
                         </div>
                     )}
+                    <div className="features-container">
+                        <p className="container-info">Məlumat</p>
+                        <div className="features-box" onClick={() => setIsFeaturesOpen(!isFeaturesOpen)}>
+                            <div className="box-items">
+                                <div className="icon">
+                                    <LuClipboardList />
+                                </div>
+                                <div className="content">
+                                    <h3>Xüsusiyyətlər</h3>
+                                    <p>{isFeaturesOpen ? "Kiçiltmək üçün kliklə" : "Baxmaq üçün kliklə"}</p>
+                                </div>
+                                <button className="toggle-btn" onClick={() => setIsFeaturesOpen(!isFeaturesOpen)}>
+                                    {isFeaturesOpen ? <FiMinus /> : <FiPlus />}
+                                </button>
+                            </div>
+                            {isFeaturesOpen && (
+                                <ul className="features-list">
+                                    <li><span>Kateqoriya</span><span>{product.category}</span></li>
+                                    {product.gender && (
+                                        <li>
+                                            <span>Cins</span>
+                                            <span>
+                                                {product.gender === "male"
+                                                    ? "Kişi üçün"
+                                                    : product.gender === "female"
+                                                        ? "Qadın üçün"
+                                                        : "Unisex"}
+                                            </span>
+                                        </li>
+                                    )}
+                                    {product.composition &&
+                                        (product.category === "Aksesuar" || product.category === "Parfum") && (
+                                            <li>
+                                                <span>
+                                                    {product.category === "Aksesuar" ? "Material" : "Tərkib"}
+                                                </span>
+                                                <span>{product.composition}</span>
+                                            </li>
+                                        )}
+                                    <li><span>Qablaşdırma</span><span>{product.packaging ? "Var" : "Yoxdur"}</span></li>
+                                    <li><span>Məhsul kodu</span><span>{product.productCode}</span></li>
+                                    <li><span>Stok</span><span>{product.count} ədəd</span></li>
+                                </ul>
+                            )}
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
             <ProductSliderSpesific products={products} product={product} />

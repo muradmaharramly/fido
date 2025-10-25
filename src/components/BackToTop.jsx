@@ -14,7 +14,7 @@ const BackToTop = () => {
 
       setScrollPercent(percent);
 
-      if (scrollTop > 300) {
+      if (scrollTop > 100) {
         setIsVisible(true);
       } else {
         setIsVisible(false);

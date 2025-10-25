@@ -162,10 +162,10 @@ const AdminProducts = () => {
           <Link to="/administrative/products/addproduct">Əlavə et <GoPlus /></Link>
         </div>
       </div>
-      { productCount === 0 ? (<div className='empty-area'>
-          <div className='icon'><PiEmpty /></div>
-          <p>Hal-hazırda məhsul yoxdur.</p>
-        </div>) : (filteredProducts.length === 0 ? (
+      {productCount === 0 ? (<div className='empty-area'>
+        <div className='icon'><PiEmpty /></div>
+        <p>Hal-hazırda məhsul yoxdur.</p>
+      </div>) : (filteredProducts.length === 0 ? (
         <div className='empty-area'>
           <div className='icon'><PiEmpty /></div>
           <p>Uyğun məhsul tapılmadı.</p>
@@ -183,6 +183,8 @@ const AdminProducts = () => {
                 <th>Qiymət</th>
                 <th>Endirim</th>
                 <th>Kateqoriya</th>
+                <th>Cins</th>
+                <th>Material/Tərkib</th>
                 <th>Reytinq</th>
                 <th>Say</th>
                 <th>Kod</th>
@@ -217,6 +219,16 @@ const AdminProducts = () => {
                       </p></td>
                     <td>{product.discount}%</td>
                     <td>{product.category}</td>
+                    <td>
+                      {product.gender
+                        ? product.gender === "male"
+                          ? "Kişi"
+                          : product.gender === "female"
+                            ? "Qadın"
+                            : "Unisex"
+                        : ""}
+                    </td>
+                    <td>{product.composition ? product.composition : " "}</td>
                     <td>{product.rating}</td>
                     <td>{product.count}</td>
                     <td>{product.productCode}</td>
@@ -256,6 +268,16 @@ const AdminProducts = () => {
                       </p></td>
                     <td>{product.discount}%</td>
                     <td>{product.category}</td>
+                    <td>
+                      {product.gender
+                        ? product.gender === "male"
+                          ? "Kişi"
+                          : product.gender === "female"
+                            ? "Qadın"
+                            : "Unisex"
+                        : ""}
+                    </td>
+                    <td>{product.composition ? product.composition : " "}</td>
                     <td>{product.rating}</td>
                     <td>{product.count}</td>
                     <td>{product.productCode}</td>

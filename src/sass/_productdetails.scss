@@ -154,7 +154,7 @@
                   padding: 10px;
                   border-radius: 12px;
                   overflow: hidden;
-                  border: 1px solid #dddddd90;
+                  border: 1px solid $soft-white;
                   transition: border-color 0.3s ease;
                   -webkit-border-radius: 12px;
                   -moz-border-radius: 12px;
@@ -167,7 +167,7 @@
                   }}
               
                 .slick-active .slick-thumbnail-container {
-                  border-color: #9b9b9b;
+                  border-color: $red;
                 }
               }
               
@@ -486,6 +486,111 @@
 }
 }
             }
+            .features-container {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 15px;
+                border-radius: 15px;
+                .container-info{
+                    color: $black;
+                }
+              
+                .features-box {
+                    padding: 18px;
+                    border-radius: 20px;
+                    background-color: $box-light;
+                    -webkit-border-radius: 20px;
+                    -moz-border-radius: 20px;
+                    -ms-border-radius: 20px;
+                    -o-border-radius: 20px;
+                    .box-items{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 10px;
+                  
+                        .icon{
+                          background: $box-hover-light;
+                          color: $black;
+                          padding: 18px;
+                          border-radius: 15px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          -webkit-border-radius: 15px;
+                          -moz-border-radius: 15px;
+                          -ms-border-radius: 15px;
+                          -o-border-radius: 15px;
+                          svg{
+                            font-size: 24px;
+                          }
+                        }
+                    
+                        .content {
+                          flex-grow: 1;
+                          margin-left: 10px;
+                    
+                          h3 {
+                            font-size: 16px;
+                            font-weight: bold;
+                            color: $black;
+                          }
+                    
+                          p {
+                            font-weight: 500;
+                            color: $black-2nd;
+                          }
+                        }
+                    
+                        .toggle-btn {
+                          background: $box-hover-light;
+                          padding: 8px;
+                          border-radius: 10px;
+                          border: none;
+                          cursor: pointer;
+                          transition: 0.3s;
+                    
+                          svg {
+                            color: $black;
+                            font-size: 20px;
+                            margin-bottom: -2px;
+                          }
+                    
+                          &:hover {
+                            background: $red;
+                            svg{
+                                color: $white;
+                            }
+                          }
+                        }
+                }
+                }
+              
+                .features-list {
+                  margin-top: 10px;
+                  padding: 20px 15px 30px 15px;
+                  list-style: none;
+              
+                  li {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 5px 0;
+                    font-size: 14px;
+                    color: $black;
+                    border-bottom: 1px solid #b9b9b994;
+                    &:last-child{
+                        border: none;
+                    }
+                    span{
+                        font-weight: 500;
+                    }
+                  }
+                  
+                }
+              }
               
             
         }

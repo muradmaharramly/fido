@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { IoText } from 'react-icons/io5';
 import { LuLink } from 'react-icons/lu';
 import { BiDollar } from 'react-icons/bi';
-import { TbDiscount } from 'react-icons/tb';
+import { TbDiscount, TbGridDots } from 'react-icons/tb';
 import { RiStockLine } from 'react-icons/ri';
 import { FaRegStar } from 'react-icons/fa';
 
@@ -14,6 +14,7 @@ const categories = ["Parfum", "Aksesuar", "Case", "Çanta"];
 const ProductForm = ({ existingProduct, isEditMode }) => {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
+    const [gender, setGender] = useState('');
     const [rating, setRating] = useState('');
     const [image1, setImage1Link] = useState('');
     const [image2, setImage2Link] = useState('');
@@ -21,8 +22,11 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const [price, setPrice] = useState('');
     const [discount, setDiscount] = useState('');
     const [count, setStock] = useState('');
+    const [composition, setComposition] = useState('');
+    const [packaging, setPackaging] = useState('');
     const [titleError, setTitleError] = useState('');
     const [categoryError, setCategoryError] = useState('');
+    const [packagingError, setPackagingError] = useState('');
     const [ratingError, setRatingError] = useState('');
     const [imageError, setImageError] = useState('');
     const [priceError, setPriceError] = useState('');
@@ -34,6 +38,9 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         if (isEditMode && existingProduct) {
             setTitle(existingProduct.title);
             setCategory(existingProduct.category);
+            setGender(existingProduct.gender);
+            setComposition(existingProduct.composition);
+            setPackaging(existingProduct.packaging);
             setRating(existingProduct.rating);
             setImage1Link(existingProduct.image1);
             setImage2Link(existingProduct.image2);
@@ -52,6 +59,8 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         setPriceError('');
         setDiscountError('');
         setCountError('');
+        setCategoryError('');
+        setPackagingError('');
 
         if (!isEditMode) {
             const { data: existingTitle, error } = await supabase
@@ -83,6 +92,12 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
             setCategoryError('Kateqoriya seçin');
             isValid = false;
         }
+
+        if (!packaging) {
+            setPackagingError('Cavab seçin');
+            isValid = false;
+        }
+
         if (rating === "" || rating === null || rating === undefined) {
             setRatingError("Reytinq boş ola bilməz");
             isValid = false;
@@ -152,7 +167,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         const isValid = await validateForm();
         if (!isValid) return;
 
-        const productData = { title, category, rating, image1, image2, image3, price, discount, count };
+        const productData = { title, category, rating, image1, image2, image3, price, discount, count, gender, composition , packaging};
 
         let result;
         if (isEditMode) {
@@ -210,16 +225,6 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                         <IoText />
                     </div>
                     <div className="form-group">
-                        <label>Kateqoriya</label>
-                        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                            <option value="">Kateqoriya seçin</option>
-                            {categories.map((cat) => (
-                                <option key={cat} value={cat}>{cat}</option>
-                            ))}
-                        </select>
-                        {categoryError && <span className="error-message">{categoryError}</span>}
-                    </div>
-                    <div className="form-group">
                         <label>1-ci şəkil linki</label>
                         <input type="text" value={image1} onChange={(e) => setImage1Link(e.target.value)} />
                         {imageError && <span className="error-message">{imageError}</span>}
@@ -262,6 +267,40 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                         <input type="text" value={count} onChange={(e) => setStock(e.target.value)} />
                         {countError && <span className="error-message">{countError}</span>}
                         <RiStockLine />
+                    </div>
+                </div>
+                <div className="form-triple">
+                    <div className="form-group">
+                        <label>Kateqoriya</label>
+                        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                            <option value="">Kateqoriya seçin</option>
+                            {categories.map((cat) => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                        </select>
+                        {categoryError && <span className="error-message">{categoryError}</span>}
+                    </div>
+                    <div className="form-group">
+                        <label>Cins</label>
+                        <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                            <option value="">Cins seçin</option>
+                            <option value="male">Kişi</option>
+                            <option value="female">Qadın</option>
+                            <option value="unisex">Unisex</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Material/Tərkib</label>
+                        <input type="text" value={composition} onChange={(e) => setComposition(e.target.value)} />
+                        <TbGridDots />
+                    </div>
+                    <div className="form-group">
+                        <label>Paketləmə</label>
+                        <select value={packaging} onChange={(e) => setPackaging(e.target.value)}>
+                            <option value="">Cavab seçin</option>
+                            <option value="TRUE">Var</option>
+                            <option value="FALSE">Yoxdur</option>
+                        </select>
                     </div>
                 </div>
                 <div className="btns">

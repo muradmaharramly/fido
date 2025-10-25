@@ -1,17 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HeroSlider from "../components/sliders/HeroSlider"
-import { PiHandPeace } from 'react-icons/pi'
-import { MdOutlineCloudDone } from 'react-icons/md'
-import { LuClipboardList } from 'react-icons/lu'
-import { BsCalendar4Week } from 'react-icons/bs'
+import { PiSealPercent } from 'react-icons/pi'
 import NewsSlider from '../components/sliders/NewsSlider'
 import ProductList from '../components/ProductList'
 import FilteredProductList from '../components/FilteredProductList'
 import { Link } from 'react-router-dom'
-import { FaCheck, FaHeart, FaShoppingCart, FaWhatsapp } from 'react-icons/fa'
 import { IoIosArrowForward } from 'react-icons/io'
+import { HiOutlineCalendarDateRange } from 'react-icons/hi2'
+import { IoHappyOutline } from 'react-icons/io5'
+import { TbBrandAppgallery } from 'react-icons/tb'
 
 const Home = () => {
+  const [counts, setCounts] = useState({
+    brands: 0,
+    customers: 0,
+    years: 0,
+    guarantee: 0,
+  });
+
+  useEffect(() => {
+    const targets = { brands: 10, customers: 200, years: 2, guarantee: 100 };
+    const duration = 1500;
+    const frameRate = 30;
+    const steps = duration / frameRate;
+
+    let currentStep = 0;
+    const timer = setInterval(() => {
+      currentStep++;
+      setCounts({
+        brands: Math.min(Math.floor((targets.brands / steps) * currentStep), targets.brands),
+        customers: Math.min(Math.floor((targets.customers / steps) * currentStep), targets.customers),
+        years: Math.min(Math.floor((targets.years / steps) * currentStep), targets.years),
+        guarantee: Math.min(Math.floor((targets.guarantee / steps) * currentStep), targets.guarantee),
+      });
+      if (currentStep >= steps) clearInterval(timer);
+    }, frameRate);
+
+    return () => clearInterval(timer);
+  }, []);
   return (
     <div className='home-container'>
       <div className='hero-div'>
@@ -29,7 +55,7 @@ const Home = () => {
 
             <div className="marquee">
               <div className="marquee-track" style={{ animationDuration: "10s" }}>
-                {[ "Yeni", "Xüsusi", "Seçim", "Endirim", "Gözəl", "Yeni", "Xüsusi", "Seçim", "Endirim"].map((w, i) => (
+                {["Yeni", "Xüsusi", "Seçim", "Endirim", "Gözəl", "Yeni", "Xüsusi", "Seçim", "Endirim"].map((w, i) => (
                   <div className="marquee-item" key={i}>{w}</div>
                 ))}
               </div>
@@ -48,26 +74,30 @@ const Home = () => {
         </div>
         <HeroSlider />
       </div>
-      <div className='why-us'>
-        <div className='card'>
-          <div><PiHandPeace /></div>
-          <h2>Arxayın al!</h2>
-          <p>30 gün müddətində istər dəyiş, istər geri qaytar.</p>
+      <div className="why-us">
+        <div className="card">
+          <h2>{counts.brands}+</h2>
+          <p>Marka</p>
+          <div className='back-ils'><TbBrandAppgallery /></div>
+          <div className='icn'><TbBrandAppgallery /></div>
         </div>
-        <div className='card'>
-          <div><MdOutlineCloudDone /></div>
-          <h2>Sürətli çatdırılma</h2>
-          <p>24 saat ərzində çatdırılma</p>
+        <div className="card">
+          <h2>{counts.customers}+</h2>
+          <p>Müştəri</p>
+          <div className='back-ils'><IoHappyOutline /></div>
+          <div className='icn'><IoHappyOutline /></div>
         </div>
-        <div className='card'>
-          <div><LuClipboardList /></div>
-          <h2>Qapıda ödəmə</h2>
-          <p>Qapıda ödəmə rahatlığı ilə sifariş imkanı</p>
+        <div className="card">
+          <h2>{counts.years}+ </h2>
+          <p>İl fəaliyyət</p>
+          <div className='back-ils'><HiOutlineCalendarDateRange /></div>
+          <div className='icn'><HiOutlineCalendarDateRange /></div>
         </div>
-        <div className='card'>
-          <div><BsCalendar4Week /></div>
-          <h2>Hissə-hissə ödəniş</h2>
-          <p>Endirimli qiymətə indi al, 3 aya böl, hissə-hissə ödə!.</p>
+        <div className="card">
+          <h2>{counts.guarantee}% </h2>
+          <p>Zəmanət</p>
+          <div className='back-ils'><PiSealPercent /></div>
+          <div className='icn'><PiSealPercent /></div>
         </div>
       </div>
       <div className="products-container">

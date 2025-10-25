@@ -35,7 +35,7 @@ function ProductCard({ product }) {
             imageIntervalRef.current = setInterval(() => {
                 index = (index + 1) % images.length;
                 setCurrentImageIndex(index);
-            }, 1200); // her 1.2 saniyede geçiş
+            }, 1200); 
         }
     };
 

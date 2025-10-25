@@ -240,6 +240,8 @@
     gap: 20px;
     padding: 40px 9.5%;
     .card{
+        position: relative;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         width: 300px;
@@ -251,7 +253,17 @@
         -moz-border-radius: 25px;
         -ms-border-radius: 25px;
         -o-border-radius: 25px;
-        div{
+        &:hover{
+            .back-ils{
+                padding: 50px 80px 50px 200px;
+                border-radius: 50px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
+                -ms-border-radius: 50px;
+                -o-border-radius: 50px;
+            }
+        }
+        .icon{
             background-color: $box-hover-light;
             width: 50px;
             height: 50px;
@@ -270,11 +282,35 @@
             }
         }
         h2{
-            color: $black;
+            color: $black-2nd;
             margin: 2px 0;
+            z-index: 5;
         }
         p{
             color: $black-2nd;
+            z-index: 5;
+            font-size: 18px;
+        }
+        .back-ils{
+            position: absolute;
+            right: -60px;
+            top: -10px;
+            z-index: 0;
+            padding: 50px 100px 50px 20px;
+            border-radius: 50%;
+            background-color: $box-hover-light;
+            color: $box-light;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            @include transition;
+            svg{
+                font-size: 7em;
+            }
+        }
+        .icn{
+            display: none;
         }
 }
 }
@@ -310,6 +346,7 @@
     }
     .slider-container {
         padding: 10px 0;
+        width: 100% !important;
         height: 350px;
         border-radius: 0 !important;
         -webkit-border-radius: 0 !important;
@@ -516,36 +553,45 @@
     .why-us{
         padding: 20px 10px 0px 10px !important;
         flex-wrap: wrap;
-        justify-content: center !important;
+        justify-content: space-around !important;
         .card{
+            position: relative !important;
             padding: 15px !important;
-            width: 160px !important;
-            height: 180px !important;
+            width: 170px !important;
+            height: 100px !important;
             border-radius: 15px !important;
             -webkit-border-radius: 15px !important;
             -moz-border-radius: 15px !important;
             -ms-border-radius: 15px !important;
             -o-border-radius: 15px !important;
-            div{
-                width: 30px !important;
-                height: 30px !important;
-                border-radius: 6px !important;
-                -webkit-border-radius: 6px !important;
-                -moz-border-radius: 6px !important;
-                -ms-border-radius: 6px !important;
-                -o-border-radius: 6px !important;
-                svg{
-                    font-size: 18px !important;
-                }
-}
+            border-bottom: 5px solid $black-2nd;
             h2{
-                font-size: 14px;
+                font-size: 20px;
             }
             p{
-                font-size: 11px;
+                font-size: 10px;
             }
+            .back-ils{
+                display: none;
+            }
+            .icn{
+                padding: 20px 30px 20px 30px;
+                border-radius: 50px;
+                background-color: $box-hover-light;
+                display: block !important;
+                color: $black-2nd;
+                position: absolute;
+                right: -15px;
+                top: -10px;
+                font-size: 25px;
+                -webkit-border-radius: 50px;
+                -moz-border-radius: 50px;
+                -ms-border-radius: 50px;
+                -o-border-radius: 50px;
+            }
+
 }
-    }
+}
 .news.roll-area{
     padding: 20px 15px !important;
     gap: 20px !important;
@@ -580,37 +626,6 @@
         display: block !important;
     }
 }  
-.preorder-container{
-    padding: 60px 15px !important;
-    gap: 30px;
-    .card{
-        height: 180px !important;
-        padding: 20px !important;
-        border-radius: 20px !important;
-        -webkit-border-radius: 20px !important;
-        -moz-border-radius: 20px !important;
-        -ms-border-radius: 20px !important;
-        -o-border-radius: 20px !important;
-        .left{
-            .text{
-                span{
-                    font-size: 10px !important;
-                }
-                h1{
-                    max-width: 200px;
-                }
-            }
-            a{
-                padding: 8px 22px !important;
-            }
-        }
-        .right{
-            width: 120px !important;
-            height: 160px !important;
-            margin-top: -40px !important;
-}
-}
-}
 .news.roll-area{
     .overlay{
         a{
@@ -618,6 +633,8 @@
         }
     }
 } 
+    }
+
 .popup-overlay {
     .popup-content {
         width: 95% !important;
@@ -653,5 +670,4 @@
             right: 5px !important;
         }
     }
-}
 }

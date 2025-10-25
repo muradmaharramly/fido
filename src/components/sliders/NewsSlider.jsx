@@ -74,7 +74,7 @@ function NewsSlider() {
                 </Slider>
 
             </div>
-            <Link className="mobile-href-btn" to="https://www.youtube.com/user/BakuElectronicsMMC" target="_blank">Kanalımıza keçid et</Link>
+            <Link className="mobile-href-btn" to="/news" target="_blank">Xəbərlərə keçid et</Link>
         </div>
     );
 }
