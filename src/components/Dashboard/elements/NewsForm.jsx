@@ -117,6 +117,11 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                 icon: 'success',
                 showConfirmButton: false,
                 timer: 1500,
+                customClass: {
+                    popup: "custom-swal-popup",
+                    title: "custom-swal-title",
+                    content: "custom-swal-text"
+                }
             }).then(() => {
                 navigate('/administrative/news');
             });
@@ -125,6 +130,11 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                 icon: 'error',
                 title: 'Xəta!',
                 text: result.message || 'Naməlum xəta baş verdi',
+                customClass: {
+                    popup: "custom-swal-popup",
+                    title: "custom-swal-title",
+                    content: "custom-swal-text"
+                }
             });
         }
     };
