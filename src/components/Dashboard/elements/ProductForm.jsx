@@ -13,6 +13,7 @@ const categories = ["Parfum", "Aksesuar", "Case", "Çanta"];
 
 const ProductForm = ({ existingProduct, isEditMode }) => {
     const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [gender, setGender] = useState('');
     const [rating, setRating] = useState('');
@@ -25,6 +26,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const [composition, setComposition] = useState('');
     const [packaging, setPackaging] = useState('');
     const [titleError, setTitleError] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
     const [categoryError, setCategoryError] = useState('');
     const [packagingError, setPackagingError] = useState('');
     const [ratingError, setRatingError] = useState('');
@@ -37,6 +39,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     useEffect(() => {
         if (isEditMode && existingProduct) {
             setTitle(existingProduct.title);
+            setDescription(existingProduct.description);
             setCategory(existingProduct.category);
             setGender(existingProduct.gender);
             setComposition(existingProduct.composition);
@@ -54,6 +57,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const validateForm = async () => {
         let isValid = true;
         setTitleError('');
+        setDescriptionError('');
         setRatingError('');
         setImageError('');
         setPriceError('');
@@ -85,6 +89,10 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
 
         if (!title.trim()) {
             setTitleError('Başlıq boş ola bilməz');
+            isValid = false;
+        }
+        if (!description.trim()) {
+            setDescriptionError('Açıqlama boş ola bilməz');
             isValid = false;
         }
 
@@ -167,7 +175,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         const isValid = await validateForm();
         if (!isValid) return;
 
-        const productData = { title, category, rating, image1, image2, image3, price, discount, count, gender, composition , packaging};
+        const productData = { title, category, rating, image1, image2, image3, price, discount, count, gender, composition, packaging, description };
 
         let result;
         if (isEditMode) {
@@ -217,13 +225,21 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     return (
         <div className="product-form">
             <form onSubmit={handleSubmit}>
-                <div className="form-triple">
+                <div className='form-double'>
                     <div className="form-group">
                         <label>Başlıq</label>
                         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                         {titleError && <span className="error-message">{titleError}</span>}
                         <IoText />
                     </div>
+                    <div className="form-group">
+                        <label>Açıqlama</label>
+                        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+                        {descriptionError && <span className="error-message">{descriptionError}</span>}
+                        <IoText />
+                    </div>
+                </div>
+                <div className="form-triple">
                     <div className="form-group">
                         <label>1-ci şəkil linki</label>
                         <input type="text" value={image1} onChange={(e) => setImage1Link(e.target.value)} />
@@ -301,6 +317,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                             <option value="TRUE">Var</option>
                             <option value="FALSE">Yoxdur</option>
                         </select>
+                        {packagingError && <span className="error-message">{packagingError}</span>}
                     </div>
                 </div>
                 <div className="btns">

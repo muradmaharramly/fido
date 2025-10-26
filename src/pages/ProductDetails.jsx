@@ -10,7 +10,7 @@ import { FaArrowLeft, FaCommentDots, FaRegHeart, FaStar } from "react-icons/fa6"
 import PreLoader from "../components/PreLoader";
 import { useCart } from "react-use-cart";
 import { useWishlist } from "react-use-wishlist";
-import { IoBan, IoShareSocialOutline } from "react-icons/io5";
+import { IoBan, IoCopy, IoShareSocialOutline } from "react-icons/io5";
 import { IoIosArrowBack, IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { FiMinus, FiPhoneCall, FiPlus } from "react-icons/fi";
 import { MdDone } from "react-icons/md";
@@ -47,6 +47,7 @@ function ProductDetails() {
     const [months, setMonths] = useState(3);
     const [initialPayment, setInitialPayment] = useState(0);
     const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
+    const [copied, setCopied] = useState(false);
 
 
     useEffect(() => {
@@ -115,6 +116,14 @@ function ProductDetails() {
     const monthlyPayment = remainingAmount / months;
     const totalPrice = initialPayment + months * monthlyPayment;
 
+
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(product.productCode);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
     return (
         <div className={`product-details-container ${product.count === 0 ? "outofstock" : ""}`}>
             <div className="breadcrumb">
@@ -148,9 +157,25 @@ function ProductDetails() {
                         <p className="rate">
                             <FaStar /> {product.rating}
                         </p>
+                        <div className="code-div">
+                            <p
+                                className="product-code"
+                                onClick={handleCopy}
+                            >
+                                <IoCopy /> <label>{product.productCode}</label>
+                            </p>
+
+                            {copied && (
+                                <span className="copy-span"
+                                >
+                                    Kod kopyalandı!
+                                </span>
+                            )}
+                        </div>
                     </div>
                     <h1>{product.title}</h1>
-                    <p className="product-code">Məhsul kodu: <strong>{product.productCode}</strong></p>
+                    {product.description && <p className="description">{product.description}</p>}
+
                     <div className="price">
                         {product.discount > 0 && <p className="old-price">{product.price}₼</p>}
                         <p className="current-price">{discountPrice.toFixed(2)}₼</p>
@@ -191,30 +216,34 @@ function ProductDetails() {
 
                     {product.count && (
                         <div className="buy-together">
-                            <p>Məhsulun yanında al</p>
+
                             {products.filter(item => item.id !== product.id && item.category == product.category && item.price < product.price).slice(0, 3).map((buyTogether) => (
-                                <div className="item" key={buyTogether.id}>
-                                    <div className="con">
-                                        <div className="img-div">
-                                            <img src={buyTogether.image1} />
-                                        </div>
-                                        <div className="item-info">
-                                            <p>{buyTogether.title.substring(0, 80)}...</p>
-                                            <div className="price-info">
-                                                <h3>{(buyTogether.price - (buyTogether.price * buyTogether.discount) / 100).toFixed(2)}₼</h3>
+                                <div>
+                                    <p>Məhsulun yanında al</p>
+                                    <div className="item" key={buyTogether.id}>
+                                        <div className="con">
+                                            <div className="img-div">
+                                                <img src={buyTogether.image1} />
+                                            </div>
+                                            <div className="item-info">
+                                                <p>{buyTogether.title.substring(0, 80)}...</p>
+                                                <div className="price-info">
+                                                    <h3>{(buyTogether.price - (buyTogether.price * buyTogether.discount) / 100).toFixed(2)}₼</h3>
+                                                </div>
                                             </div>
                                         </div>
+                                        {inCart(buyTogether.id) ? (
+                                            <Link className="add clicked"><span className="tick"><MdDone /></span><span>Əlavə edilib</span></Link>
+                                        ) : (
+                                            <Link className="add" onClick={() => {
+                                                if (!inCart(buyTogether.id)) {
+                                                    addItem(buyTogether);
+                                                }
+                                            }}><FiPlus /> <span>Birlikdə al</span></Link>
+                                        )}
                                     </div>
-                                    {inCart(buyTogether.id) ? (
-                                        <Link className="add clicked"><span className="tick"><MdDone /></span><span>Əlavə edilib</span></Link>
-                                    ) : (
-                                        <Link className="add" onClick={() => {
-                                            if (!inCart(buyTogether.id)) {
-                                                addItem(buyTogether);
-                                            }
-                                        }}><FiPlus /> <span>Birlikdə al</span></Link>
-                                    )}
                                 </div>
+
                             ))}
                         </div>
                     )}
