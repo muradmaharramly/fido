@@ -105,7 +105,7 @@ const AboutUs = () => {
     ];
     return (
         <div className='about-us'>
-            <div className="breadcrumb"><Link to="/">Ana səhifə</Link><RiArrowRightDoubleFill /><span>Haqqımızda</span></div>
+            <div className="breadcrumb"><Link to="/">Ana səhifə</Link><RiArrowRightDoubleFill /><span>Bizim Haqqımızda</span></div>
             <h2>Haqqımızda</h2>
             <div className='img-area'>
                 <img src='https://new.bakuelectronics.az/_next/image?url=https%3A%2F%2Fimg.b-e.az%2Fmedia%2Fabout_web%2F103161151_4025312704176424_3051590390235423213_n_4KgKxmI.jpg&w=1920&q=100' alt='Baku Electronics'></img>
