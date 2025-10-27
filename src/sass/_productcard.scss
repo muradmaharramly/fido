@@ -394,6 +394,27 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .title-inf{
+             .variants-selection{
+                button{
+                    font-weight: 500;
+                    color: $black;
+                    padding: 2px 4px;
+                    border-radius: 10px;
+                    -webkit-border-radius: 10px;
+                    -moz-border-radius: 10px;
+                    -ms-border-radius: 10px;
+                    -o-border-radius: 10px;
+                    background-color: $box-light;
+                    border: 2px solid transparent ;
+                    font-size: 10px;
+                    @include transition;
+                    &.active{
+                        border: 2px solid transparent;
+                    }
+}
+    }
+        }
         .pricing{
             gap: 10px;
             div{

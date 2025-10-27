@@ -686,6 +686,25 @@
       .product-title{
           font-size: 12px;
       }
+      .title-inf{
+             .variants-selection{
+                button{
+                    font-weight: 500;
+                    padding: 2px 4px;
+                    border-radius: 10px;
+                    -webkit-border-radius: 10px;
+                    -moz-border-radius: 10px;
+                    -ms-border-radius: 10px;
+                    -o-border-radius: 10px;
+                    border: 2px solid transparent ;
+                    font-size: 10px;
+                    @include transition;
+                    &.active{
+                        border: 2px solid transparent;
+                    }
+}
+    }
+        }
       .pricing{
           gap: 10px;
           div{
