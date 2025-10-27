@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { RiShoppingCart2Line } from "react-icons/ri";
-import { PiEmpty, PiLaptop } from "react-icons/pi";
+import { PiEmpty } from "react-icons/pi";
 import { FiSun } from "react-icons/fi";
 import { HiOutlineMoon } from "react-icons/hi2";
 import { ThemeContext } from "../context/ThemeContext";
@@ -13,10 +13,9 @@ import { fetchProducts } from "../tools/request/fetchProducts";
 import slugify from "slugify";
 import { GoHistory } from "react-icons/go";
 import { fetchCampaigns } from "../tools/request/fetchCampaigns";
-import { supabase } from "../services/supabaseClient";
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaRegHeart, FaTelegramPlane, FaTiktok, FaWhatsapp, FaYoutube } from "react-icons/fa";
+import { FaRegHeart, FaTelegramPlane } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
-
+import { FaInstagram, FaTiktok } from "react-icons/fa6";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -36,17 +35,14 @@ const Header = () => {
     const inputRef = useRef(null);
     const panelRef = useRef(null);
 
-
     const { totalUniqueItems } = useCart();
     const { totalWishlistItems } = useWishlist();
-
 
     const { campaigns } = useSelector((state) => state.campaigns);
 
     useEffect(() => {
         fetchCampaigns();
     }, []);
-
 
     useEffect(() => {
         fetchProducts();
@@ -65,10 +61,13 @@ const Header = () => {
         const popular = availableProducts.filter(product => product.rating > 4).slice(0, 3);
         setPopularProducts(popular);
 
-        const discounted = availableProducts.filter(product => product.discount > 15).slice(0, 3);
+        const discounted = availableProducts.filter(product => {
+            const hasVariants = product.variants && product.variants.length > 0;
+            const discount = hasVariants ? product.variants[0].discount || 0 : product.discount || 0;
+            return discount > 15;
+        }).slice(0, 3);
         setDiscountedProducts(discounted);
     }, [products, loading, error]);
-
 
     useEffect(() => {
         if (searchTerm) {
@@ -86,9 +85,12 @@ const Header = () => {
     useEffect(() => {
         if (searchTerm) {
             const popularfiltered = products.filter(
-                (product) =>
-                    (product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        product.category.toLowerCase().includes(searchTerm.toLowerCase())) && product.rating > 4
+                (product) => {
+                    const rating = product.rating > 4;
+                    const titleMatch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        product.category.toLowerCase().includes(searchTerm.toLowerCase());
+                    return titleMatch && rating;
+                }
             );
             setPopularFilteredProducts(popularfiltered);
         } else {
@@ -101,7 +103,6 @@ const Header = () => {
             const filteredCampaigns = campaigns.filter((campaign) => {
                 const isTitleMatch = campaign.title.toLowerCase().includes(searchTerm.toLowerCase());
                 const isFutureDate = new Date(campaign.endDate) > new Date();
-
                 return isTitleMatch && isFutureDate;
             });
 
@@ -110,7 +111,6 @@ const Header = () => {
             setFilteredCampaigns([]);
         }
     }, [searchTerm, campaigns]);
-
 
     useEffect(() => {
         const handleScroll = () => {
@@ -148,38 +148,14 @@ const Header = () => {
         }
     }, [theme]);
 
-    useEffect(() => {
-        const handleLinkClick = () => {
-            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-            setTimeout(() => {
-                window.location.reload();
-            }, 100);
-        };
-
-        const links = document.querySelectorAll(".mobile-navbar-menu a, .mobile-navbar-top-icons a");
-        links.forEach((link) => {
-            link.addEventListener("click", handleLinkClick);
-        });
-
-        return () => {
-            links.forEach((link) => {
-                link.removeEventListener("click", handleLinkClick);
-            });
-        };
-    }, []);
-
-    const handleInputClick = () => {
-        setIsSearchOpen(true);
-    };
+    const handleInputClick = () => setIsSearchOpen(true);
 
     const handleSearchLinkClick = () => {
         setIsSearchOpen(false);
-        if (inputRef.current) {
-            setSearchTerm("");
-        }
-    }
+        if (inputRef.current) setSearchTerm("");
+    };
 
-    useEffect(() => {
+     useEffect(() => {
         const handleClickOutside = (event) => {
             if (
                 inputRef.current &&
@@ -206,7 +182,7 @@ const Header = () => {
                     </div>
                     <ul>
                         <li><NavLink to='/products'>Məhsullar</NavLink></li>
-                        <li><NavLink to="/campaigns" >Kampaniyalar</NavLink></li>
+                        <li><NavLink to="/campaigns">Kampaniyalar</NavLink></li>
                     </ul>
                     <div className="nav-right-itm">
                         <div className="nav-social">
@@ -227,9 +203,8 @@ const Header = () => {
             </div>
 
             <div className={`main-navbar ${isScrolled ? "fixed" : ""}`}>
-                <Link to="/" className="logo">
-                    Fido
-                </Link>
+                <Link to="/" className="logo">Fido</Link>
+
                 <div className={`search-bar ${isSearchOpen ? "active" : ""}`}>
                     <input
                         type="text"
@@ -239,9 +214,6 @@ const Header = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         onClick={handleInputClick}
                     />
-                    <button className="search-icon">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </button>
                     {isSearchOpen && (
                         <div className="search-panel" ref={panelRef}>
                             <div className="left">
@@ -250,123 +222,216 @@ const Header = () => {
                                         <h6>Standart</h6>
                                         <ul>
                                             {filteredProducts.length > 0 ? (
-                                                filteredProducts.map((product) => (
-                                                    <Link key={product.id} to={`/products/${slugify(product.title, { lower: true })}`} onClick={handleSearchLinkClick}>
-                                                        <IoIosSearch />
-                                                        <li>{product.title.substring(0, 25)}...</li>
-                                                    </Link>
-                                                ))
-                                            ) : (
-                                                <li className="not-found"><span>Nəticə tapılmadı!</span><PiEmpty /></li>
+                                                filteredProducts.map((product) => {
+                                                    const hasVariants = product.variants && product.variants.length > 0;
+                                                    const variant = hasVariants ? product.variants[0] : {};
+                                                    const price = parseFloat(variant.price || product.price || 0);
+                                                    const discount = parseFloat(variant.discount || product.discount || 0);
+                                                    const finalPrice = (price - (price * discount) / 100).toFixed(2);
 
+                                                    return (
+                                                        <Link
+                                                            key={product.id}
+                                                            to={`/products/${slugify(product.title, { lower: true })}`}
+                                                            onClick={handleSearchLinkClick}
+                                                        >
+                                                            <IoIosSearch />
+                                                            <li>
+                                                                {product.title.substring(0, 25)} –{" "}
+                                                                <span>${finalPrice}</span>
+                                                            </li>
+                                                        </Link>
+                                                    );
+                                                })
+                                            ) : (
+                                                <li className="not-found">
+                                                    <span>Nəticə tapılmadı!</span>
+                                                    <PiEmpty />
+                                                </li>
                                             )}
                                         </ul>
                                     </>
-
                                 ) : (
                                     <>
                                         <h6>Ən son baxılan</h6>
                                         <ul>
                                             {viewedProducts.length > 0 ? (
-                                                viewedProducts.map((product) => (
-                                                    <Link key={product.id} to={`/products/${slugify(product.title, { lower: true })}`} onClick={handleSearchLinkClick}>
-                                                        <GoHistory />
-                                                        <li>{product.title.substring(0, 25)}...</li>
-                                                    </Link>
-                                                ))
+                                                viewedProducts.map((product) => {
+                                                    const hasVariants = product.variants && product.variants.length > 0;
+                                                    const variant = hasVariants ? product.variants[0] : {};
+                                                    const price = parseFloat(variant.price || product.price || 0);
+                                                    const discount = parseFloat(variant.discount || product.discount || 0);
+                                                    const finalPrice = (price - (price * discount) / 100).toFixed(2);
+
+                                                    return (
+                                                        <Link
+                                                            key={product.id}
+                                                            to={`/products/${slugify(product.title, { lower: true })}`}
+                                                            onClick={handleSearchLinkClick}
+                                                        >
+                                                            <GoHistory />
+                                                            <li>
+                                                                {product.title.substring(0, 25)} –{" "}
+                                                                <span>${finalPrice}</span>
+                                                            </li>
+                                                        </Link>
+                                                    );
+                                                })
                                             ) : (
-                                                <li className="not-found"><span>Nəticə tapılmadı!</span><PiEmpty /></li>
+                                                <li className="not-found">
+                                                    <span>Nəticə tapılmadı!</span>
+                                                    <PiEmpty />
+                                                </li>
                                             )}
                                         </ul>
                                     </>
-
                                 )}
 
                                 <h6>Populyar</h6>
                                 {searchTerm.length > 0 ? (
                                     <ul>
                                         {popularFilteredProducts.length > 0 ? (
-                                            popularFilteredProducts.map((product) => (
-                                                <Link key={product.id} to={`/products/${slugify(product.title, { lower: true })}`} onClick={handleSearchLinkClick}>
-                                                    <IoIosSearch />
-                                                    <li>{product.title.substring(0, 25)}...</li>
-                                                </Link>
-                                            ))
+                                            popularFilteredProducts.map((product) => {
+                                                const hasVariants = product.variants && product.variants.length > 0;
+                                                const variant = hasVariants ? product.variants[0] : {};
+                                                const price = parseFloat(variant.price || product.price || 0);
+                                                const discount = parseFloat(variant.discount || product.discount || 0);
+                                                const finalPrice = (price - (price * discount) / 100).toFixed(2);
+
+                                                return (
+                                                    <Link
+                                                        key={product.id}
+                                                        to={`/products/${slugify(product.title, { lower: true })}`}
+                                                        onClick={handleSearchLinkClick}
+                                                    >
+                                                        <IoIosSearch />
+                                                        <li>
+                                                            {product.title.substring(0, 25)} –{" "}
+                                                            <span>${finalPrice}</span>
+                                                        </li>
+                                                    </Link>
+                                                );
+                                            })
                                         ) : (
-                                            <li className="not-found"><span>Nəticə tapılmadı!</span><PiEmpty /></li>
+                                            <li className="not-found">
+                                                <span>Nəticə tapılmadı!</span>
+                                                <PiEmpty />
+                                            </li>
                                         )}
                                     </ul>
                                 ) : (
                                     <ul>
                                         {popularProducts.length > 0 ? (
-                                            popularProducts.map((product) => (
-                                                <Link key={product.id} to={`/products/${slugify(product.title, { lower: true })}`} onClick={handleSearchLinkClick}>
-                                                    <IoIosSearch />
-                                                    <li>{product.title.substring(0, 25)}...</li>
-                                                </Link>
-                                            ))
+                                            popularProducts.map((product) => {
+                                                const hasVariants = product.variants && product.variants.length > 0;
+                                                const variant = hasVariants ? product.variants[0] : {};
+                                                const price = parseFloat(variant.price || product.price || 0);
+                                                const discount = parseFloat(variant.discount || product.discount || 0);
+                                                const finalPrice = (price - (price * discount) / 100).toFixed(2);
+
+                                                return (
+                                                    <Link
+                                                        key={product.id}
+                                                        to={`/products/${slugify(product.title, { lower: true })}`}
+                                                        onClick={handleSearchLinkClick}
+                                                    >
+                                                        <IoIosSearch />
+                                                        <li>
+                                                            {product.title.substring(0, 25)} –{" "}
+                                                            <span>${finalPrice}</span>
+                                                        </li>
+                                                    </Link>
+                                                );
+                                            })
                                         ) : (
-                                            <li className="not-found"><span>Nəticə tapılmadı!</span><PiEmpty /></li>
+                                            <li className="not-found">
+                                                <span>Nəticə tapılmadı!</span>
+                                                <PiEmpty />
+                                            </li>
                                         )}
                                     </ul>
                                 )}
                             </div>
+
                             <div className="right">
                                 <div className="searched-products">
                                     <h6>Məhsullar</h6>
                                     {searchTerm.length > 0 ? (
                                         <div className="searched-list">
                                             {filteredProducts.length > 0 ? (
-                                                filteredProducts.map((product) => (
-                                                    <Link key={product.id} to={`/products/${slugify(product.title, { lower: true })}`} className="product-box" onClick={handleSearchLinkClick}>
-                                                        <div className="img-div">
-                                                            <img src={product.image} alt={product.title} />
-                                                        </div>
-                                                        <div className="details">
-                                                            <span>{product.category}</span>
-                                                            <p>{product.title.substring(0, 20)}...</p>
-                                                        </div>
-                                                        <Link className="pricing" onClick={handleSearchLinkClick}>
-                                                            {product.discount > 0 && <p className="old-price">${product.price}</p>}
-                                                            <p className="current-price">{(product.price - (product.price * product.discount) / 100).toFixed(2)}$</p>
+                                                filteredProducts.map((product) => {
+                                                    const hasVariants = product.variants && product.variants.length > 0;
+                                                    const variant = hasVariants ? product.variants[0] : {};
+                                                    const price = parseFloat(variant.price || product.price || 0);
+                                                    const discount = parseFloat(variant.discount || product.discount || 0);
+                                                    const finalPrice = (price - (price * discount) / 100).toFixed(2);
+
+                                                    return (
+                                                        <Link
+                                                            key={product.id}
+                                                            to={`/products/${slugify(product.title, { lower: true })}`}
+                                                            className="product-box"
+                                                            onClick={handleSearchLinkClick}
+                                                        >
+                                                            <div className="img-div">
+                                                                <img src={product.image1} alt={product.title} />
+                                                            </div>
+                                                            <div className="details">
+                                                                <span>{product.category}</span>
+                                                                <p>{product.title.substring(0, 20)}...</p>
+                                                            </div>
+                                                            <Link className="pricing" onClick={handleSearchLinkClick}>
+                                                                {discount > 0 && <p className="old-price">${price}</p>}
+                                                                <p className="current-price">${finalPrice}</p>
+                                                            </Link>
                                                         </Link>
-                                                    </Link>
-
-                                                ))
+                                                    );
+                                                })
                                             ) : (
-                                                <p className="not-found"><span>Məhsul tapılmadı!</span><PiEmpty /></p>
+                                                <p className="not-found">
+                                                    <span>Məhsul tapılmadı!</span>
+                                                    <PiEmpty />
+                                                </p>
                                             )}
-
                                         </div>
                                     ) : (
                                         <div>
                                             {discountedProducts.length > 0 ? (
-                                                discountedProducts.map((product) => (
-                                                    <Link key={product.id} to={`/products/${slugify(product.title, { lower: true })}`} className="product-box" onClick={handleSearchLinkClick}>
-                                                        <div className="img-div">
-                                                            <img src={product.image} alt={product.title} />
-                                                        </div>
-                                                        <div className="details">
-                                                            <span>{product.category}</span>
-                                                            <p>{product.title.substring(0, 20)}...</p>
-                                                        </div>
-                                                        <Link className="pricing" onClick={handleSearchLinkClick}>
-                                                            {product.discount > 0 && <p className="old-price">${product.price}</p>}
-                                                            <p className="current-price">{(product.price - (product.price * product.discount) / 100).toFixed(2)}$</p>
-                                                        </Link>
-                                                    </Link>
+                                                discountedProducts.map((product) => {
+                                                    const hasVariants = product.variants && product.variants.length > 0;
+                                                    const variant = hasVariants ? product.variants[0] : {};
+                                                    const price = parseFloat(variant.price || product.price || 0);
+                                                    const discount = parseFloat(variant.discount || product.discount || 0);
+                                                    const finalPrice = (price - (price * discount) / 100).toFixed(2);
 
-                                                ))
+                                                    return (
+                                                        <Link
+                                                            key={product.id}
+                                                            to={`/products/${slugify(product.title, { lower: true })}`}
+                                                            className="product-box"
+                                                            onClick={handleSearchLinkClick}
+                                                        >
+                                                            <div className="img-div">
+                                                                <img src={product.image1} alt={product.title} />
+                                                            </div>
+                                                            <div className="details">
+                                                                <span>{product.category}</span>
+                                                                <p>{product.title.substring(0, 20)}...</p>
+                                                            </div>
+                                                            <Link className="pricing" onClick={handleSearchLinkClick}>
+                                                                {discount > 0 && <p className="old-price">${price}</p>}
+                                                                <p className="current-price">${finalPrice}</p>
+                                                            </Link>
+                                                        </Link>
+                                                    );
+                                                })
                                             ) : (
                                                 <p className="not-found">Məhsul tapılmadı!</p>
                                             )}
-
-
                                         </div>
                                     )}
-
-
                                 </div>
+
                                 <div className="campaign-img">
                                     {searchTerm.length > 0 ? (
                                         filteredCampaigns.length > 0 ? (
@@ -374,50 +439,63 @@ const Header = () => {
                                         ) : (
                                             <p className="not-found">Kampaniya tapılmadı!</p>
                                         )
+                                    ) : filteredCampaigns.length > 0 ? (
+                                        <p className="not-found">Kampaniya tapılmadı!</p>
                                     ) : (
-                                        filteredCampaigns.length > 0 ? (
-                                            <p className="not-found">Kampaniya tapılmadı!</p>
-                                        ) : (
-                                            <img
-                                                src={
-                                                    campaigns.sort((a, b) => new Date(b.endDate) - new Date(a.endDate))[0]?.image
-                                                }
-                                                alt="Latest Campaign"
-                                            />
-                                        )
+                                        <img
+                                            src={
+                                                campaigns.sort((a, b) => new Date(b.endDate) - new Date(a.endDate))[0]
+                                                    ?.image
+                                            }
+                                            alt="Latest Campaign"
+                                        />
                                     )}
                                 </div>
-
-
                             </div>
                         </div>
                     )}
 
                 </div>
-                <Link className="nav-contact"><div className="icon"><FaWhatsapp /></div> +994 55 875 93 82</Link>
+
                 <div className="actions">
-                    {totalWishlistItems === 0 ? (<NavLink to="/wishlist"><button className="wish-btn"><FaRegHeart /></button></NavLink>) :
-                        (<Badge count={totalWishlistItems} className="custom-badge" showZero>
-                            <NavLink to="/wishlist"><button className="wish-btn"><FaRegHeart /></button></NavLink>
-                        </Badge>)}
-                    {totalUniqueItems === 0 ? (<NavLink to="/cart"><button className="cart-btn"><RiShoppingCart2Line /></button></NavLink>) :
-                        (<Badge count={totalUniqueItems} className="custom-badge" showZero>
-                            <NavLink to="/cart"><button className="cart-btn"><RiShoppingCart2Line /></button></NavLink>
-                        </Badge>)}
+                    <NavLink to="/wishlist">
+                        <Badge count={totalWishlistItems} className="custom-badge" showZero>
+                            <button className="wish-btn"><FaRegHeart /></button>
+                        </Badge>
+                    </NavLink>
+                    <NavLink to="/cart">
+                        <Badge count={totalUniqueItems} className="custom-badge" showZero>
+                            <button className="cart-btn"><RiShoppingCart2Line /></button>
+                        </Badge>
+                    </NavLink>
                 </div>
             </div>
             <div className={`mobile-navbar ${isClicked ? "active" : ""}`}>
                 <div className="mobile-menu-content">
                     <p className="top-text">Sayt üzrə naviqasiya</p>
                     <div className="mobile-navbar-top-icons">
-                        {totalWishlistItems === 0 ? (<NavLink to="/wishlist"><button><FaRegHeart /></button></NavLink>) :
-                            (<Badge count={totalWishlistItems} className="custom-badge" showZero>
-                                <NavLink to="/wishlist"><button><FaRegHeart /></button></NavLink>
-                            </Badge>)}
-                        {totalUniqueItems === 0 ? (<NavLink to="/cart"><button><RiShoppingCart2Line /></button></NavLink>) :
-                            (<Badge count={totalUniqueItems} className="custom-badge" showZero>
-                                <NavLink to="/cart"><button><RiShoppingCart2Line /></button></NavLink>
-                            </Badge>)}
+                        {totalWishlistItems === 0 ? (
+                            <NavLink to="/wishlist">
+                                <button><FaRegHeart /></button>
+                            </NavLink>
+                        ) : (
+                            <Badge count={totalWishlistItems} className="custom-badge" showZero>
+                                <NavLink to="/wishlist">
+                                    <button><FaRegHeart /></button>
+                                </NavLink>
+                            </Badge>
+                        )}
+                        {totalUniqueItems === 0 ? (
+                            <NavLink to="/cart">
+                                <button><RiShoppingCart2Line /></button>
+                            </NavLink>
+                        ) : (
+                            <Badge count={totalUniqueItems} className="custom-badge" showZero>
+                                <NavLink to="/cart">
+                                    <button><RiShoppingCart2Line /></button>
+                                </NavLink>
+                            </Badge>
+                        )}
                     </div>
                     <nav className="mobile-navbar-menu">
                         <ul>
@@ -435,6 +513,7 @@ const Header = () => {
                     </nav>
                 </div>
             </div>
+
         </header>
     );
 };

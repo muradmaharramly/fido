@@ -48,6 +48,10 @@ function ProductDetails() {
     const [initialPayment, setInitialPayment] = useState(0);
     const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
     const [copied, setCopied] = useState(false);
+    const variants = product?.variants || [];
+
+    const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+    const selectedVariant = variants[selectedVariantIndex] || {};
 
 
     useEffect(() => {
@@ -72,18 +76,43 @@ function ProductDetails() {
     if (!product) return <p>Məhsul tapılmadı!</p>;
 
     const handleAddClick = () => {
-        if (!inCart(product.id)) {
-            addItem(product);
+        if (!selectedVariant || selectedVariant.stock === 0) return;
+
+        const variantId = `${product.id}-${selectedVariant.size}`;
+
+        if (!inCart(variantId)) {
+            addItem({
+                id: variantId,
+                productId: product.id,
+                title: product.title,
+                image1: product.image1,
+                price: selectedVariant.price,
+                discount: selectedVariant.discount || 0,
+                size: selectedVariant.size,
+                quantity: 1,
+            });
         }
     };
 
+
+
     const handleWishClick = () => {
-        if (inWishlist(product.id)) {
-            removeWishlistItem(product.id);
+        if (!selectedVariant) return;
+        const variantId = `${product.id}-${selectedVariant.size}`;
+
+        const variantItem = {
+            ...product,
+            selectedVariant,
+            id: variantId
+        };
+
+        if (inWishlist(variantId)) {
+            removeWishlistItem(variantId);
         } else {
-            addWishlistItem(product);
+            addWishlistItem(variantItem);
         }
     };
+
 
     const images = [product.image1, product.image2, product.image3].filter(Boolean);
 
@@ -150,7 +179,9 @@ function ProductDetails() {
                             ))}
                     </Slider>
 
-                    {product.discount > 0 && <p className="discount">{product.discount}%</p>}
+                    {selectedVariant.discount > 0 && (
+                        <p className="discount">{selectedVariant.discount}%</p>
+                    )}
                 </div>
                 <div className="product-info">
                     <div className="details">
@@ -175,11 +206,30 @@ function ProductDetails() {
                     </div>
                     <h1>{product.title}</h1>
                     {product.description && <p className="description">{product.description}</p>}
-
-                    <div className="price">
-                        {product.discount > 0 && <p className="old-price">{product.price}₼</p>}
-                        <p className="current-price">{discountPrice.toFixed(2)}₼</p>
+                    <div className="variants-selection">
+                        {variants.map((v, i) => (
+                            <button
+                                key={i}
+                                type="button"
+                                className={i === selectedVariantIndex ? "variant active" : "variant"}
+                                onClick={() => setSelectedVariantIndex(i)}
+                                disabled={v.stock === 0}
+                            >
+                                {v.size} ml {v.stock === 0 ? "(Stokda yoxdur)" : ""}
+                            </button>
+                        ))}
                     </div>
+                    <div className="price">
+                        {selectedVariant.discount > 0 && (
+                            <p className="old-price">{selectedVariant.price}₼</p>
+                        )}
+                        <p className="current-price">
+                            {(
+                                selectedVariant.price - (selectedVariant.price * (selectedVariant.discount || 0)) / 100
+                            ).toFixed(2)}₼
+                        </p>
+                    </div>
+
                     <div className="btns-div">
                         {product.count === 0 ? (
                             <Link
@@ -190,7 +240,7 @@ function ProductDetails() {
                                 <RiShoppingCart2Line />
                                 <span>Stokda yoxdur</span>
                             </Link>
-                        ) : inCart(product.id) ? (
+                        ) : inCart(`${product.id}-${selectedVariant.size}`) ? (
                             <Link
                                 to="/cart"
                                 className="add-to-cart-btn clicked"
@@ -209,9 +259,14 @@ function ProductDetails() {
                             </Link>
                         )}
 
-                        <Link className={`heart-btn ${inWishlist(product.id) ? "clicked" : ""}`} onClick={handleWishClick}>
+
+                        <Link
+                            className={`heart-btn ${selectedVariant && inWishlist(`${product.id}-${selectedVariant.size}`) ? "clicked" : ""}`}
+                            onClick={handleWishClick}
+                        >
                             <FaRegHeart />
                         </Link>
+
                     </div>
 
                     {product.count && (

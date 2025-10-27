@@ -117,12 +117,12 @@
                       }
                       a{
                         border: 1px solid transparent;
-                        border-bottom: 1px solid #dcdbdb37;
+                        border-bottom: 1px solid $border-dark;
                         color: $white-2nd;
                         &:hover{
                           color: $white;
-                          border: 1px solid #dcdbdb37;
-                          background-color: #343434;
+                          border: 1px solid $border-dark;
+                          background-color: $box-dark;
                           svg{
                             color: $white;
                           }
@@ -580,6 +580,19 @@
       text-decoration: none;
       color: white;
   }
+  .title-inf{
+    .variants-selection{
+                button{
+                    color: $white;
+                    background-color: $box-dark;
+                    border: 2px solid transparent ;
+                    @include transition;
+                    &.active{
+                        border: 2px solid $white;
+                    }
+}
+    }
+  }
   .details{
       svg{
           margin: 0 3px;
@@ -590,6 +603,9 @@
               color: $red;
           }
       }
+      .code{
+            color: $white;
+        }
       .review-count{
         color: $white;
           svg{
@@ -1228,6 +1244,9 @@ border-bottom: 2px solid $white;
           h1 {
               color: $white;
           }
+          .description{
+            color: $white;
+          }
           .product-code {
               color: $white;
           }
@@ -1235,7 +1254,17 @@ border-bottom: 2px solid $white;
     background: $box-dark;
     color: $white;
 }
-          
+          .variants-selection{
+                button{
+                    color: $white;
+                    background-color: $box-dark;
+                    border: 2px solid transparent ;
+                    @include transition;
+                    &.active{
+                        border: 2px solid $white;
+                    }
+}
+            }
           .price{
 
               .current-price{
@@ -1393,7 +1422,7 @@ border-bottom: 2px solid $white;
               .features-list {
                 li {
                   color: $white;
-                  border-bottom: 1px solid #b9b9b994;
+                  border-bottom: 1px solid $border-dark;
                   &:last-child{
                       border: none;
                   }

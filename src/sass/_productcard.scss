@@ -130,7 +130,7 @@
     .details{
         display: flex;
         align-items: center;
-        justify-content: left;
+        justify-content: space-between;
         gap: 10px;
         svg{
             margin: 0 3px;
@@ -141,15 +141,61 @@
                 color: $red;
             }
         }
+        .code{
+            color: $black;
+        }
     }
-    .product-title{
+    .title-inf{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .product-title{
         font-weight: 500;
+        
     }
+     .variants-selection{
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                gap: 5px;
+                button{
+                    font-weight: 600;
+                    color: $black;
+                    padding: 3px 5px;
+                    border-radius: 20px;
+                    -webkit-border-radius: 20px;
+                    -moz-border-radius: 20px;
+                    -ms-border-radius: 20px;
+                    -o-border-radius: 20px;
+                    background-color: $box-light;
+                    border: 2px solid transparent ;
+                    font-size: 12px;
+                    @include transition;
+                    &.active{
+                        border: 2px solid $black;
+                    }
+}
+    }
+    .variant-size{
+                    font-weight: 600;
+                    color: $black;
+                    padding: 3px 5px;
+                    border-radius: 20px;
+                    -webkit-border-radius: 20px;
+                    -moz-border-radius: 20px;
+                    -ms-border-radius: 20px;
+                    -o-border-radius: 20px;
+                    background-color: $box-light;
+                    border: 2px solid transparent ;
+                    font-size: 12px;
+                    @include transition;
+            }
+}
     .pricing{
         width: 100%;
         display: flex;
         justify-content: left;
-        align-items: center;
+        align-items: end;
         gap: 20px;
         div{
             padding: 5px;
@@ -162,6 +208,7 @@
             .current-price{
                 font-size: 22px;
                 font-weight: bold;
+                color: $black;
             }
         }
     }

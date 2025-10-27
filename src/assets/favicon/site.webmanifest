@@ -1,6 +1,6 @@
 {
-  "name": "BAku Electronics",
-  "short_name": "Baku Electronics",
+  "name": "Fido Parfum & Accessories",
+  "short_name": "Fido Parfum & Accessories",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -9,7 +9,7 @@
       "purpose": "maskable"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
+      "src": "/web-app-product.image1est-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

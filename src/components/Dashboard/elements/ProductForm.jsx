@@ -8,6 +8,7 @@ import { BiDollar } from 'react-icons/bi';
 import { TbDiscount, TbGridDots } from 'react-icons/tb';
 import { RiStockLine } from 'react-icons/ri';
 import { FaRegStar } from 'react-icons/fa';
+import { CgSize } from 'react-icons/cg';
 
 const categories = ["Parfum", "Aksesuar", "Case", "Çanta"];
 
@@ -20,8 +21,6 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const [image1, setImage1Link] = useState('');
     const [image2, setImage2Link] = useState('');
     const [image3, setImage3Link] = useState('');
-    const [price, setPrice] = useState('');
-    const [discount, setDiscount] = useState('');
     const [count, setStock] = useState('');
     const [composition, setComposition] = useState('');
     const [packaging, setPackaging] = useState('');
@@ -31,10 +30,25 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const [packagingError, setPackagingError] = useState('');
     const [ratingError, setRatingError] = useState('');
     const [imageError, setImageError] = useState('');
-    const [priceError, setPriceError] = useState('');
-    const [discountError, setDiscountError] = useState('');
     const [countError, setCountError] = useState('');
     const navigate = useNavigate();
+    const [variants, setVariants] = useState([{ size: '', price: '', discount: '' }]);
+
+
+    const handleVariantChange = (index, field, value) => {
+        const updated = [...variants];
+        updated[index][field] = value;
+        setVariants(updated);
+    };
+
+    const addVariant = () => {
+        setVariants([...variants, { size: "", price: "", discount: "" }]);
+    };
+
+    const removeVariant = (index) => {
+        const updated = variants.filter((_, i) => i !== index);
+        setVariants(updated);
+    };
 
     useEffect(() => {
         if (isEditMode && existingProduct) {
@@ -48,9 +62,9 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
             setImage1Link(existingProduct.image1);
             setImage2Link(existingProduct.image2);
             setImage3Link(existingProduct.image3);
-            setPrice(existingProduct.price);
-            setDiscount(existingProduct.discount);
             setStock(existingProduct.count);
+            setVariants(existingProduct.variants || [{ size: '', price: 0, discount: 0 }]);
+
         }
     }, [isEditMode, existingProduct]);
 
@@ -60,8 +74,6 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         setDescriptionError('');
         setRatingError('');
         setImageError('');
-        setPriceError('');
-        setDiscountError('');
         setCountError('');
         setCategoryError('');
         setPackagingError('');
@@ -143,22 +155,6 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
             isValid = false;
         }
 
-        if (price && (isNaN(price) || parseFloat(price) <= 0)) {
-            setPriceError('Qiymət müsbət bir rəqəm olmalıdır');
-            isValid = false;
-        } else if (!existingProduct && !price.trim()) {
-            setPriceError('Qiymət boş ola bilməz');
-            isValid = false;
-        }
-
-        if (discount && (isNaN(discount) || parseFloat(discount) < 0 || parseFloat(discount) > 100)) {
-            setDiscountError('Endirim 0 ilə 100 arasında olmalıdır');
-            isValid = false;
-        } else if (!existingProduct && !discount.trim()) {
-            setDiscountError('Endirim boş ola bilməz');
-            isValid = false;
-        }
-
         if (count && isNaN(count)) {
             setCountError('Stok sayı yalnız rəqəm olmalıdır');
             isValid = false;
@@ -175,7 +171,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         const isValid = await validateForm();
         if (!isValid) return;
 
-        const productData = { title, category, rating, image1, image2, image3, price, discount, count, gender, composition, packaging, description };
+        const productData = { title, category, rating, image1, image2, image3, count, gender, composition, packaging, description, variants };
 
         let result;
         if (isEditMode) {
@@ -225,20 +221,6 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     return (
         <div className="product-form">
             <form onSubmit={handleSubmit}>
-                <div className='form-double'>
-                    <div className="form-group">
-                        <label>Başlıq</label>
-                        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-                        {titleError && <span className="error-message">{titleError}</span>}
-                        <IoText />
-                    </div>
-                    <div className="form-group">
-                        <label>Açıqlama</label>
-                        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
-                        {descriptionError && <span className="error-message">{descriptionError}</span>}
-                        <IoText />
-                    </div>
-                </div>
                 <div className="form-triple">
                     <div className="form-group">
                         <label>1-ci şəkil linki</label>
@@ -259,24 +241,24 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                         <LuLink />
                     </div>
                 </div>
-                <div className="form-quater">
+                <div className='form-double'>
+                    <div className="form-group">
+                        <label>Başlıq</label>
+                        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                        {titleError && <span className="error-message">{titleError}</span>}
+                        <IoText />
+                    </div>
+                    <div className="form-group">
+                        <label>Açıqlama</label>
+                        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+                        {descriptionError && <span className="error-message">{descriptionError}</span>}
+                        <IoText />
+                    </div>
                     <div className="form-group">
                         <label>Reytinq</label>
                         <input type="text" value={rating} onChange={(e) => setRating(e.target.value)} />
                         {ratingError && <span className="error-message">{ratingError}</span>}
                         <FaRegStar />
-                    </div>
-                    <div className="form-group">
-                        <label>Qiymət <span>(Endirimsiz)</span></label>
-                        <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
-                        {priceError && <span className="error-message">{priceError}</span>}
-                        <BiDollar />
-                    </div>
-                    <div className="form-group">
-                        <label>Endirim faizi</label>
-                        <input type="text" value={discount} onChange={(e) => setDiscount(e.target.value)} />
-                        {discountError && <span className="error-message">{discountError}</span>}
-                        <TbDiscount />
                     </div>
                     <div className="form-group">
                         <label>Stok sayı</label>
@@ -320,6 +302,55 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                         {packagingError && <span className="error-message">{packagingError}</span>}
                     </div>
                 </div>
+                
+                    {variants.map((v, i) => (
+                        <div key={i} className='form-triple'>
+                            <div className='form-group'>
+                                <label>Ölçü</label>
+                                <input
+                                    type="text"
+                                    value={v.size}
+                                    onChange={(e) => handleVariantChange(i, 'size', e.target.value)}
+                                />
+                                <CgSize />
+                            </div>
+
+                            <div className='form-group'>
+                                <label>Qiymət</label>
+                                <input
+                                    type="text"
+                                    value={v.price}
+                                    onChange={(e) => handleVariantChange(i, 'price', e.target.value)}
+                                />
+                                <BiDollar />
+                            </div>
+
+                            <div className='form-group'>
+                                <label>Endirim (%)</label>
+                                <input
+                                    type="text"
+                                    value={v.discount}
+                                    onChange={(e) => handleVariantChange(i, 'discount', e.target.value)}
+                                />
+                                <TbDiscount />
+                            </div>
+
+                            <button
+                                type="button"
+                                className="remove-variant"
+                                onClick={() => removeVariant(i)}
+                            >
+                                Sil
+                            </button>
+                        </div>
+                    ))}
+                    
+                    <button type="button" className="add-variant" onClick={addVariant}>
+                        Variant əlavə et
+                    </button>
+
+
+                
                 <div className="btns">
                     <button type="button" className="cancel-btn" onClick={handleCancel}>Ləğv et</button>
                     <button type="submit" className="submit-btn">{isEditMode ? 'Yenilə' : 'Göndər'}</button>

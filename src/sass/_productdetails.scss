@@ -281,7 +281,11 @@
             }
             
             .price{
+                display: flex;
+                justify-content: left;
+                align-items: center;
                 padding-right: 25px;
+                gap: 10px;
                 .old-price{
                     font-size: 20px;
                     color: $red;
@@ -292,6 +296,29 @@
                     font-weight: bold;
                     color: $black;
                 }
+            }
+            .variants-selection{
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                gap: 5px;
+                margin: 10px 0;
+                button{
+                    font-weight: 600;
+                    color: $black;
+                    padding: 10px;
+                    border-radius: 20px;
+                    -webkit-border-radius: 20px;
+                    -moz-border-radius: 20px;
+                    -ms-border-radius: 20px;
+                    -o-border-radius: 20px;
+                    background-color: $box-light;
+                    border: 2px solid transparent ;
+                    @include transition;
+                    &.active{
+                        border: 2px solid $black;
+                    }
+}
             }
             .btns-div{
                 display: flex;
@@ -626,7 +653,7 @@
                     padding: 5px 0;
                     font-size: 14px;
                     color: $black;
-                    border-bottom: 1px solid #b9b9b994;
+                    border-bottom: 1px solid $soft-white;
                     &:last-child{
                         border: none;
                     }

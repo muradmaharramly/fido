@@ -46,11 +46,6 @@ const Products = () => {
 
     const categories = [...new Set(products.map(product => product.category))];
 
-
-
-    const handleListStyle = () => {
-        setIsListed(!isListed);
-    };
     const handlePanel = () => {
         setIsPanelOpen(!isPanelOpen);
     };
@@ -74,25 +69,42 @@ const Products = () => {
     };
 
     const filteredProducts = products
-        .filter((product) =>
-            selectedCategories.length ? selectedCategories.includes(product.category) : true
-        )
-        .filter((product) => product.price >= minPrice && product.price <= maxPrice)
-        .filter((product) => (searchTerm ? product.title.toLowerCase().includes(searchTerm.toLowerCase()) : true))
-        .sort((a, b) => {
-            if (filterType === 'ucuzdan-bahaya') return a.price - b.price;
-            if (filterType === 'bahadan-ucuza') return b.price - a.price;
-            if (filterType === 'popular') return b.rating - a.rating;
-            if (filterType === 'endirim') return b.discount - a.discount;
-            if (filterType === 'A-Z') return a.title.localeCompare(b.title);
-            if (filterType === 'Z-A') return b.title.localeCompare(a.title);
-            return 0;
-        })
-        .filter((product) => {
-            if (stockFilter === 'inStock') return product.count > 0;
-            if (stockFilter === 'outOfStock') return product.count === 0;
-            return true;
-        });
+  .map(product => {
+    const filteredVariants = (product.variants || []).filter(variant => {
+      const matchesPrice = variant.price >= minPrice && variant.price <= maxPrice;
+      const matchesDiscount = filterType === "endirim" ? variant.discount > 0 : true;
+      return matchesPrice && matchesDiscount;
+    });
+    return { ...product, variants: filteredVariants };
+  })
+  .filter(product => product.variants.length > 0)
+  .filter(product =>
+    selectedCategories.length ? selectedCategories.includes(product.category) : true
+  )
+  .filter(product =>
+    searchTerm ? product.title.toLowerCase().includes(searchTerm.toLowerCase()) : true
+  )
+  .filter(product => {
+    if (stockFilter === "inStock") return product.count > 0;
+    if (stockFilter === "outOfStock") return product.count === 0;
+    return true;
+  })
+  .sort((a, b) => {
+    const aPrice = Math.min(...a.variants.map(v => v.price));
+    const bPrice = Math.min(...b.variants.map(v => v.price));
+    if (filterType === "ucuzdan-bahaya") return aPrice - bPrice;
+    if (filterType === "bahadan-ucuza") return bPrice - aPrice;
+    if (filterType === "popular") return b.rating - a.rating;
+    if (filterType === "endirim") {
+      const aMaxDiscount = Math.max(...a.variants.map(v => v.discount));
+      const bMaxDiscount = Math.max(...b.variants.map(v => v.discount));
+      return bMaxDiscount - aMaxDiscount;
+    }
+    if (filterType === "A-Z") return a.title.localeCompare(b.title);
+    if (filterType === "Z-A") return b.title.localeCompare(a.title);
+    return 0;
+  });
+
 
     const options = ["standart", "popular", "endirim", "ucuzdan-bahaya", "bahadan-ucuza", "A-Z", "Z-A"];
 
@@ -182,8 +194,6 @@ const Products = () => {
                             </ul>
                         )}
                     </div>
-                    <button className={`grid ${isListed ? "" : "active"}`} onClick={handleListStyle}><HiOutlineViewGrid /></button>
-                    <button className={`list ${isListed ? "active" : ""}`} onClick={handleListStyle}><LuLayoutList /></button>
                 </div>
             </div>
             <div className='product-container'>

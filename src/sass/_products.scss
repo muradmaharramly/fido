@@ -387,55 +387,6 @@
                 padding: 0 !important;
                 justify-content: left;
                 gap: 20px;
-                &.listed{
-                    flex-direction: column;
-                    justify-content: left;
-                    .product-card{
-                        flex-direction: row;
-                        justify-content: space-evenly;
-                        width: 100%;
-                        gap: 30px;
-                        .details{
-                            display: none;
-                        }
-                        .product-title{
-                            display: none;
-                        }
-                        .pricing{
-                            display: none;
-                        }
-                        .card-ending{
-                            display: none;
-                        }
-                        .listed-details{
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-                            flex: 2;
-                            margin-left: -70px;
-                            .product-title{
-                                display: block;
-                            }
-                            .details{
-                                display: flex;
-                            }
-                        }
-                        .listed-ending{
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-                            flex: 2;
-                            border-left: 1px solid #ccc;
-                            padding-left: 30px;
-                            .pricing{
-                                display: flex;
-                            }
-                            .card-ending{
-                                display: flex;
-                            }
-                        }
-                    }
-                }
                 .product-card{
                     margin-top: 40px;
                 }

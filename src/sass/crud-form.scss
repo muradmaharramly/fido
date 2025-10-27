@@ -17,7 +17,7 @@
         gap: 30px;
         .form-first, .form-double, .form-triple, .form-quater{
             display: flex;
-            justify-content: space-between;
+            justify-content: left;
             align-items: center;
             gap: 20px;
             .form-group{
@@ -85,6 +85,35 @@
                 }
             }
         }
+        .add-variant,
+            .remove-variant{
+                cursor: pointer;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 15px;
+                -webkit-border-radius: 15px;
+                -moz-border-radius: 15px;
+                -ms-border-radius: 15px;
+                -o-border-radius: 15px;
+                @include transition;
+                font-weight: 500;
+            }
+            .remove-variant{
+                background-color: rgb(206, 15, 15);
+                color: $white;
+                margin-bottom: -30px;
+                &:hover{
+                    background-color: rgb(151, 10, 10);
+                }
+            }
+        .add-variant{
+                background-color: $red;
+                color: $white;
+                width: 150px;
+                &:hover{
+                    background-color: $red-hover;
+                }
+            }
         .btns{
             display: flex;
             justify-content: end;

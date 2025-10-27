@@ -14,7 +14,6 @@ const Wishlist = () => {
 
     const [clickClass, setClickClass] = useState({});
     const [rotation, setRotation] = useState({ x: 0, y: 0, shadowX: 0, shadowY: 0 });
-
     const [currentImageIndexes, setCurrentImageIndexes] = useState({});
     const imageIntervalRefs = useRef({});
 
@@ -97,6 +96,16 @@ const Wishlist = () => {
                     const images = [item.image1, item.image2, item.image3].filter(Boolean);
                     const currentIndex = currentImageIndexes[item.id] || 0;
 
+                    const hasVariants = item.variants && item.variants.length > 0;
+                    const firstVariant = hasVariants ? item.variants[0] : null;
+
+                    const basePrice = hasVariants ? parseFloat(firstVariant.price) : parseFloat(item.price);
+                    const discount = hasVariants
+                        ? parseFloat(firstVariant.discount || 0)
+                        : parseFloat(item.discount || 0);
+
+                    const finalPrice = (basePrice - (basePrice * discount) / 100).toFixed(2);
+
                     return (
                         <div key={item.id} className={`product-card ${item.count === 0 ? "outofstock" : ""}`}
                             onMouseMove={handleMouseMove}
@@ -108,6 +117,7 @@ const Wishlist = () => {
                                     ? "0px 0px 5px rgba(211, 2, 124, 0.315)"
                                     : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(211, 2, 124, 0.315)`,
                             }}>
+
                             <Link to={`/products/${slugify(item.title, { lower: true })}`}>
                                 <div className="img-div" style={{
                                     transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
@@ -128,52 +138,85 @@ const Wishlist = () => {
                                             />
                                         ))}
                                     </div>
-                                    {item.discount > 0 && <p className="discount">{item.discount}%</p>}
+                                    {discount > 0 && <p className="discount">{discount}%</p>}
                                 </div>
                             </Link>
 
                             <div className="details">
                                 <p className="rate"><FaStar />{item.rating}</p>
                                 {item.count === 0 && <p className="stock-info">Stokda yoxdur</p>}
+                                <p className="code">{item.productCode}</p>
                             </div>
 
-                            <Link to={`/products/${slugify(item.title, { lower: true })}`}>
+                            <Link className="title-inf" to={`/products/${slugify(item.title, { lower: true })}`}>
                                 <p className="product-title">
                                     {item.title.length > 25
                                         ? `${item.title.substring(0, 25)}...`
                                         : item.title}
                                 </p>
-
+                                {hasVariants && (
+                                    <p className="variant-size">{item.price} ml</p>
+                                )}
                             </Link>
 
                             <Link to={`/products/${slugify(item.title, { lower: true })}`}>
                                 <div className="pricing">
                                     <div className="price">
-                                        {item.discount > 0 && <p className="old-price">{item.price}₼</p>}
-                                        <p className="current-price">
-                                            {(item.price - (item.price * item.discount) / 100).toFixed(2)}₼
-                                        </p>
+                                        {discount > 0 && <p className="old-price">{basePrice}₼</p>}
+                                        <p className="current-price">{finalPrice}₼</p>
                                     </div>
                                 </div>
                             </Link>
 
                             <div className="card-ending">
                                 {item.count === 0 ? (
-                                    <Link to="#" className="add-to-cart-btn disabled" onClick={(e) => e.preventDefault()}>
+                                    <Link to="#" className="add-to-cart-btn disabled" onClick={(e) => e.preventDefault()} onMouseMove={handleMouseMove}
+                                        onMouseLeave={handleMouseLeave}
+                                        style={{
+                                            transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
+                                            boxShadow:
+                                                rotation.shadowX === 0 && rotation.shadowY === 0
+                                                    ? "0px 0px 5px rgba(211, 2, 124, 0.315)"
+                                                    : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(211, 2, 124, 0.315)`,
+                                        }}>
                                         <RiShoppingCart2Line /><span>Stokda yoxdur</span>
                                     </Link>
                                 ) : inCart(item.id) ? (
-                                    <Link to="/cart" className="add-to-cart-btn clicked">
+                                    <Link to="/cart" className="add-to-cart-btn clicked" onMouseMove={handleMouseMove}
+                                        onMouseLeave={handleMouseLeave}
+                                        style={{
+                                            transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
+                                            boxShadow:
+                                                rotation.shadowX === 0 && rotation.shadowY === 0
+                                                    ? "0px 0px 5px rgba(211, 2, 124, 0.315)"
+                                                    : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(211, 2, 124, 0.315)`,
+                                        }}>
                                         <RiShoppingCart2Fill /><span>Səbətə keç</span>
                                     </Link>
                                 ) : (
-                                    <Link to="#" className={`add-to-cart-btn ${clickClass[item.id] || ""}`} onClick={() => handleAddClick(item)}>
+                                    <Link to="#" className={`add-to-cart-btn ${clickClass[item.id] || ""}`} onClick={() => handleAddClick(item)} onMouseMove={handleMouseMove}
+                                        onMouseLeave={handleMouseLeave}
+                                        style={{
+                                            transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
+                                            boxShadow:
+                                                rotation.shadowX === 0 && rotation.shadowY === 0
+                                                    ? "0px 0px 5px rgba(211, 2, 124, 0.315)"
+                                                    : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(211, 2, 124, 0.315)`,
+                                        }}>
                                         <RiShoppingCart2Line />
                                         <span className="desktop-text">Səbətə əlavə et</span>
                                         <span className="mobile-text">Səbətə at</span>
                                     </Link>
                                 )}
-                                <Link className="add-to-wish-btn clicked" onClick={() => handleRemoveWishlistItem(item.id)}>
+                                <Link className="add-to-wish-btn clicked" onClick={() => handleRemoveWishlistItem(item.id)} onMouseMove={handleMouseMove}
+                                    onMouseLeave={handleMouseLeave}
+                                    style={{
+                                        transform: `perspective(1000px) rotateX(${-rotation.y}deg) rotateY(${rotation.x}deg)`,
+                                        boxShadow:
+                                            rotation.shadowX === 0 && rotation.shadowY === 0
+                                                ? "0px 0px 5px rgba(211, 2, 124, 0.315)"
+                                                : `${-rotation.shadowX}px ${-rotation.shadowY}px 10px rgba(211, 2, 124, 0.315)`,
+                                    }}>
                                     <FaRegHeart />
                                 </Link>
                             </div>
