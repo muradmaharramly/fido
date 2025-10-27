@@ -53,7 +53,6 @@ function ProductDetails() {
     const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
     const selectedVariant = variants[selectedVariantIndex] || {};
 
-
     useEffect(() => {
         if (products.length === 0) {
             fetchProducts();
@@ -73,7 +72,7 @@ function ProductDetails() {
     const { addWishlistItem, removeWishlistItem, inWishlist } = useWishlist();
 
     if (loading) return <PreLoader />;
-    if (!product) return <p>Məhsul tapılmadı!</p>;
+    if (!product) return <p className="not-found">Məhsul tapılmadı!</p>;
 
     const handleAddClick = () => {
         if (!selectedVariant || selectedVariant.stock === 0) return;
@@ -94,8 +93,6 @@ function ProductDetails() {
         }
     };
 
-
-
     const handleWishClick = () => {
         if (!selectedVariant) return;
         const variantId = `${product.id}-${selectedVariant.size}`;
@@ -113,9 +110,10 @@ function ProductDetails() {
         }
     };
 
-
+    // yalnız dolu şəkilləri götürürük
     const images = [product.image1, product.image2, product.image3].filter(Boolean);
 
+    // thumbnail-lar yalnız mövcud şəkillər qədər olsun
     const settings = {
         customPaging: function (i) {
             return (
@@ -130,22 +128,19 @@ function ProductDetails() {
         },
         dots: true,
         dotsClass: "slick-dots slick-thumb",
-        infinite: true,
+        infinite: images.length > 1,
         speed: 300,
         slidesToShow: 1,
         slidesToScroll: 1,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
+        nextArrow: images.length > 1 ? <NextArrow /> : null,
+        prevArrow: images.length > 1 ? <PrevArrow /> : null,
     };
-
 
     const productPrice = product.price || 0;
     const discountPrice = productPrice - (productPrice * (product.discount || 0)) / 100;
     const remainingAmount = discountPrice - initialPayment;
     const monthlyPayment = remainingAmount / months;
     const totalPrice = initialPayment + months * monthlyPayment;
-
-
 
     const handleCopy = () => {
         navigator.clipboard.writeText(product.productCode);
@@ -165,7 +160,7 @@ function ProductDetails() {
                 <div className="product-images">
                     <Slider {...settings} className="main-slider">
                         {Object.keys(product)
-                            .filter((key) => key.startsWith("image"))
+                            .filter((key) => key.startsWith("image") && product[key])
                             .map((key, index) => (
                                 <div key={index} className="main-image">
                                     {product.count === 0 && (

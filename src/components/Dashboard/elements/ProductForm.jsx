@@ -105,7 +105,6 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         if (!category) { setCategoryError('Kateqoriya seçin'); isValid = false; }
         if (!packaging) { setPackagingError('Cavab seçin'); isValid = false; }
         if (!rating) { setRatingError("Reytinq boş ola bilməz"); isValid = false; }
-        if (!image1 || !image2 || !image3) { setImageError('Bütün şəkillər yüklənməlidir'); isValid = false; }
         if (count && isNaN(count)) { setCountError('Stok sayı yalnız rəqəm olmalıdır'); isValid = false; }
 
         return isValid;
