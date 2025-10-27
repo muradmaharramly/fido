@@ -94,26 +94,29 @@ function ProductDetails() {
     };
 
     const handleWishClick = () => {
-        if (!selectedVariant) return;
-        const variantId = `${product.id}-${selectedVariant.size}`;
+    const variantId = selectedVariant
+        ? `${product.id}-${selectedVariant.size}`
+        : product.id;
 
-        const variantItem = {
-            ...product,
-            selectedVariant,
-            id: variantId
-        };
-
-        if (inWishlist(variantId)) {
-            removeWishlistItem(variantId);
-        } else {
-            addWishlistItem(variantItem);
-        }
+    const itemToAdd = {
+        ...product,
+        selectedVariant,
+        id: variantId,
+        price: selectedVariant?.price || product.price,
+        discount: selectedVariant?.discount || product.discount,
+        size: selectedVariant?.size || null,
     };
 
-    // yalnız dolu şəkilləri götürürük
+    if (inWishlist(variantId)) {
+        removeWishlistItem(variantId);
+    } else {
+        addWishlistItem(itemToAdd);
+    }
+};
+
+
     const images = [product.image1, product.image2, product.image3].filter(Boolean);
 
-    // thumbnail-lar yalnız mövcud şəkillər qədər olsun
     const settings = {
         customPaging: function (i) {
             return (
