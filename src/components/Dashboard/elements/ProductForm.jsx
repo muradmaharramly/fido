@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../services/supabaseClient';
 import Swal from 'sweetalert2';
 import { IoText } from 'react-icons/io5';
-import { LuLink } from 'react-icons/lu';
 import { BiDollar } from 'react-icons/bi';
 import { TbDiscount, TbGridDots } from 'react-icons/tb';
 import { RiStockLine } from 'react-icons/ri';
@@ -31,23 +30,38 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const [ratingError, setRatingError] = useState('');
     const [imageError, setImageError] = useState('');
     const [countError, setCountError] = useState('');
-    const navigate = useNavigate();
     const [variants, setVariants] = useState([{ size: '', price: '', discount: '' }]);
+    const navigate = useNavigate();
 
+    const handleImageUpload = async (file, setImage) => {
+        if (!file) return;
 
-    const handleVariantChange = (index, field, value) => {
-        const updated = [...variants];
-        updated[index][field] = value;
-        setVariants(updated);
-    };
+        try {
+            const fileName = `${Date.now()}_${file.name}`;
+            const { data, error } = await supabase.storage
+                .from('products')
+                .upload(`images/${fileName}`, file, { upsert: true });
 
-    const addVariant = () => {
-        setVariants([...variants, { size: "", price: "", discount: "" }]);
-    };
+            if (error) throw error;
 
-    const removeVariant = (index) => {
-        const updated = variants.filter((_, i) => i !== index);
-        setVariants(updated);
+            const { data: publicUrlData } = supabase.storage
+                .from('products')
+                .getPublicUrl(`images/${fileName}`);
+
+            setImage(publicUrlData.publicUrl);
+        } catch (err) {
+            console.error('Image upload error:', err.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Xəta!',
+                text: 'Şəkil yüklənərkən problem baş verdi!',
+                customClass: {
+                    popup: "custom-swal-popup",
+                    title: "custom-swal-title",
+                    content: "custom-swal-text"
+                }
+            });
+        }
     };
 
     useEffect(() => {
@@ -64,9 +78,17 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
             setImage3Link(existingProduct.image3);
             setStock(existingProduct.count);
             setVariants(existingProduct.variants || [{ size: '', price: 0, discount: 0 }]);
-
         }
     }, [isEditMode, existingProduct]);
+
+    const handleVariantChange = (index, field, value) => {
+        const updated = [...variants];
+        updated[index][field] = value;
+        setVariants(updated);
+    };
+
+    const addVariant = () => setVariants([...variants, { size: "", price: "", discount: "" }]);
+    const removeVariant = (index) => setVariants(variants.filter((_, i) => i !== index));
 
     const validateForm = async () => {
         let isValid = true;
@@ -78,96 +100,19 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         setCategoryError('');
         setPackagingError('');
 
-        if (!isEditMode) {
-            const { data: existingTitle, error } = await supabase
-                .from('products')
-                .select('title')
-                .eq('title', title);
+        if (!title.trim()) { setTitleError('Başlıq boş ola bilməz'); isValid = false; }
+        if (!description.trim()) { setDescriptionError('Açıqlama boş ola bilməz'); isValid = false; }
+        if (!category) { setCategoryError('Kateqoriya seçin'); isValid = false; }
+        if (!packaging) { setPackagingError('Cavab seçin'); isValid = false; }
+        if (!rating) { setRatingError("Reytinq boş ola bilməz"); isValid = false; }
+        if (!image1 || !image2 || !image3) { setImageError('Bütün şəkillər yüklənməlidir'); isValid = false; }
+        if (count && isNaN(count)) { setCountError('Stok sayı yalnız rəqəm olmalıdır'); isValid = false; }
 
-            if (existingTitle && existingTitle.length > 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Xəta!',
-                    text: 'Bu məhsul artıq mövcuddur!',
-                    customClass: {
-                        popup: "custom-swal-popup",
-                        title: "custom-swal-title",
-                        content: "custom-swal-text"
-                    }
-                });
-                return false;
-            }
-        }
-
-        if (!title.trim()) {
-            setTitleError('Başlıq boş ola bilməz');
-            isValid = false;
-        }
-        if (!description.trim()) {
-            setDescriptionError('Açıqlama boş ola bilməz');
-            isValid = false;
-        }
-
-        if (!category) {
-            setCategoryError('Kateqoriya seçin');
-            isValid = false;
-        }
-
-        if (!packaging) {
-            setPackagingError('Cavab seçin');
-            isValid = false;
-        }
-
-        if (rating === "" || rating === null || rating === undefined) {
-            setRatingError("Reytinq boş ola bilməz");
-            isValid = false;
-        } else {
-            const numericRating = parseFloat(rating);
-            if (isNaN(numericRating) || numericRating < 0 || numericRating > 5) {
-                setRatingError("Reytinq 0-5 aralığında və yalnız bir onluq rəqəmlə ola bilər (məsələn: 3, 4.5)");
-                isValid = false;
-            } else {
-                setRatingError("");
-            }
-        }
-
-
-
-        if (image1 && !/^https?:\/\//.test(image1)) {
-            setImageError('Şəkil linki "http" və ya "https" ilə başlamalıdır');
-            isValid = false;
-        } else if (!image1.trim()) {
-            setImageError('Şəkil linki boş ola bilməz');
-            isValid = false;
-        }
-        if (image2 && !/^https?:\/\//.test(image2)) {
-            setImageError('Şəkil linki "http" və ya "https" ilə başlamalıdır');
-            isValid = false;
-        } else if (!image2.trim()) {
-            setImageError('Şəkil linki boş ola bilməz');
-            isValid = false;
-        }
-        if (image3 && !/^https?:\/\//.test(image3)) {
-            setImageError('Şəkil linki "http" və ya "https" ilə başlamalıdır');
-            isValid = false;
-        } else if (!image3.trim()) {
-            setImageError('Şəkil linki boş ola bilməz');
-            isValid = false;
-        }
-
-        if (count && isNaN(count)) {
-            setCountError('Stok sayı yalnız rəqəm olmalıdır');
-            isValid = false;
-        } else if (!existingProduct && !count.trim()) {
-            setCountError('Stok sayı boş ola bilməz');
-            isValid = false;
-        }
         return isValid;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const isValid = await validateForm();
         if (!isValid) return;
 
@@ -175,10 +120,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
 
         let result;
         if (isEditMode) {
-            const { error } = await supabase
-                .from('products')
-                .update(productData)
-                .eq('id', existingProduct.id);
+            const { error } = await supabase.from('products').update(productData).eq('id', existingProduct.id);
             result = error ? { success: false, message: error.message } : { success: true };
         } else {
             const { error } = await supabase.from('products').insert([productData]);
@@ -192,53 +134,77 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500,
-                customClass: {
-                    popup: "custom-swal-popup",
-                    title: "custom-swal-title",
-                    content: "custom-swal-text"
-                }
-            }).then(() => {
-                navigate('/administrative/products');
-            });
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
+            }).then(() => navigate('/administrative/products'));
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Xəta!',
                 text: result.message,
-                customClass: {
-                    popup: "custom-swal-popup",
-                    title: "custom-swal-title",
-                    content: "custom-swal-text"
-                }
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             });
         }
     };
 
-    const handleCancel = () => {
-        navigate('/administrative/products');
-    };
+    const handleCancel = () => navigate('/administrative/products');
 
     return (
         <div className="product-form">
             <form onSubmit={handleSubmit}>
                 <div className="form-triple">
                     <div className="form-group">
-                        <label>1-ci şəkil linki</label>
-                        <input type="text" value={image1} onChange={(e) => setImage1Link(e.target.value)} />
-                        {imageError && <span className="error-message">{imageError}</span>}
-                        <LuLink />
+                        <label>1-ci şəkli yüklə</label>
+                        <div className="custom-file-upload">
+                            <input
+                                type="file"
+                                id="file1"
+                                onChange={(e) => handleImageUpload(e.target.files[0], setImage1Link)}
+                            />
+                            <label htmlFor="file1">
+                                {image1 ? (
+                                    <img src={image1} alt="preview" className="preview-img" />
+                                ) : (
+                                    <span>Şəkil yüklə</span>
+                                )}
+                            </label>
+                        </div>
+
                     </div>
                     <div className="form-group">
-                        <label>2-ci şəkil linki</label>
-                        <input type="text" value={image2} onChange={(e) => setImage2Link(e.target.value)} />
-                        {imageError && <span className="error-message">{imageError}</span>}
-                        <LuLink />
+                        <label>2-ci şəkli yüklə</label>
+                        <div className="custom-file-upload">
+                            <input
+                                type="file"
+                                id="file2"
+                                onChange={(e) => handleImageUpload(e.target.files[0], setImage2Link)}
+                            />
+                            <label htmlFor="file2">
+                                {image2 ? (
+                                    <img src={image2} alt="preview" className="preview-img" />
+                                ) : (
+                                    <span>Şəkil yüklə</span>
+                                )}
+                            </label>
+                        </div>
+
                     </div>
                     <div className="form-group">
-                        <label>3-cü şəkil linki</label>
-                        <input type="text" value={image3} onChange={(e) => setImage3Link(e.target.value)} />
-                        {imageError && <span className="error-message">{imageError}</span>}
-                        <LuLink />
+                        <label>3-cü şəkli yüklə</label>
+                        <div className="custom-file-upload">
+                            <input
+                                type="file"
+                                id="file3"
+                                onChange={(e) => handleImageUpload(e.target.files[0], setImage3Link)}
+                            />
+                            <label htmlFor="file3">
+                                {image3 ? (
+                                    <img src={image3} alt="preview" className="preview-img" />
+                                ) : (
+                                    <span>Şəkil yüklə</span>
+                                )}
+                            </label>
+                        </div>
+
                     </div>
                 </div>
                 <div className='form-double'>
@@ -302,59 +268,60 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                         {packagingError && <span className="error-message">{packagingError}</span>}
                     </div>
                 </div>
-                
-                    {variants.map((v, i) => (
-                        <div key={i} className='form-triple'>
-                            <div className='form-group'>
-                                <label>Ölçü</label>
-                                <input
-                                    type="text"
-                                    value={v.size}
-                                    onChange={(e) => handleVariantChange(i, 'size', e.target.value)}
-                                />
-                                <CgSize />
-                            </div>
 
-                            <div className='form-group'>
-                                <label>Qiymət</label>
-                                <input
-                                    type="text"
-                                    value={v.price}
-                                    onChange={(e) => handleVariantChange(i, 'price', e.target.value)}
-                                />
-                                <BiDollar />
-                            </div>
-
-                            <div className='form-group'>
-                                <label>Endirim (%)</label>
-                                <input
-                                    type="text"
-                                    value={v.discount}
-                                    onChange={(e) => handleVariantChange(i, 'discount', e.target.value)}
-                                />
-                                <TbDiscount />
-                            </div>
-
-                            <button
-                                type="button"
-                                className="remove-variant"
-                                onClick={() => removeVariant(i)}
-                            >
-                                Sil
-                            </button>
+                {variants.map((v, i) => (
+                    <div key={i} className='form-triple'>
+                        <div className='form-group'>
+                            <label>Ölçü</label>
+                            <input
+                                type="text"
+                                value={v.size}
+                                onChange={(e) => handleVariantChange(i, 'size', e.target.value)}
+                            />
+                            <CgSize />
                         </div>
-                    ))}
-                    
-                    <button type="button" className="add-variant" onClick={addVariant}>
-                        Variant əlavə et
-                    </button>
+
+                        <div className='form-group'>
+                            <label>Qiymət</label>
+                            <input
+                                type="text"
+                                value={v.price}
+                                onChange={(e) => handleVariantChange(i, 'price', e.target.value)}
+                            />
+                            <BiDollar />
+                        </div>
+
+                        <div className='form-group'>
+                            <label>Endirim (%)</label>
+                            <input
+                                type="text"
+                                value={v.discount}
+                                onChange={(e) => handleVariantChange(i, 'discount', e.target.value)}
+                            />
+                            <TbDiscount />
+                        </div>
+
+                        <button
+                            type="button"
+                            className="remove-variant"
+                            onClick={() => removeVariant(i)}
+                        >
+                            Sil
+                        </button>
+                    </div>
+                ))}
+
+                <button type="button" className="add-variant" onClick={addVariant}>
+                    Variant əlavə et
+                </button>
 
 
-                
+
                 <div className="btns">
                     <button type="button" className="cancel-btn" onClick={handleCancel}>Ləğv et</button>
                     <button type="submit" className="submit-btn">{isEditMode ? 'Yenilə' : 'Göndər'}</button>
                 </div>
+                ...
             </form>
         </div>
     );
