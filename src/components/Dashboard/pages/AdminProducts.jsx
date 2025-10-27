@@ -45,8 +45,6 @@ const AdminProducts = () => {
   const handlePrevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
   const handleNextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
 
-
-
   const resetFilter = () => {
     setSearchTerm('');
   };
@@ -142,7 +140,6 @@ const AdminProducts = () => {
     return pages;
   };
 
-
   return (
     <div className='admin-products'>
       <div className='page-head'>
@@ -162,6 +159,7 @@ const AdminProducts = () => {
           <Link to="/administrative/products/addproduct">Əlavə et <GoPlus /></Link>
         </div>
       </div>
+
       {productCount === 0 ? (<div className='empty-area'>
         <div className='icon'><PiEmpty /></div>
         <p>Hal-hazırda məhsul yoxdur.</p>
@@ -182,6 +180,7 @@ const AdminProducts = () => {
                 <th>Başlıq</th>
                 <th>Qiymət</th>
                 <th>Endirim</th>
+                <th>Ölçü</th>
                 <th>Kateqoriya</th>
                 <th>Cins</th>
                 <th>Material/Tərkib</th>
@@ -194,106 +193,128 @@ const AdminProducts = () => {
 
             <tbody>
               {searchTerm.length > 0 ? (
-                filteredProducts.map((product, index) => (
-                  <tr key={product.productCode}>
-                    <td>{index + 1}</td>
-                    <td>
-                      <div className="image-container">
-                        {[product.image1, product.image2, product.image3]
-                          .filter(Boolean)
-                          .map((img, index) => (
-                            <img
-                              key={index}
-                              src={img}
-                              alt={`${product.title} ${index + 1}`}
-                              className="product-image"
-                            />
-                          ))}
-                      </div>
-                    </td>
+                filteredProducts.map((product, index) => {
+                  const hasVariants = product.variants && product.variants.length > 0;
+                  const firstVariant = hasVariants ? product.variants[0] : null;
+                  const price = hasVariants ? parseFloat(firstVariant.price) : parseFloat(product.price);
+                  const discount = hasVariants ? parseFloat(firstVariant.discount || 0) : parseFloat(product.discount || 0);
+                  const finalPrice = (price - (price * discount) / 100).toFixed(2);
+                  const size = hasVariants ? firstVariant.size || "-" : "-";
 
-                    <td>{product.title.substring(0, 20)}...</td>
-                    <td className='price'>{product.discount > 0 && <p className="old-price">{product.price}₼</p>}
-                      <p className="current-price">
-                        {(product.price - (product.price * product.discount) / 100).toFixed(2)}₼
-                      </p></td>
-                    <td>{product.discount}%</td>
-                    <td>{product.category}</td>
-                    <td>
-                      {product.gender
-                        ? product.gender === "male"
-                          ? "Kişi"
-                          : product.gender === "female"
-                            ? "Qadın"
-                            : "Unisex"
-                        : ""}
-                    </td>
-                    <td>{product.composition ? product.composition : " "}</td>
-                    <td>{product.rating}</td>
-                    <td>{product.count}</td>
-                    <td>{product.productCode}</td>
-                    <td>
-                      <div className="actions">
-                        <Link to={`/administrative/products/editproduct/${slugify(product.title, { lower: true })}`} className="edit-btn"><FiEdit /></Link>
-                        <button className="delete-btn" onClick={() => handleDeleteProduct(product.id)}><IoTrashBin /></button>
-                      </div>
+                  return (
+                    <tr key={product.productCode}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <div className="image-container">
+                          {[product.image1, product.image2, product.image3]
+                            .filter(Boolean)
+                            .map((img, index) => (
+                              <img
+                                key={index}
+                                src={img}
+                                alt={`${product.title} ${index + 1}`}
+                                className="product-image"
+                              />
+                            ))}
+                        </div>
+                      </td>
 
-                    </td>
-                  </tr>
-                ))
+                      <td>{product.title.substring(0, 20)}...</td>
+                      <td className='price'>{discount > 0 && <p className="old-price">{price}₼</p>}
+                        <p className="current-price">
+                          {finalPrice}₼
+                        </p></td>
+                      <td>{discount}%</td>
+                      <td>{size}</td>
+                      <td>{product.category}</td>
+                      <td>
+                        {product.gender
+                          ? product.gender === "male"
+                            ? "Kişi"
+                            : product.gender === "female"
+                              ? "Qadın"
+                              : "Unisex"
+                          : ""}
+                      </td>
+                      <td>{product.composition ? product.composition : " "}</td>
+                      <td>{product.rating}</td>
+                      <td>{product.count}</td>
+                      <td>{product.productCode}</td>
+                      <td>
+                        <div className="actions">
+                          <Link to={`/administrative/products/editproduct/${slugify(product.title, { lower: true })}`} className="edit-btn"><FiEdit /></Link>
+                          <button className="delete-btn" onClick={() => handleDeleteProduct(product.id)}><IoTrashBin /></button>
+                        </div>
+
+                      </td>
+                    </tr>
+                  );
+                })
 
               ) : (
-                currentProducts.map((product, index) => (
-                  <tr key={product.productCode}>
-                    <td>{(currentPage - 1) * 6 + index + 1}</td>
-                    <td>
-                      <div className="image-container">
-                        {[product.image1, product.image2, product.image3]
-                          .filter(Boolean)
-                          .map((img, index) => (
-                            <img
-                              key={index}
-                              src={img}
-                              alt={`${product.title} ${index + 1}`}
-                              className="product-image"
-                            />
-                          ))}
-                      </div>
-                    </td>
+                currentProducts.map((product, index) => {
+                  const hasVariants = product.variants && product.variants.length > 0;
+                  const firstVariant = hasVariants ? product.variants[0] : null;
+                  const price = hasVariants ? parseFloat(firstVariant.price) : parseFloat(product.price);
+                  const discount = hasVariants ? parseFloat(firstVariant.discount || 0) : parseFloat(product.discount || 0);
+                  const finalPrice = (price - (price * discount) / 100).toFixed(2);
+                  const size = hasVariants ? firstVariant.size || "-" : "-";
 
-                    <td>{product.title.substring(0, 20)}...</td>
-                    <td className='price'>{product.discount > 0 && <p className="old-price">{product.price}₼</p>}
-                      <p className="current-price">
-                        {(product.price - (product.price * product.discount) / 100).toFixed(2)}₼
-                      </p></td>
-                    <td>{product.discount}%</td>
-                    <td>{product.category}</td>
-                    <td>
-                      {product.gender
-                        ? product.gender === "male"
-                          ? "Kişi"
-                          : product.gender === "female"
-                            ? "Qadın"
-                            : "Unisex"
-                        : ""}
-                    </td>
-                    <td>{product.composition ? product.composition : " "}</td>
-                    <td>{product.rating}</td>
-                    <td>{product.count}</td>
-                    <td>{product.productCode}</td>
-                    <td>
-                      <div className="actions">
-                        <Link to={`/administrative/products/editproduct/${slugify(product.title, { lower: true })}`} className="edit-btn"><FiEdit /></Link>
-                        <button className="delete-btn" onClick={() => handleDeleteProduct(product.id)}><IoTrashBin /></button>
-                      </div>
+                  return (
+                    <tr key={product.productCode}>
+                      <td>{(currentPage - 1) * 6 + index + 1}</td>
+                      <td>
+                        <div className="image-container">
+                          {[product.image1, product.image2, product.image3]
+                            .filter(Boolean)
+                            .map((img, index) => (
+                              <img
+                                key={index}
+                                src={img}
+                                alt={`${product.title} ${index + 1}`}
+                                className="product-image"
+                              />
+                            ))}
+                        </div>
+                      </td>
 
-                    </td>
-                  </tr>
-                )))}
+                      <td>{product.title.substring(0, 20)}...</td>
+                      <td className='price'>{discount > 0 && <p className="old-price">{price}₼</p>}
+                        <p className="current-price">
+                          {finalPrice}₼
+                        </p></td>
+                      <td>{discount}%</td>
+                      <td>{size}</td>
+                      <td>{product.category}</td>
+                      <td>
+                        {product.gender
+                          ? product.gender === "male"
+                            ? "Kişi"
+                            : product.gender === "female"
+                              ? "Qadın"
+                              : "Unisex"
+                          : ""}
+                      </td>
+                      <td>{product.composition ? product.composition : " "}</td>
+                      <td>{product.rating}</td>
+                      <td>{product.count}</td>
+                      <td>{product.productCode}</td>
+                      <td>
+                        <div className="actions">
+                          <Link to={`/administrative/products/editproduct/${slugify(product.title, { lower: true })}`} className="edit-btn"><FiEdit /></Link>
+                          <button className="delete-btn" onClick={() => handleDeleteProduct(product.id)}><IoTrashBin /></button>
+                        </div>
+
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
       ))}
+
       {totalPages > 1 && filteredProducts.length !== 0 && (
         <div className="pagination">
           <button onClick={handlePrevPage} disabled={currentPage === 1}>
