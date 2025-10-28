@@ -54,7 +54,6 @@ const AdminNews = () => {
     Swal.fire({
       title: "Əminsiniz?",
       text: "Bu xəbəri sildikdən sonra geri qaytara bilməyəcəksiniz!",
-      icon: "question",
       showCancelButton: true,
       confirmButtonText: "Bəli, sil!",
       cancelButtonText: "Ləğv et",

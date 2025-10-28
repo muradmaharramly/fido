@@ -7,6 +7,7 @@ import slugify from "slugify";
 import { FaArrowLeft } from "react-icons/fa6";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
 import Products from "./Products";
+import { CgDanger } from "react-icons/cg";
 
 const CampaignDetails = () => {
     const { slug } = useParams();
@@ -29,7 +30,12 @@ const CampaignDetails = () => {
     }, [slug, campaigns]);
 
     if (loading) return <PreLoader />;
-    if (!campaign) return <p>Kampaniya tapılmadı!</p>;
+    if (!campaign) return <div className="item-not-found">
+            <div className="empty-icon"><CgDanger /></div>
+            <p>Kampaniya tapılmadı</p>
+            <span className="desc">Digər kampaniyalara baxmaq üçün kampaniyalar səhifəsinə keçid edə bilərsiniz.</span>
+            <Link to="/" className="back-home">Ana səhifə</Link>
+        </div>;
 
     const aylar = [
         "Yanvar",

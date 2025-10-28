@@ -100,7 +100,7 @@ const AdminProducts = () => {
           customClass: {
             popup: "custom-swal-popup",
             title: "custom-swal-title",
-            content: "custom-swal-text"
+            content: "custom-swal-text",
           }
         }).then(() => {
           window.location.reload();

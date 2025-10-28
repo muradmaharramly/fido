@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { fetchNews } from "../tools/request/fetchNews";
 import PreLoader from '../components/PreLoader';
 import slugify from 'slugify';
+import { CgDanger } from 'react-icons/cg';
 
 const NewsDetails = () => {
     const { slug } = useParams();
@@ -32,7 +33,12 @@ const NewsDetails = () => {
     }
 
     if (!singlenews) {
-        return <p>Xəbər tapılmadı</p>;
+        <div className="item-not-found">
+                <div className="empty-icon"><CgDanger /></div>
+                <p>Xəbər tapılmadı</p>
+                <span className="desc">Digər xəbərlərə baxmaq üçün xəbərlər səhifəsinə keçid edə bilərsiniz.</span>
+                <Link to="/news" className="back-home">Xəbərlər</Link>
+            </div>;
     }
     return (
         <div className='news-details-page'>

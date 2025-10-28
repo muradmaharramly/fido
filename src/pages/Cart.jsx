@@ -9,6 +9,7 @@ import slugify from "slugify";
 import { useSelector } from "react-redux";
 import ProductSliderRecomend from "../components/sliders/ProductSliderRecomend";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import Swal from "sweetalert2";
 
 const Cart = () => {
     const { products, loading } = useSelector((state) => state.products);
@@ -30,6 +31,7 @@ const Cart = () => {
             <Link to="/" className="back-home">Ana səhifə</Link>
         </div>
     );
+
     const totalDiscount = items.reduce((acc, item) => {
         const itemDiscount = (item.price * item.discount) / 100;
         return acc + itemDiscount * item.quantity;
@@ -37,9 +39,37 @@ const Cart = () => {
 
     const handleRemoveItem = (itemId) => {
         removeItem(itemId);
-
         localStorage.removeItem(`clicked-${itemId}`);
+    };
 
+    const handleIncrease = (item) => {
+        if (item.quantity < item.count) {
+            updateItemQuantity(item.id, item.quantity + 1);
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Diqqət!',
+                text: 'Məhsulun maksimal say limitinə çatmısınız',
+                confirmButtonText: "Aydındır",
+                confirmButtonColor: " #C51E85",
+                customClass: {
+                    popup: "custom-swal-popup",
+                    title: "custom-swal-title",
+                    content: "custom-swal-text",
+                    text: "custom-text",
+                    confirmButton: "custom-swal-confirm",
+                    icon: "custom-swal-icon"
+                }
+            });
+        }
+    };
+
+    const handleDecrease = (item) => {
+        if (item.quantity > 1) {
+            updateItemQuantity(item.id, item.quantity - 1);
+        } else {
+            removeItem(item.id);
+        }
     };
 
     return (
@@ -50,7 +80,7 @@ const Cart = () => {
                 <div className="cart-content">
                     <h2 className="cart-title dt">Səbətim</h2>
                     {items.map((item, index) => (
-                        <div className="cart-item">
+                        <div className="cart-item" key={item.id}>
                             <Link to={`/products/${slugify(item.title, { lower: true })}`}>
                                 <div className="cart-item-image">
                                     <img src={item.image1} alt={item.title} />
@@ -67,9 +97,19 @@ const Cart = () => {
                             </div>
                             <div className="cart-item-actions">
                                 <div className="quantity-items">
-                                    <button className="quantity-btn" onClick={() => updateItemQuantity(item.id, item.quantity - 1)}><FaMinus /></button>
+                                    <button
+                                        className="quantity-btn"
+                                        onClick={() => handleDecrease(item)}
+                                    >
+                                        <FaMinus />
+                                    </button>
                                     <span className="quantity">{item.quantity}</span>
-                                    <button className="quantity-btn" onClick={() => updateItemQuantity(item.id, item.quantity + 1)}><FaPlus /></button>
+                                    <button
+                                        className="quantity-btn"
+                                        onClick={() => handleIncrease(item)}
+                                    >
+                                        <FaPlus />
+                                    </button>
                                 </div>
                                 <button className="delete-btn" onClick={() => handleRemoveItem(item.id)}>
                                     <CgTrashEmpty />
@@ -83,7 +123,7 @@ const Cart = () => {
                     <h6>Ümumi baxış</h6>
                     <div className="item-div">
                         {items.map((item, index) => (
-                            <div className="item-elements">
+                            <div className="item-elements" key={item.id}>
                                 <div className="summary-item">
                                     <p>{item.title}</p>
                                     <div className="pricing">

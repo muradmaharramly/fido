@@ -21,7 +21,6 @@ const CheckoutPage = () => {
       return;
     }
 
-    // 🟢 Əvvəlcə təsdiq popup-u göstər
     const result = await Swal.fire({
       title: "Sifarişi WhatsApp üzərindən təsdiqləmək istəyirsiniz?",
       text: "Bu əməliyyatı təsdiqlədikdən sonra WhatsApp-a yönləndiriləcəksiniz.",

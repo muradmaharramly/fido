@@ -1478,6 +1478,115 @@ border-bottom: 2px solid $white;
   }
 }
 }
+.item-not-found{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 9.5%;
+    margin: 0 auto;
+    gap: 15px;
+    text-align: center;
+    background-color: $main-dark;
+    .empty-icon{
+      background-color: $box-dark;
+      padding: 15px 20px;
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+    svg{
+        font-size: 5em;
+        color: $red;
+      }
+    }
+    p{
+        color: $white;
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .desc{
+        font-weight: 500;
+        color: $white-2nd;
+        font-size: 12px;
+    }
+    .back-home{
+      text-decoration: none;
+      font-size: 12px;
+      color: #fff;
+      background-color: $red;
+      padding: 12px 22px;
+      border-radius: 25px;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
+      -ms-border-radius: 25px;
+      -o-border-radius: 25px;
+      transition: all .3s ease;
+      -webkit-transition: all .3s ease;
+      -moz-transition: all .3s ease;
+      -ms-transition: all .3s ease;
+      -o-transition: all .3s ease;
+      &:hover{
+        background-color: $red-hover;
+      }
+}
+  }
+  .custom-swal-popup {
+  background-color: $main-dark;
+  border-radius: 30px;
+  padding: 20px;
+  box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  color: $white-2nd;
+}
+
+.custom-swal-title {
+  font-size: 20px !important;
+  font-weight: bold !important;
+  color: $white !important;
+}
+.custom-swal-text{
+  color: $white-2nd;
+}
+
+.custom-swal-confirm {
+  background-color: $red !important;
+  color: $white !important;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: 0.3s;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  &:hover{
+      background-color: $red-hover !important;
+  }
+}
+
+.custom-swal-cancel {
+  background-color: $box-dark !important;
+  color: $white !important;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: 0.3s;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  &:hover{
+      background-color: $black !important;
+  }
+}
+
+.custom-swal-icon {
+  filter: invert(100%);
+}
 @media (max-width: 768px){
   .product-details-container{
       .overlay{

@@ -19,6 +19,7 @@ import { BiCommentDetail } from "react-icons/bi";
 import ProductSliderMain from "../components/sliders/ProductSliderMain";
 import ProductSliderSpesific from "../components/sliders/ProductSliderSpesific";
 import { useSelector } from "react-redux";
+import { CgDanger } from "react-icons/cg";
 
 function NextArrow(props) {
     const { className, onClick } = props;
@@ -72,7 +73,12 @@ function ProductDetails() {
     const { addWishlistItem, removeWishlistItem, inWishlist } = useWishlist();
 
     if (loading) return <PreLoader />;
-    if (!product) return <p className="not-found">Məhsul tapılmadı!</p>;
+    if (!product) return <div className="item-not-found">
+        <div className="empty-icon"><CgDanger /></div>
+        <p>Məhsul tapılmadı</p>
+        <span className="desc">Digər məhsullara baxmaq üçün məhsullar səhifəsinə keçid edə bilərsiniz.</span>
+        <Link to="/products" className="back-home">Məhsullar</Link>
+    </div>;
 
     const handleAddClick = () => {
         if (!selectedVariant || selectedVariant.stock === 0) return;
