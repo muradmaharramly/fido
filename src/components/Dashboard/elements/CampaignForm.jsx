@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { IoText } from 'react-icons/io5';
 import { LuLetterText, LuLink } from 'react-icons/lu';
 import { uploadImage } from "../../../services/supabaseClient";
+import { FiUploadCloud } from 'react-icons/fi';
 
 const CampaignForm = ({ existingCampaign, isEditMode }) => {
     const [title, setTitle] = useState('');
@@ -178,7 +179,7 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
                                 {image ? (
                                     <img src={image} alt="preview" className="preview-img" />
                                 ) : (
-                                    <span>Şəkil yüklə</span>
+                                    <span><FiUploadCloud /></span>
                                 )}
                             </label>
                         </div>

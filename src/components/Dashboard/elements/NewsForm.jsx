@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { IoText } from 'react-icons/io5';
 import { LuLetterText, LuLink } from 'react-icons/lu';
 import { GrFormView } from 'react-icons/gr';
+import { FiUploadCloud } from 'react-icons/fi';
 
 const categories = ["Xəbər", "Bloq", "Tanıtım"];
 
@@ -177,7 +178,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                                 {image ? (
                                     <img src={image} alt="preview" className="preview-img" />
                                 ) : (
-                                    <span>Şəkil yüklə</span>
+                                    <span><FiUploadCloud /></span>
                                 )}
                             </label>
                         </div>

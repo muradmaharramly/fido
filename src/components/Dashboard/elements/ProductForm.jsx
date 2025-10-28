@@ -8,6 +8,7 @@ import { TbDiscount, TbGridDots } from 'react-icons/tb';
 import { RiStockLine } from 'react-icons/ri';
 import { FaRegStar } from 'react-icons/fa';
 import { CgSize } from 'react-icons/cg';
+import { FiUploadCloud } from 'react-icons/fi';
 
 const categories = ["Parfum", "Aksesuar", "Case", "Çanta"];
 
@@ -153,7 +154,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                                 {image1 ? (
                                     <img src={image1} alt="preview" className="preview-img" />
                                 ) : (
-                                    <span>Şəkil yüklə</span>
+                                    <span><FiUploadCloud /></span>
                                 )}
                             </label>
                         </div>
@@ -171,7 +172,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                                 {image2 ? (
                                     <img src={image2} alt="preview" className="preview-img" />
                                 ) : (
-                                    <span>Şəkil yüklə</span>
+                                    <span><FiUploadCloud /></span>
                                 )}
                             </label>
                         </div>
@@ -189,7 +190,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                                 {image3 ? (
                                     <img src={image3} alt="preview" className="preview-img" />
                                 ) : (
-                                    <span>Şəkil yüklə</span>
+                                    <span><FiUploadCloud /></span>
                                 )}
                             </label>
                         </div>
