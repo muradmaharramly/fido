@@ -58,6 +58,7 @@
     font-size: 30px;
     margin-right: 45px;
     margin-top: 15px;
+    @include transition;
   }
   }
 }
@@ -65,6 +66,9 @@
 .custom-file-upload label:hover {
   border-color: #777;
   background-color: #f0f0f0;
+  svg{
+    margin-top: 10px;
+  }
 }
 
 .custom-file-upload .preview-img {
