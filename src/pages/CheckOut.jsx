@@ -17,29 +17,35 @@ const CheckoutPage = () => {
     }
 
     const totalWithDiscount = items.reduce((sum, item) => {
-      const discountedPrice = item.discount
-        ? item.price - (item.price * item.discount) / 100
-        : item.price;
-      return sum + discountedPrice * item.quantity;
+      const selectedVariant = item.variants?.[item.selectedVariantIndex] ?? null;
+      const price = Number(selectedVariant?.price ?? item.price ?? 0);
+      const discount = Number(selectedVariant?.discount ?? item.discount ?? 0);
+      const finalPrice = price - (price * discount) / 100;
+
+      return sum + finalPrice * item.quantity;
     }, 0);
 
     const message =
       "Yeni sifariş:\n\n" +
       items
         .map((item, index) => {
-          const discountedPrice = item.discount
-            ? (item.price - (item.price * item.discount) / 100).toFixed(2)
-            : item.price.toFixed(2);
+          const selectedVariant = item.variants?.[item.selectedVariantIndex] ?? null;
+          const price = Number(selectedVariant?.price ?? item.price ?? 0);
+          const discount = Number(selectedVariant?.discount ?? item.discount ?? 0);
+          const finalPrice = (price - (price * discount) / 100).toFixed(2);
+          const size = selectedVariant?.size ?? item.size ?? null;
 
-          const discountText = item.discount
-            ? `Endirim: ${item.discount}%\nƏsl qiymət: ${item.price} AZN\nEndirimli qiymət: ${discountedPrice} AZN\n`
-            : `Qiymət: ${item.price} AZN\n`;
+          const discountText = discount
+            ? `Endirim: ${discount}%\nƏsl qiymət: ${price} AZN\nEndirimli qiymət: ${finalPrice} AZN\n`
+            : `Qiymət: ${finalPrice} AZN\n`;
+
+          const sizeText = size ? `Ölçü: ${size}${item.category === "Parfum" ? " ml" : ""}\n` : "";
 
           return (
             `${index + 1}. ${item.title}\n` +
             discountText +
+            sizeText +
             `Say: ${item.quantity} ədəd\n` +
-            (item.image1 ? `Şəkil: ${item.image1}\n` : "") +
             `\n-----------------------\n`
           );
         })
