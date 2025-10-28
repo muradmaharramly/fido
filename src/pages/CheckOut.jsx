@@ -3,6 +3,7 @@ import { useCart } from "react-use-cart";
 import { Link, useNavigate } from "react-router-dom";
 import { RiArrowRightDoubleFill } from "react-icons/ri";
 import { FaWhatsapp } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const CheckoutPage = () => {
   const { items, emptyCart } = useCart();
@@ -10,12 +11,40 @@ const CheckoutPage = () => {
 
   const phoneNumber = "+994558759382";
 
-  const handleWhatsAppOrder = () => {
+  const handleWhatsAppOrder = async () => {
     if (items.length === 0) {
-      alert("Səbət boşdur!");
+      Swal.fire({
+        icon: "warning",
+        title: "Səbət boşdur!",
+        confirmButtonText: "Bağla",
+      });
       return;
     }
 
+    // 🟢 Əvvəlcə təsdiq popup-u göstər
+    const result = await Swal.fire({
+      title: "Sifarişi WhatsApp üzərindən təsdiqləmək istəyirsiniz?",
+      text: "Bu əməliyyatı təsdiqlədikdən sonra WhatsApp-a yönləndiriləcəksiniz.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Bəli, təsdiqlə",
+      cancelButtonText: "Xeyr, geri qayıt",
+      reverseButtons: true,
+      confirmButtonColor: "#25D366",
+      cancelButtonColor: "#d33",
+      customClass: {
+        popup: "custom-swal-popup",
+        title: "custom-swal-title",
+        content: "custom-swal-text",
+        confirmButton: "custom-swal-confirm",
+        cancelButton: "custom-swal-cancel",
+        icon: "custom-swal-icon"
+      }
+    });
+
+    if (!result.isConfirmed) return;
+
+    // 🧮 Hesablama
     const totalWithDiscount = items.reduce((sum, item) => {
       const selectedVariant = item.variants?.[item.selectedVariantIndex] ?? null;
       const price = Number(selectedVariant?.price ?? item.price ?? 0);
@@ -26,7 +55,7 @@ const CheckoutPage = () => {
     }, 0);
 
     const message =
-      "Yeni sifariş:\n\n" +
+      "🛍️ Yeni sifariş:\n\n" +
       items
         .map((item, index) => {
           const selectedVariant = item.variants?.[item.selectedVariantIndex] ?? null;
@@ -56,6 +85,7 @@ const CheckoutPage = () => {
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
 
+    // ✅ Yönləndirmə
     window.open(whatsappUrl, "_blank");
 
     emptyCart();

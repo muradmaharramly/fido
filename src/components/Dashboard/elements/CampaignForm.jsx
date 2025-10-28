@@ -39,20 +39,8 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
         try {
             const url = await uploadImage(file, "campaigns");
             setImage(url);
-            Swal.fire({
-                icon: "success",
-                title: "Şəkil yükləndi!",
-                timer: 1200,
-                showConfirmButton: false,
-                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
-            });
         } catch (error) {
             console.error("Image upload error:", error.message);
-            Swal.fire({
-                icon: "error",
-                title: "Xəta!",
-                text: error.message || "Şəkil yüklənmədi!",
-            });
         }
     };
 

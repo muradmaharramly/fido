@@ -82,21 +82,8 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
         try {
             const url = await uploadImage(file, 'news');
             setImageLink(url);
-            Swal.fire({
-                icon: 'success',
-                title: 'Şəkil yükləndi!',
-                showConfirmButton: false,
-                timer: 1200,
-                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
-            });
         } catch (error) {
             console.error('Upload error:', error.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Xəta!',
-                text: 'Şəkil yüklənərkən problem baş verdi',
-                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
-            });
         } finally {
             setIsUploading(false);
         }

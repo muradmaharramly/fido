@@ -31,29 +31,21 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const [ratingError, setRatingError] = useState('');
     const [imageError, setImageError] = useState('');
     const [countError, setCountError] = useState('');
+    const [priceError, setPriceError] = useState('');
+    const [variantError, setVariantError] = useState('');
+    const [discountError, setDiscountError] = useState('');
     const [variants, setVariants] = useState([{ size: '', price: '', discount: '' }]);
     const navigate = useNavigate();
 
     const handleImageUpload = async (file, setImage) => {
-            try {
-                const url = await uploadImage(file, "products");
-                setImage(url);
-                Swal.fire({
-                    icon: "success",
-                    title: "Şəkil yükləndi!",
-                    timer: 1200,
-                    showConfirmButton: false,
-                    customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
-                });
-            } catch (error) {
-                console.error("Image upload error:", error.message);
-                Swal.fire({
-                    icon: "error",
-                    title: "Xəta!",
-                    text: error.message || "Şəkil yüklənmədi!",
-                });
-            }
-        };
+        try {
+            const url = await uploadImage(file, "products");
+            setImage(url);
+
+        } catch (error) {
+            console.error("Image upload error:", error.message);
+        }
+    };
 
     useEffect(() => {
         if (isEditMode && existingProduct) {
@@ -90,13 +82,66 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
         setCountError('');
         setCategoryError('');
         setPackagingError('');
+        setPriceError('');
+        setVariantError('');
 
         if (!title.trim()) { setTitleError('Başlıq boş ola bilməz'); isValid = false; }
         if (!description.trim()) { setDescriptionError('Açıqlama boş ola bilməz'); isValid = false; }
         if (!category) { setCategoryError('Kateqoriya seçin'); isValid = false; }
         if (!packaging) { setPackagingError('Cavab seçin'); isValid = false; }
-        if (!rating) { setRatingError("Reytinq boş ola bilməz"); isValid = false; }
-        if (count && isNaN(count)) { setCountError('Stok sayı yalnız rəqəm olmalıdır'); isValid = false; }
+        if (!rating) {
+            setRatingError("Reytinq boş ola bilməz");
+            isValid = false;
+        } else if (!/^(?:[0-4](?:\.[1-9])?|5|0\.[1-9])$/.test(rating)) {
+            setRatingError("Reytinq yalnız 0.1 - 5 arası, bir onluq hissəli rəqəm ola bilər (məs: 3.5)");
+            isValid = false;
+        }
+
+        if (count === "" || count === null || count === undefined) {
+            setCountError("Stok sayı boş ola bilməz");
+            isValid = false;
+        } else if (isNaN(count)) {
+            setCountError("Stok sayı yalnız rəqəm olmalıdır");
+            isValid = false;
+        } else if (!Number.isInteger(Number(count))) {
+            setCountError("Stok sayı yalnız tam ədəd olmalıdır");
+            isValid = false;
+        } else if (Number(count) < 0) {
+            setCountError("Stok sayı mənfi ola bilməz");
+            isValid = false;
+        }
+        if (!variants || variants.length === 0) {
+            setVariantError("Ən azı bir variant əlavə olunmalıdır");
+            isValid = false;
+        } else {
+            variants.forEach((variant, index) => {
+                if (
+                    variant.price === "" ||
+                    variant.price === null ||
+                    variant.price === undefined
+                ) {
+                    setPriceError(`Qiymət boş ola bilməz`);
+                    isValid = false;
+                } else if (isNaN(variant.price)) {
+                    setPriceError(`Qiymət yalnız rəqəm olmalıdır`);
+                    isValid = false;
+                } else if (Number(variant.price) <= 0) {
+                    setPriceError(`Qiymət 0 və ya mənfi ola bilməz`);
+                    isValid = false;
+                }
+                if (variant.discount !== "" && variant.discount !== null && variant.discount !== undefined) {
+                    if (isNaN(variant.discount)) {
+                        setDiscountError(`Endirim yalnız rəqəm ola bilər`);
+                        isValid = false;
+                    } else if (Number(variant.discount) < 0 || Number(variant.discount) > 100) {
+                        setDiscountError(`Endirim 0-100 aralığında olmalıdır`);
+                        isValid = false;
+                    }
+                }
+            });
+        }
+
+
 
         return isValid;
     };
@@ -261,6 +306,8 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
 
                 {variants.map((v, i) => (
                     <div key={i} className='form-triple'>
+                        {variantError && <span className="error-message">{variantError}</span>}
+
                         <div className='form-group'>
                             <label>Ölçü</label>
                             <input
@@ -279,6 +326,7 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                                 onChange={(e) => handleVariantChange(i, 'price', e.target.value)}
                             />
                             <BiDollar />
+                            {priceError && <span className="error-message">{priceError}</span>}
                         </div>
 
                         <div className='form-group'>
@@ -289,15 +337,18 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                                 onChange={(e) => handleVariantChange(i, 'discount', e.target.value)}
                             />
                             <TbDiscount />
+                            {discountError && <span className="error-message">{discountError}</span>}
                         </div>
 
-                        <button
-                            type="button"
-                            className="remove-variant"
-                            onClick={() => removeVariant(i)}
-                        >
-                            Sil
-                        </button>
+                        {i !== 0 && (
+                            <button
+                                type="button"
+                                className="remove-variant"
+                                onClick={() => removeVariant(i)}
+                            >
+                                Sil
+                            </button>
+                        )}
                     </div>
                 ))}
 
@@ -311,7 +362,6 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                     <button type="button" className="cancel-btn" onClick={handleCancel}>Ləğv et</button>
                     <button type="submit" className="submit-btn">{isEditMode ? 'Yenilə' : 'Göndər'}</button>
                 </div>
-                ...
             </form>
         </div>
     );
