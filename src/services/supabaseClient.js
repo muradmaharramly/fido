@@ -6,17 +6,32 @@ const SUPABASE_ANON_KEY =
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-export const uploadImage = async (file, folder = "products") => {
-  const fileName = `${Date.now()}_${file.name}`;
-  const { data, error } = await supabase.storage
-    .from(folder)
-    .upload(`images/${fileName}`, file);
+const sanitizeFileName = (name) => {
+  return name
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "") 
+    .replace(/\s+/g, "_")
+    .replace(/[^a-zA-Z0-9_.-]/g, ""); 
+};
 
-  if (error) throw error;
+export const uploadImage = async (file, folder = "products") => {
+  if (!file) throw new Error("Fayl seçilməyib!");
+
+  const fileName = `${Date.now()}_${sanitizeFileName(file.name)}`;
+  const filePath = `images/${fileName}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from(folder)
+    .upload(filePath, file, { upsert: false });
+
+  if (uploadError) {
+    console.error("Yükləmə xətası:", uploadError.message);
+    throw uploadError;
+  }
 
   const { data: publicUrlData } = supabase.storage
     .from(folder)
-    .getPublicUrl(`images/${fileName}`);
+    .getPublicUrl(filePath);
 
-  return publicUrlData.publicUrl;
+  return publicUrlData?.publicUrl || null;
 };

@@ -151,10 +151,11 @@ function ProductCard({ product }) {
                             className="variant active"
                             disabled={variants[0].stock === 0}
                         >
-                            {variants[0].size} ml {variants[0].stock === 0 ? "(Stokda yoxdur)" : ""}
+                            {variants[0].size} {product.category === "Parfum" ? "ml" : ""} {variants[0].stock === 0 ? "(Stokda yoxdur)" : ""}
                         </button>
                     )}
                 </div>
+
 
             </Link>
 

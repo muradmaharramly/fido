@@ -94,25 +94,25 @@ function ProductDetails() {
     };
 
     const handleWishClick = () => {
-    const variantId = selectedVariant
-        ? `${product.id}-${selectedVariant.size}`
-        : product.id;
+        const variantId = selectedVariant
+            ? `${product.id}-${selectedVariant.size}`
+            : product.id;
 
-    const itemToAdd = {
-        ...product,
-        selectedVariant,
-        id: variantId,
-        price: selectedVariant?.price || product.price,
-        discount: selectedVariant?.discount || product.discount,
-        size: selectedVariant?.size || null,
+        const itemToAdd = {
+            ...product,
+            selectedVariant,
+            id: variantId,
+            price: selectedVariant?.price || product.price,
+            discount: selectedVariant?.discount || product.discount,
+            size: selectedVariant?.size || null,
+        };
+
+        if (inWishlist(variantId)) {
+            removeWishlistItem(variantId);
+        } else {
+            addWishlistItem(itemToAdd);
+        }
     };
-
-    if (inWishlist(variantId)) {
-        removeWishlistItem(variantId);
-    } else {
-        addWishlistItem(itemToAdd);
-    }
-};
 
 
     const images = [product.image1, product.image2, product.image3].filter(Boolean);
@@ -204,19 +204,22 @@ function ProductDetails() {
                     </div>
                     <h1>{product.title}</h1>
                     {product.description && <p className="description">{product.description}</p>}
-                    <div className="variants-selection">
-                        {variants.map((v, i) => (
-                            <button
-                                key={i}
-                                type="button"
-                                className={i === selectedVariantIndex ? "variant active" : "variant"}
-                                onClick={() => setSelectedVariantIndex(i)}
-                                disabled={v.stock === 0}
-                            >
-                                {v.size} ml {v.stock === 0 ? "(Stokda yoxdur)" : ""}
-                            </button>
-                        ))}
-                    </div>
+                    {variants.some(v => v.size) && (
+                        <div className="variants-selection">
+                            <p className="size-title">Ölçü:</p>
+                            {variants.map((v, i) => (
+                                <button
+                                    key={i}
+                                    type="button"
+                                    className={i === selectedVariantIndex ? "variant active" : "variant"}
+                                    onClick={() => setSelectedVariantIndex(i)}
+                                    disabled={v.stock === 0}
+                                >
+                                    {v.size} {product.category === "Parfum" ? "ml" : ""} {v.stock === 0 ? "(Stokda yoxdur)" : ""}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                     <div className="price">
                         {selectedVariant.discount > 0 && (
                             <p className="old-price">{selectedVariant.price}₼</p>
@@ -267,7 +270,7 @@ function ProductDetails() {
 
                     </div>
 
-                    {product.count && (
+                    {product.count > 0 && (
                         <div className="buy-together">
 
                             {products.filter(item => item.id !== product.id && item.category == product.category && item.price < product.price).slice(0, 3).map((buyTogether) => (

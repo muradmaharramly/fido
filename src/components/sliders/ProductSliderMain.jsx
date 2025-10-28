@@ -8,20 +8,18 @@ import ProductCard from "../PorductCard";
 function NextArrow(props) {
     const { className, onClick } = props;
     return (
-        <div
-            className={`${className} custom-arrow next`}
-            onClick={onClick}
-        ><IoIosArrowForward /></div>
+        <div className={`${className} custom-arrow next`} onClick={onClick}>
+            <IoIosArrowForward />
+        </div>
     );
 }
 
 function PrevArrow(props) {
     const { className, onClick } = props;
     return (
-        <div
-            className={`${className} custom-arrow prev`}
-            onClick={onClick}
-        ><IoIosArrowBack /></div>
+        <div className={`${className} custom-arrow prev`} onClick={onClick}>
+            <IoIosArrowBack />
+        </div>
     );
 }
 
@@ -29,20 +27,22 @@ function ProductSliderMain({ currentProduct }) {
     const [recentProducts, setRecentProducts] = useState([]);
 
     useEffect(() => {
-        if (currentProduct) {
-            let viewedProducts = JSON.parse(localStorage.getItem("viewedProducts")) || [];
+        if (!currentProduct) return;
 
-            viewedProducts = viewedProducts.filter((p) => p.id !== currentProduct.id);
-            viewedProducts.unshift({ id: currentProduct.id, title: currentProduct.title, image1: currentProduct.image1, price: currentProduct.price, discount: currentProduct.discount, rating: currentProduct.rating, reviewCount: currentProduct.reviewCount, category: currentProduct.category, productCode: currentProduct.productCode, count: currentProduct.count });
+        let viewedProducts = JSON.parse(localStorage.getItem("viewedProducts")) || [];
 
-            if (viewedProducts.length > 10) {
-                viewedProducts.pop();
-            }
+        // Eyni məhsulu sil və yenisini qabağa qoy
+        viewedProducts = viewedProducts.filter(p => p.id !== currentProduct.id);
+        viewedProducts.unshift({
+            ...currentProduct,
+            selectedVariantIndex: 0 // əgər variants varsa default seçilmiş index
+        });
 
-            localStorage.setItem("viewedProducts", JSON.stringify(viewedProducts));
+        // 10 məhsul saxla
+        if (viewedProducts.length > 10) viewedProducts = viewedProducts.slice(0, 10);
 
-            setRecentProducts(viewedProducts);
-        }
+        localStorage.setItem("viewedProducts", JSON.stringify(viewedProducts));
+        setRecentProducts(viewedProducts);
     }, [currentProduct]);
 
     const settings = {
@@ -55,40 +55,43 @@ function ProductSliderMain({ currentProduct }) {
         autoplaySpeed: 3000,
         cssEase: "linear",
         responsive: [
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 3,
-                },
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 2,
-                },
-            },
+            { breakpoint: 768, settings: { slidesToShow: 3 } },
+            { breakpoint: 576, settings: { slidesToShow: 2 } },
         ],
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />
     };
 
+    // Variant və ya əsas qiymətə uyğun qiyməti qaytaran funksiya
+    const getDisplayPrice = (product) => {
+        const selectedVariant = product.variants?.[product.selectedVariantIndex] ?? null;
+        const price = Number(selectedVariant?.price ?? product.price ?? 0);
+        const discount = Number(selectedVariant?.discount ?? product.discount ?? 0);
+        return (price - (price * discount) / 100).toFixed(2);
+    };
+
     return (
         <div>
-        {recentProducts.length > 1 && (
-        <div className="also-like-con">
-            <div className="area-head">
-                <p>Ən son baxdıqlarınız</p>
-                <h3>Bu məhsullara yenidən göz at!</h3>
-            </div>
-            <div className="slider-container">
-                <Slider {...settings}>
-                    {recentProducts.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                </Slider>
-            </div>
-        </div>
-        )}
+            {recentProducts.length > 1 && (
+                <div className="also-like-con">
+                    <div className="area-head">
+                        <p>Ən son baxdıqlarınız</p>
+                        <h3>Bu məhsullara yenidən göz at!</h3>
+                    </div>
+                    <div className="slider-container">
+                        <Slider {...settings}>
+                            {recentProducts.map(product => (
+                                <div key={product.id}>
+                                    <ProductCard
+                                        product={product}
+                                        displayPrice={getDisplayPrice(product)}
+                                    />
+                                </div>
+                            ))}
+                        </Slider>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

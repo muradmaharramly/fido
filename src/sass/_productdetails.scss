@@ -303,6 +303,10 @@
                 align-items: center;
                 gap: 5px;
                 margin: 10px 0;
+                .size-title{
+                   color: $black;
+                   font-size: 16px;
+                }
                 button{
                     font-weight: 600;
                     color: $black;

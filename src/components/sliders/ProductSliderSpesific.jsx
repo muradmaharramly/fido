@@ -32,7 +32,7 @@ function ProductSliderSpesific({ products, product }) {
     const settings = {
         dots: false,
         infinite: true,
-        slidesToShow: filteredSliderProducts.length > 4,
+        slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,
         speed: 500,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../../services/supabaseClient';
+import { supabase, uploadImage } from '../../../services/supabaseClient';
 import Swal from 'sweetalert2';
 import { IoText } from 'react-icons/io5';
 import { BiDollar } from 'react-icons/bi';
@@ -34,35 +34,25 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const navigate = useNavigate();
 
     const handleImageUpload = async (file, setImage) => {
-        if (!file) return;
-
-        try {
-            const fileName = `${Date.now()}_${file.name}`;
-            const { data, error } = await supabase.storage
-                .from('products')
-                .upload(`images/${fileName}`, file, { upsert: true });
-
-            if (error) throw error;
-
-            const { data: publicUrlData } = supabase.storage
-                .from('products')
-                .getPublicUrl(`images/${fileName}`);
-
-            setImage(publicUrlData.publicUrl);
-        } catch (err) {
-            console.error('Image upload error:', err.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Xəta!',
-                text: 'Şəkil yüklənərkən problem baş verdi!',
-                customClass: {
-                    popup: "custom-swal-popup",
-                    title: "custom-swal-title",
-                    content: "custom-swal-text"
-                }
-            });
-        }
-    };
+            try {
+                const url = await uploadImage(file, "products");
+                setImage(url);
+                Swal.fire({
+                    icon: "success",
+                    title: "Şəkil yükləndi!",
+                    timer: 1200,
+                    showConfirmButton: false,
+                    customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
+                });
+            } catch (error) {
+                console.error("Image upload error:", error.message);
+                Swal.fire({
+                    icon: "error",
+                    title: "Xəta!",
+                    text: error.message || "Şəkil yüklənmədi!",
+                });
+            }
+        };
 
     useEffect(() => {
         if (isEditMode && existingProduct) {

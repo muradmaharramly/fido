@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../../services/supabaseClient';
+import { supabase, uploadImage } from '../../../services/supabaseClient';
 import Swal from 'sweetalert2';
 import { IoText } from 'react-icons/io5';
 import { LuLetterText, LuLink } from 'react-icons/lu';
@@ -15,6 +15,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
     const [image, setImageLink] = useState('');
     const [viewCount, setViewCount] = useState('');
     const [errors, setErrors] = useState({});
+    const [isUploading, setIsUploading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,7 +31,6 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
     const validateForm = async () => {
         const newErrors = {};
         let isValid = true;
-
         setErrors({});
 
         if (!title.trim()) {
@@ -46,11 +46,6 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                     icon: 'error',
                     title: 'Xəta!',
                     text: 'Bu xəbər artıq mövcuddur!',
-                    customClass: {
-                        popup: "custom-swal-popup",
-                        title: "custom-swal-title",
-                        content: "custom-swal-text"
-                    }
                 });
                 isValid = false;
             }
@@ -62,10 +57,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
         }
 
         if (!image.trim()) {
-            newErrors.image = 'Şəkil linki boş ola bilməz';
-            isValid = false;
-        } else if (!/^https?:\/\//.test(image)) {
-            newErrors.image = 'Şəkil linki "http" və ya "https" ilə başlamalıdır';
+            newErrors.image = 'Şəkil yüklənməyib';
             isValid = false;
         }
 
@@ -80,6 +72,33 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
 
         setErrors(newErrors);
         return isValid;
+    };
+
+    const handleImageUpload = async (file) => {
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const url = await uploadImage(file, 'news');
+            setImageLink(url);
+            Swal.fire({
+                icon: 'success',
+                title: 'Şəkil yükləndi!',
+                showConfirmButton: false,
+                timer: 1200,
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
+            });
+        } catch (error) {
+            console.error('Upload error:', error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Xəta!',
+                text: 'Şəkil yüklənərkən problem baş verdi',
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
+            });
+        } finally {
+            setIsUploading(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -117,11 +136,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                 icon: 'success',
                 showConfirmButton: false,
                 timer: 1500,
-                customClass: {
-                    popup: "custom-swal-popup",
-                    title: "custom-swal-title",
-                    content: "custom-swal-text"
-                }
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             }).then(() => {
                 navigate('/administrative/news');
             });
@@ -130,11 +145,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                 icon: 'error',
                 title: 'Xəta!',
                 text: result.message || 'Naməlum xəta baş verdi',
-                customClass: {
-                    popup: "custom-swal-popup",
-                    title: "custom-swal-title",
-                    content: "custom-swal-text"
-                }
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             });
         }
     };
@@ -153,13 +164,27 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                         {errors.title && <span className="error-message">{errors.title}</span>}
                         <IoText />
                     </div>
+
                     <div className="form-group">
-                        <label>Şəkil linki</label>
-                        <input type="text" value={image} onChange={(e) => setImageLink(e.target.value)} />
+                        <label>Şəkil yüklə</label>
+                        <div className="custom-file-upload">
+                            <input
+                                type="file"
+                                id="file3"
+                                onChange={(e) => handleImageUpload(e.target.files[0], setImageLink)}
+                            />
+                            <label htmlFor="file3">
+                                {image ? (
+                                    <img src={image} alt="preview" className="preview-img" />
+                                ) : (
+                                    <span>Şəkil yüklə</span>
+                                )}
+                            </label>
+                        </div>
                         {errors.image && <span className="error-message">{errors.image}</span>}
-                        <LuLink />
                     </div>
                 </div>
+
                 <div className="form-double">
                     <div className="form-group">
                         <label>Kateqoriya</label>
@@ -171,6 +196,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                         </select>
                         {errors.category && <span className="error-message">{errors.category}</span>}
                     </div>
+
                     <div className="form-group">
                         <label>Baxış sayı</label>
                         <input
@@ -182,6 +208,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                         <GrFormView />
                     </div>
                 </div>
+
                 <div className="form-first">
                     <div className="form-group">
                         <label>Açıqlama</label>
@@ -189,6 +216,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                         <LuLetterText />
                     </div>
                 </div>
+
                 <div className="btns">
                     <button type="button" className="cancel-btn" onClick={handleCancel}>
                         Ləğv et
