@@ -819,6 +819,10 @@
 .video.roll-area,
 .news.roll-area{
     background-color: $main-dark;
+    .mobile-href-btn{
+      background-color: $red;
+      color: $white;
+    }
     .area-head{
         p{
             color: $white-2nd;
