@@ -203,7 +203,7 @@ function ProductDetails() {
                             {copied && (
                                 <span className="copy-span"
                                 >
-                                    Kod kopyalandı!
+                                    Kopyalandı!
                                 </span>
                             )}
                         </div>

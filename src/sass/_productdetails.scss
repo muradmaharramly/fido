@@ -38,8 +38,7 @@
         flex-wrap: wrap;
         gap: 10px;
         padding: 20px 0;
-        padding-bottom: 120px;
-        border-bottom: 1px solid #dddddd6c;
+        padding-bottom: 60px;
         .mobile-back{
             display: none;
         }
@@ -128,6 +127,8 @@
                 overflow: hidden;
                 position: relative;
                 padding: 15px;
+                position: relative;
+                overflow: hidden;
                 img{
                     width:530px;
                     max-width: 100%;
@@ -248,7 +249,7 @@
             }
             .copy-span{
             position: absolute;
-    top: 100%;
+    top: -28px;
     left: 0;
     margin-top: 4px;
     font-size: 13px;
@@ -673,10 +674,11 @@
         }
     }
     .also-like-con{
-        margin-top: 50px;
+        padding: 10px 0px;
         display: flex;
         flex-direction: column;
         gap: 20px;
+        border-top: 1px solid $border-light;
         .area-head{
             display: flex;
             flex-direction: column;

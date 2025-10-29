@@ -31,14 +31,12 @@ function ProductSliderMain({ currentProduct }) {
 
         let viewedProducts = JSON.parse(localStorage.getItem("viewedProducts")) || [];
 
-        // Eyni məhsulu sil və yenisini qabağa qoy
         viewedProducts = viewedProducts.filter(p => p.id !== currentProduct.id);
         viewedProducts.unshift({
             ...currentProduct,
-            selectedVariantIndex: 0 // əgər variants varsa default seçilmiş index
+            selectedVariantIndex: 0 
         });
 
-        // 10 məhsul saxla
         if (viewedProducts.length > 10) viewedProducts = viewedProducts.slice(0, 10);
 
         localStorage.setItem("viewedProducts", JSON.stringify(viewedProducts));

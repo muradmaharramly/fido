@@ -962,19 +962,27 @@ border-bottom: 2px solid $white;
       color: $white;
   }
   .also-like-con{
-    p{
-      color: $white-2nd;
-    }
-    h3{
-      color: $white;
-    }
-    .custom-arrow {
-      background-color: $box-dark;
-      &:hover{
-        background-color: $box-hover-dark;
+    .area-head{
+      p{
+          color: $white-2nd;
+      }
+      h3{
+        color: $white;
       }
     }
+    .custom-arrow {
+         background-color: $box-dark;
+         svg{
+          background-color: $box-dark;
+         }
+      &:hover{
+        background-color: $box-hover-dark;
+        svg{
+                    background-color: $box-hover-dark;
+                }
+      }
   }
+}
   .cart-title{
     color: $white;
       a{
@@ -1029,7 +1037,7 @@ border-bottom: 2px solid $white;
     
         .item-div{
           .item-elements{
-              border-top: 1px solid #888;
+              border-top: 1px solid $border-dark;
               .summary-item {
                   p{
                     color: $white;
@@ -1456,6 +1464,7 @@ border-bottom: 2px solid $white;
       }
   }
   .also-like-con{
+    border-color: $border-dark;
     .area-head{
       p{
           color: $white-2nd;
