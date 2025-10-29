@@ -13,7 +13,7 @@ import { fetchProducts } from "../tools/request/fetchProducts";
 import slugify from "slugify";
 import { GoHistory } from "react-icons/go";
 import { fetchCampaigns } from "../tools/request/fetchCampaigns";
-import { FaRegHeart, FaTelegramPlane } from "react-icons/fa";
+import { FaRegHeart, FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { FaInstagram, FaTiktok } from "react-icons/fa6";
 
@@ -456,7 +456,7 @@ const Header = () => {
                     )}
 
                 </div>
-
+                <Link className="nav-contact"><div className="icon"><FaWhatsapp /></div> +994 55 875 93 82</Link>
                 <div className="actions">
                     <NavLink to="/wishlist">
                         <Badge count={totalWishlistItems} className="custom-badge" showZero>
