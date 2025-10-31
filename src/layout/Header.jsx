@@ -70,17 +70,35 @@ const Header = () => {
     }, [products, loading, error]);
 
     useEffect(() => {
-        if (searchTerm) {
-            const filtered = products.filter(
-                (product) =>
-                    product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    product.category.toLowerCase().includes(searchTerm.toLowerCase())
+    if (searchTerm) {
+        const lowerSearch = searchTerm.toLowerCase();
+
+        const filtered = products.filter((product) => {
+            const title = product.title?.toLowerCase() || "";
+            const category = product.category?.toLowerCase() || "";
+            const code = product.productCode ? String(product.productCode).toLowerCase() : "";
+
+            const variantPrices = product.variants
+                ? product.variants.some((v) =>
+                    String(v.price).toLowerCase().includes(lowerSearch)
+                  )
+                : false;
+
+            return (
+                title.includes(lowerSearch) ||
+                category.includes(lowerSearch) ||
+                code.includes(lowerSearch) ||
+                variantPrices
             );
-            setFilteredProducts(filtered);
-        } else {
-            setFilteredProducts([]);
-        }
-    }, [searchTerm, products]);
+        });
+
+        setFilteredProducts(filtered);
+    } else {
+        setFilteredProducts([]);
+    }
+}, [searchTerm, products]);
+
+
 
     useEffect(() => {
         if (searchTerm) {
@@ -155,7 +173,7 @@ const Header = () => {
         if (inputRef.current) setSearchTerm("");
     };
 
-     useEffect(() => {
+    useEffect(() => {
         const handleClickOutside = (event) => {
             if (
                 inputRef.current &&
