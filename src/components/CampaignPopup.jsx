@@ -10,7 +10,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 const CampaignPopup = () => {
     const { campaigns, loading, error } = useSelector((state) => state.campaigns);
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
         const hasSeenPopup = localStorage.getItem("hasSeenPromoPopup");
@@ -19,7 +19,7 @@ const CampaignPopup = () => {
 
         if (!hasSeenPopup || (lastSeenTime && currentTime - lastSeenTime > 24 * 60 * 60 * 1000)) {
             setIsVisible(true);
-            localStorage.setItem("hasSeenPromoPopup", "true");
+            localStorage.setItem("hasSeenPromoPopup", "false");
             localStorage.setItem("promoPopupLastSeen", currentTime.toString());
         }
     }, []);
