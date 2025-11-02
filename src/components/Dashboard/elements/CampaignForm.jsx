@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../services/supabaseClient';
 import Swal from 'sweetalert2';
 import { IoText } from 'react-icons/io5';
-import { LuLetterText, LuLink } from 'react-icons/lu';
+import { LuLetterText } from 'react-icons/lu';
 import { uploadImage } from "../../../services/supabaseClient";
 import { FiUploadCloud } from 'react-icons/fi';
 
@@ -14,11 +14,9 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
     const [endDate, setEndDate] = useState('');
     const [image, setImageLink] = useState('');
     const [status, setStatus] = useState(true);
-    const [titleError, setTitleError] = useState('');
-    const [imageError, setImageError] = useState('');
-    const [statusError, setStatusError] = useState('');
-    const [startDateError, setStartDateError] = useState('');
-    const [endDateError, setEndDateError] = useState('');
+    const [errors, setErrors] = useState({});
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [imageLoaded, setImageLoaded] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,78 +27,73 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
             setStartDate(existingCampaign.startDate ? existingCampaign.startDate.split('T')[0] : '');
             setEndDate(existingCampaign.endDate ? existingCampaign.endDate.split('T')[0] : '');
             setStatus(existingCampaign.status);
+            setImageLoaded(true); // edit rejimində şəkil dərhal görünür
         }
     }, [isEditMode, existingCampaign]);
 
-
-
-
-    const handleImageUpload = async (file, setImage) => {
+    const handleImageUpload = async (file) => {
         try {
+            setImageLink(null);
+            setUploadProgress(0);
+            setImageLoaded(false);
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                setUploadProgress(progress);
+                if (progress >= 100) clearInterval(interval);
+            }, 30);
+
             const url = await uploadImage(file, "campaigns");
-            setImage(url);
+            setImageLink(url);
+
+            const img = new Image();
+            img.src = url;
+            img.onload = () => {
+                setImageLoaded(true);
+            };
         } catch (error) {
             console.error("Image upload error:", error.message);
+            setUploadProgress(0);
         }
     };
 
-
     const validateForm = async () => {
         let isValid = true;
-        setTitleError('');
-        setImageError('');
-        setStatusError('');
-        setStartDateError('');
-        setEndDateError('');
-
-        if (!isEditMode) {
-            const { data: existingCampaigns } = await supabase
-                .from('campaigns')
-                .select('title')
-                .eq('title', title);
-
-            if (existingCampaigns && existingCampaigns.length > 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Xəta!',
-                    text: 'Bu kampaniya artıq mövcuddur!',
-                    customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
-                });
-                return false;
-            }
-        }
+        const newErrors = {};
 
         if (!title.trim()) {
-            setTitleError('Başlıq boş ola bilməz');
+            newErrors.title = 'Başlıq boş ola bilməz';
             isValid = false;
         }
 
         if (!image.trim()) {
-            setImageError('Şəkil boş ola bilməz');
+            newErrors.image = 'Şəkil boş ola bilməz';
             isValid = false;
         }
 
         if (!startDate.trim()) {
-            setStartDateError('Başlama tarixi boş ola bilməz');
+            newErrors.startDate = 'Başlama tarixi boş ola bilməz';
             isValid = false;
         }
 
         if (!endDate.trim()) {
-            setEndDateError('Bitmə tarixi boş ola bilməz');
+            newErrors.endDate = 'Bitmə tarixi boş ola bilməz';
             isValid = false;
         }
 
         const currentDate = new Date().toISOString().split('T')[0];
-        if (status === 'TRUE' && endDate < currentDate) {
-            setStatusError('Aktiv status üçün bitmə tarixi gələcək olmalıdır');
+        if (status && endDate < currentDate) {
+            newErrors.status = 'Aktiv status üçün bitmə tarixi gələcək olmalıdır';
             isValid = false;
         }
 
         if (startDate && endDate && startDate > endDate) {
-            setStatusError('Başlama tarixi bitmə tarixindən əvvəl olmalıdır');
+            newErrors.status = 'Başlama tarixi bitmə tarixindən əvvəl olmalıdır';
             isValid = false;
         }
 
+        setErrors(newErrors);
         return isValid;
     };
 
@@ -110,13 +103,10 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
         if (!valid) return;
 
         const campaignData = { title, description, image, status, startDate, endDate };
-
         let result;
+
         if (isEditMode) {
-            const { error } = await supabase
-                .from('campaigns')
-                .update(campaignData)
-                .eq('id', existingCampaign.id);
+            const { error } = await supabase.from('campaigns').update(campaignData).eq('id', existingCampaign.id);
             result = error ? { success: false, message: error.message } : { success: true };
         } else {
             const { error } = await supabase.from('campaigns').insert([campaignData]);
@@ -129,15 +119,13 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
                 text: 'Əməliyyat uğurla başa çatdı.',
                 icon: "success",
                 timer: 1500,
-                showConfirmButton: false,
-                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
+                showConfirmButton: false
             }).then(() => navigate('/administrative/campaigns'));
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Xəta!',
                 text: result.message,
-                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             });
         }
     };
@@ -151,7 +139,7 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
                     <div className="form-group">
                         <label>Başlıq</label>
                         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-                        {titleError && <span className="error-message">{titleError}</span>}
+                        {errors.title && <span className="error-message">{errors.title}</span>}
                         <IoText />
                     </div>
 
@@ -160,18 +148,23 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
                         <div className="custom-file-upload">
                             <input
                                 type="file"
-                                id="file3"
-                                onChange={(e) => handleImageUpload(e.target.files[0], setImageLink)}
+                                id="file-img"
+                                onChange={(e) => handleImageUpload(e.target.files[0])}
                             />
-                            <label htmlFor="file3">
-                                {image ? (
+                            <label htmlFor="file-img">
+                                {!imageLoaded && uploadProgress > 0 ? (
+                                    <div className="progress-box">
+                                        <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>
+                                        <span>{uploadProgress}%</span>
+                                    </div>
+                                ) : image ? (
                                     <img src={image} alt="preview" className="preview-img" />
                                 ) : (
                                     <span><FiUploadCloud /></span>
                                 )}
                             </label>
                         </div>
-                        {imageError && <span className="error-message">{imageError}</span>}
+                        {errors.image && <span className="error-message">{errors.image}</span>}
                     </div>
                 </div>
 
@@ -187,12 +180,12 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
                     <div className="form-group">
                         <label>Başlama tarixi</label>
                         <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-                        {startDateError && <span className="error-message">{startDateError}</span>}
+                        {errors.startDate && <span className="error-message">{errors.startDate}</span>}
                     </div>
                     <div className="form-group">
                         <label>Bitmə tarixi</label>
                         <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-                        {endDateError && <span className="error-message">{endDateError}</span>}
+                        {errors.endDate && <span className="error-message">{errors.endDate}</span>}
                     </div>
                     <div className="form-group">
                         <label>Status</label>
@@ -200,7 +193,7 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
                             <option value="TRUE">Aktiv</option>
                             <option value="FALSE">Deaktiv</option>
                         </select>
-                        {statusError && <span className="error-message">{statusError}</span>}
+                        {errors.status && <span className="error-message">{errors.status}</span>}
                     </div>
                 </div>
 

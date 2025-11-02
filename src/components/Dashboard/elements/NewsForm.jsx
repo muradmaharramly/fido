@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase, uploadImage } from '../../../services/supabaseClient';
 import Swal from 'sweetalert2';
 import { IoText } from 'react-icons/io5';
-import { LuLetterText, LuLink } from 'react-icons/lu';
+import { LuLetterText } from 'react-icons/lu';
 import { GrFormView } from 'react-icons/gr';
 import { FiUploadCloud } from 'react-icons/fi';
 
@@ -16,7 +16,8 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
     const [image, setImageLink] = useState('');
     const [viewCount, setViewCount] = useState('');
     const [errors, setErrors] = useState({});
-    const [isUploading, setIsUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState({ img: 0 });
+    const [imageLoaded, setImageLoaded] = useState({ img: false });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,6 +27,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
             setCategory(existingNews.category || '');
             setImageLink(existingNews.image || '');
             setViewCount(existingNews.viewCount?.toString() || '');
+            setImageLoaded({ img: true }); // edit rejimində şəkil dərhal görünür
         }
     }, [isEditMode, existingNews]);
 
@@ -76,22 +78,37 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
     };
 
     const handleImageUpload = async (file) => {
-        if (!file) return;
-
-        setIsUploading(true);
         try {
-            const url = await uploadImage(file, 'news');
+            setImageLink(null);
+            setUploadProgress({ img: 0 });
+            setImageLoaded({ img: false });
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                setUploadProgress({ img: progress });
+                if (progress >= 100) clearInterval(interval);
+            }, 30);
+
+            const url = await uploadImage(file, "news");
+
+            // şəkili dərhal göstər
             setImageLink(url);
+
+            const img = new Image();
+            img.src = url;
+            img.onload = () => {
+                setImageLoaded({ img: true });
+            };
+
         } catch (error) {
-            console.error('Upload error:', error.message);
-        } finally {
-            setIsUploading(false);
+            console.error("Image upload error:", error.message);
+            setUploadProgress({ img: 0 });
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const isValid = await validateForm();
         if (!isValid) return;
 
@@ -107,10 +124,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
 
         let result;
         if (isEditMode) {
-            const { error } = await supabase
-                .from('news')
-                .update(newsData)
-                .eq('id', existingNews.id);
+            const { error } = await supabase.from('news').update(newsData).eq('id', existingNews.id);
             result = error ? { success: false, message: error.message } : { success: true };
         } else {
             const { error } = await supabase.from('news').insert([newsData]);
@@ -124,23 +138,17 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                 icon: 'success',
                 showConfirmButton: false,
                 timer: 1500,
-                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
-            }).then(() => {
-                navigate('/administrative/news');
-            });
+            }).then(() => navigate('/administrative/news'));
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Xəta!',
                 text: result.message || 'Naməlum xəta baş verdi',
-                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             });
         }
     };
 
-    const handleCancel = () => {
-        navigate('/administrative/news');
-    };
+    const handleCancel = () => navigate('/administrative/news');
 
     return (
         <div className="news-form">
@@ -158,11 +166,16 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                         <div className="custom-file-upload">
                             <input
                                 type="file"
-                                id="file3"
-                                onChange={(e) => handleImageUpload(e.target.files[0], setImageLink)}
+                                id="file-img"
+                                onChange={(e) => handleImageUpload(e.target.files[0])}
                             />
-                            <label htmlFor="file3">
-                                {image ? (
+                            <label htmlFor="file-img">
+                                {(!image || !imageLoaded.img) && uploadProgress.img > 0 ? (
+                                    <div className="progress-box">
+                                        <div className="progress-bar" style={{ width: `${uploadProgress.img}%` }}></div>
+                                        <span>{uploadProgress.img}%</span>
+                                    </div>
+                                ) : image ? (
                                     <img src={image} alt="preview" className="preview-img" />
                                 ) : (
                                     <span><FiUploadCloud /></span>
@@ -206,12 +219,8 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                 </div>
 
                 <div className="btns">
-                    <button type="button" className="cancel-btn" onClick={handleCancel}>
-                        Ləğv et
-                    </button>
-                    <button type="submit" className="submit-btn">
-                        {isEditMode ? 'Yenilə' : 'Göndər'}
-                    </button>
+                    <button type="button" className="cancel-btn" onClick={handleCancel}>Ləğv et</button>
+                    <button type="submit" className="submit-btn">{isEditMode ? 'Yenilə' : 'Göndər'}</button>
                 </div>
             </form>
         </div>

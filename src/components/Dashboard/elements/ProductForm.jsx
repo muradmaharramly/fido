@@ -35,17 +35,40 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
     const [variantError, setVariantError] = useState('');
     const [discountError, setDiscountError] = useState('');
     const [variants, setVariants] = useState([{ size: '', price: '', discount: '' }]);
+    const [uploadProgress, setUploadProgress] = useState({ img1: 0, img2: 0, img3: 0 });
+    const [imageLoaded, setImageLoaded] = useState({ img1: false, img2: false, img3: false });
     const navigate = useNavigate();
 
-    const handleImageUpload = async (file, setImage) => {
+    const handleImageUpload = async (file, setImage, key) => {
         try {
+            setImage(null);
+            setUploadProgress((prev) => ({ ...prev, [key]: 0 }));
+            setImageLoaded((prev) => ({ ...prev, [key]: false }));
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                setUploadProgress((prev) => ({ ...prev, [key]: progress }));
+                if (progress >= 100) clearInterval(interval);
+            }, 35);
+
             const url = await uploadImage(file, "products");
+
             setImage(url);
+
+            const img = new Image();
+            img.src = url;
+            img.onload = () => {
+                setImageLoaded((prev) => ({ ...prev, [key]: true }));
+            };
 
         } catch (error) {
             console.error("Image upload error:", error.message);
+            setUploadProgress((prev) => ({ ...prev, [key]: 0 }));
         }
     };
+
+
 
     useEffect(() => {
         if (isEditMode && existingProduct) {
@@ -193,15 +216,21 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                             <input
                                 type="file"
                                 id="file1"
-                                onChange={(e) => handleImageUpload(e.target.files[0], setImage1Link)}
+                                onChange={(e) => handleImageUpload(e.target.files[0], setImage1Link, 'img1')}
                             />
                             <label htmlFor="file1">
-                                {image1 ? (
+                                {(!image1 || !imageLoaded.img1) && uploadProgress.img1 > 0 ? (
+                                    <div className="progress-box">
+                                        <div className="progress-bar" style={{ width: `${uploadProgress.img1}%` }}></div>
+                                        <span>{uploadProgress.img1}%</span>
+                                    </div>
+                                ) : image1 ? (
                                     <img src={image1} alt="preview" className="preview-img" />
                                 ) : (
                                     <span><FiUploadCloud /></span>
                                 )}
                             </label>
+
                         </div>
 
                     </div>
@@ -211,15 +240,21 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                             <input
                                 type="file"
                                 id="file2"
-                                onChange={(e) => handleImageUpload(e.target.files[0], setImage2Link)}
+                                onChange={(e) => handleImageUpload(e.target.files[0], setImage2Link, 'img2')}
                             />
                             <label htmlFor="file2">
-                                {image2 ? (
+                                {(!image2 || !imageLoaded.img2) && uploadProgress.img2 > 0 ? (
+                                    <div className="progress-box">
+                                        <div className="progress-bar" style={{ width: `${uploadProgress.img2}%` }}></div>
+                                        <span>{uploadProgress.img2}%</span>
+                                    </div>
+                                ) : image2 ? (
                                     <img src={image2} alt="preview" className="preview-img" />
                                 ) : (
                                     <span><FiUploadCloud /></span>
                                 )}
                             </label>
+
                         </div>
 
                     </div>
@@ -229,15 +264,21 @@ const ProductForm = ({ existingProduct, isEditMode }) => {
                             <input
                                 type="file"
                                 id="file3"
-                                onChange={(e) => handleImageUpload(e.target.files[0], setImage3Link)}
+                                onChange={(e) => handleImageUpload(e.target.files[0], setImage3Link, 'img3')}
                             />
                             <label htmlFor="file3">
-                                {image3 ? (
+                                {(!image3 || !imageLoaded.img3) && uploadProgress.img3 > 0 ? (
+                                    <div className="progress-box">
+                                        <div className="progress-bar" style={{ width: `${uploadProgress.img3}%` }}></div>
+                                        <span>{uploadProgress.img3}%</span>
+                                    </div>
+                                ) : image3 ? (
                                     <img src={image3} alt="preview" className="preview-img" />
                                 ) : (
                                     <span><FiUploadCloud /></span>
                                 )}
                             </label>
+
                         </div>
 
                     </div>
