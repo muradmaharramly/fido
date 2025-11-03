@@ -27,7 +27,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
             setCategory(existingNews.category || '');
             setImageLink(existingNews.image || '');
             setViewCount(existingNews.viewCount?.toString() || '');
-            setImageLoaded({ img: true }); // edit rejimində şəkil dərhal görünür
+            setImageLoaded({ img: true }); 
         }
     }, [isEditMode, existingNews]);
 
@@ -49,6 +49,7 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                     icon: 'error',
                     title: 'Xəta!',
                     text: 'Bu xəbər artıq mövcuddur!',
+                    customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
                 });
                 isValid = false;
             }
@@ -92,7 +93,6 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
 
             const url = await uploadImage(file, "news");
 
-            // şəkili dərhal göstər
             setImageLink(url);
 
             const img = new Image();
@@ -138,12 +138,14 @@ const NewsForm = ({ existingNews = null, isEditMode = false }) => {
                 icon: 'success',
                 showConfirmButton: false,
                 timer: 1500,
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             }).then(() => navigate('/administrative/news'));
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Xəta!',
                 text: result.message || 'Naməlum xəta baş verdi',
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             });
         }
     };

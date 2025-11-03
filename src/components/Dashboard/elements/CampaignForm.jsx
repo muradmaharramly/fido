@@ -27,7 +27,7 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
             setStartDate(existingCampaign.startDate ? existingCampaign.startDate.split('T')[0] : '');
             setEndDate(existingCampaign.endDate ? existingCampaign.endDate.split('T')[0] : '');
             setStatus(existingCampaign.status);
-            setImageLoaded(true); // edit rejimində şəkil dərhal görünür
+            setImageLoaded(true); 
         }
     }, [isEditMode, existingCampaign]);
 
@@ -119,13 +119,15 @@ const CampaignForm = ({ existingCampaign, isEditMode }) => {
                 text: 'Əməliyyat uğurla başa çatdı.',
                 icon: "success",
                 timer: 1500,
-                showConfirmButton: false
+                showConfirmButton: false,
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             }).then(() => navigate('/administrative/campaigns'));
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Xəta!',
                 text: result.message,
+                customClass: { popup: "custom-swal-popup", title: "custom-swal-title", content: "custom-swal-text" }
             });
         }
     };
