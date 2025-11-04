@@ -6,7 +6,7 @@ import {
   SET_LOADING,
   SET_ERROR,
   SET_FAQ_COUNT,
-} from "../actions/faqactions";
+} from "../actions/faqAct";
 
 const initialState = {
   faqs: [],

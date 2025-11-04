@@ -1,6 +1,6 @@
 import store from "../store/store";
 import { supabase } from "../../services/supabaseClient";
-import { setFaqs, addFaq, setLoading, setError, setFaqCount } from "../actions/faqactions";
+import { setFaqs, addFaq, setLoading, setError, setFaqCount } from "../actions/faqAct";
 
 export const fetchFaqs = async () => {
   store.dispatch({ type: "SET_LOADING", payload: true });

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import FAQForm from "../elements/FaqForm";
-import { addFaq } from "../../../tools/actions/faqactions";
+import { addFaq } from "../../../tools/actions/faqAct";
 
 const AddFAQ = () => {
 

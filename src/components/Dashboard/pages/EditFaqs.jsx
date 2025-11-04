@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { editFaq } from "../../../tools/actions/faqactions";
+import { editFaq } from "../../../tools/actions/faqAct";
 import { fetchFaqs } from "../../../tools/request/fetchFaqs";
 import PreLoader from "../../PreLoader";
 import slugify from "slugify";
