@@ -6,6 +6,8 @@
 .edit-campaign,
 .add-user,
 .edit-user,
+.add-faq,
+.edit-faq,
 .add-administrator,
 .edit-administrator{
     padding: 20px 2%;
@@ -17,6 +19,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        h3{
+            color: $black;
+        }
         a{
             display: flex;
             justify-content: center;
@@ -51,6 +56,8 @@
     .edit-campaign,
     .add-user,
     .edit-user,
+    .add-faq,
+    .edit-faq,
     .add-administrator,
     .edit-administrator{
         padding: 10px 10px !important;

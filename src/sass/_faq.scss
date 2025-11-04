@@ -56,11 +56,11 @@
           -ms-border-radius: 15px;
           -o-border-radius: 15px;
           &:hover{
-            background-color: $box-hover-light;
+            background-color:#ffa0d965;
           }
   
           &.active {
-            background-color: $box-hover-light;
+            background-color: #ffa0d965;
             .faq-question{
                 color: $main-dark;
             }
@@ -86,8 +86,12 @@
           .faq-answer {
             display: none;
             margin-top: 10px;
-            color: #333;
+            color: $black;
             font-size: 0.9rem;
+            a{
+              color: $black;
+              font-weight: bold;
+            }
           }
         }
       }

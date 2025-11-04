@@ -8,6 +8,7 @@ import { TiThList } from 'react-icons/ti'
 import { Link, NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { fetchAdministrators } from '../../../tools/request/fetchAdministrators'
+import { BsFillPatchQuestionFill } from 'react-icons/bs'
 
 const Sidebar = () => {
     const { administrators, loading, error } = useSelector((state) => state.administrators);
@@ -59,6 +60,9 @@ const Sidebar = () => {
                 </NavLink>
                 <NavLink onClick={handleTab} to="/administrative/campaigns">
                     <div className='icon'><MdCampaign /></div><span>Kampaniyalar</span><div className='arrow'><IoIosArrowForward /></div>
+                </NavLink>
+                <NavLink onClick={handleTab} to="/administrative/faqs">
+                    <div className='icon'><BsFillPatchQuestionFill /></div><span>Suallar</span><div className='arrow'><IoIosArrowForward /></div>
                 </NavLink>
                 {currentUser && currentUser.role !== "Moderator" && (
                     <Link onClick={handleTab} to="/administrative/administrators">

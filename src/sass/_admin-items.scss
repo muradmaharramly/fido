@@ -1,6 +1,7 @@
 .admin-products,
 .admin-news,
 .admin-campaigns,
+.admin-faqs,
 .administrators{
     padding: 20px 2%;
     display: flex;
@@ -11,6 +12,7 @@
         justify-content: space-between;
         align-items: center;
         h3{
+          color: $black;
           .count{
             color: $black-2nd;
             margin-left: 5px;
@@ -135,24 +137,34 @@
       overflow-x: auto;
       padding: 0;
       margin-top: 20px;
-    
-      .product-table,
-      .news-table,
-      .campaign-table,
-      .user-table,
-      .administrator-table {
+      border-radius: 10px;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      -ms-border-radius: 10px;
+      -o-border-radius: 10px;
+       border: 1px solid $border-light;
+      .product-table,.news-table,.campaign-table,.user-table,.faq-table,.administrator-table{
         width: 100%;
         border-collapse: collapse;
-        background: #fff;
-        border-radius: 8px;
+        background: #ffffff34;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        -ms-border-radius: 0px;
+        -o-border-radius: 0px;
         overflow: hidden;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    
-        thead {
+        td + td,
+        th + th{
+           border-left: 1px solid $border-light;
+           border-top: 1px solid $border-light;
+        }
+        thead{
           background: $black;
           color: white;
-    
-          tr {
+          tr { 
+            border-bottom: 1px solid $border-light;  
+            border-top: 1px solid $border-light;
             th {
               padding: 10px;
               text-align: left;
@@ -163,7 +175,10 @@
         }
     
         tbody {
-          tr {
+          tr + tr{
+            border-top: 1px solid $border-light;
+          }
+          tr{
             @include transition();
     
             &:hover {
@@ -176,7 +191,6 @@
             td {
               position: relative;
               padding:10px;
-              border: 1px solid #ddd;
               font-size: 14px;
               text-align: left;
               &.price{
@@ -351,11 +365,20 @@
     }
     
 }
+.faq-table{
+  .faq-actions{
+    width: 20px !important;
+  }
+  .index{
+    width: 20px;
+  }
+}
 @media (max-width: 768px) {
   .admin-products,
   .admin-news,
   .admin-campaigns,
   .admin-users,
+  .admin-faqs,
   .administrators{
     padding: 10px 10px !important;
     .page-head{

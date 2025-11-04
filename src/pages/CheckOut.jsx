@@ -9,7 +9,7 @@ const CheckoutPage = () => {
   const { items, emptyCart } = useCart();
   const navigate = useNavigate();
 
-  const phoneNumber = "+994513309727";
+  const phoneNumber = "+994558759382";
 
   const handleWhatsAppOrder = async () => {
     if (items.length === 0) {

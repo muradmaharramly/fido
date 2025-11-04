@@ -35,6 +35,9 @@ import ProtectedRoute from "./components/Dashboard/auth/ProtectRoute";
 import CampaignPopup from "./components/CampaignPopup";
 import FAQPage from "./pages/Faq";
 import Checkout from "./pages/CheckOut";
+import AdminFAQs from "./components/Dashboard/pages/AdminFaqs";
+import AddFAQ from "./components/Dashboard/pages/AddFaqs";
+import EditFAQ from "./components/Dashboard/pages/EditFaqs";
 
 const App = () => {
   return (
@@ -78,6 +81,9 @@ const App = () => {
             <Route path="administrators" element={<Administrators />} />
             <Route path="administrators/addadministrator" element={<AddAdministrator />} />
             <Route path="administrators/editadministrator/:slug" element={<EditAdministrator />} />
+            <Route path="faqs" element={<AdminFAQs />} />
+            <Route path="faqs/addfaq" element={<AddFAQ />} />
+            <Route path="faqs/editfaq/:slug" element={<EditFAQ />} />
             <Route path="profile" element={<AdministratorProfile />} />
           </Route>
         </Route>
