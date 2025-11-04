@@ -1,6 +1,5 @@
 import store from "../store/store";
 import { supabase } from "../../services/supabaseClient";
-// fetchFaqs.js
 import { setFaqs, addFaq, setLoading, setError, setFaqCount } from "../actions/faqactions";
 
 export const fetchFaqs = async () => {
