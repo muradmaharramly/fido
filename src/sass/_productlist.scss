@@ -65,6 +65,11 @@
                     }
                     &.selected{
                         color: $red;
+                        &::after{
+                            left: 0;
+                                width: 100%;
+                                background-color: $red;                            
+                        }
                         &:hover{
                             &::after{
                                 left: 0;
