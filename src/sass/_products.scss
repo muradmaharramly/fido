@@ -89,6 +89,11 @@
                     }
                     &.selected{
                         color: $black;
+                        &::after{
+                            left: 0;
+                                width: 100%;
+                                background-color: $black;
+                        }
                         &:hover{
                             &::after{
                                 left: 0;
