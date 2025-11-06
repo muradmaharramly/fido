@@ -1,5 +1,34 @@
 .body.dark{
     background-color: $main-dark;
+    .about {
+  background: $main-dark;
+
+  &__card {
+    background: $soft-black;
+  }
+
+  &__stats {
+    background: $soft-black;
+
+    h3 {
+      color: white;
+    }
+
+    p {
+      color: $white;
+    }
+  }
+
+  &__title {
+    color: $white;
+  }
+
+  &__text {
+    color: $white-2nd;
+  }
+
+}
+
     .home-container{
       background-color: $main-dark;
       .hero-div{
@@ -272,23 +301,6 @@
       .mobile-navbar.other.active{
         left: 0;
       }
-    .about-us{
-        h2{
-            color: $white;
-        }
-        .caption{
-            color: $soft-white;
-        }
-        .timeline-details {
-            h3 {
-              color: $white !important;
-            }
-    
-            p {
-              color: $soft-white !important;
-            }
-          }
-    } 
     .breadcrumb{
         span{
             color: $white;
