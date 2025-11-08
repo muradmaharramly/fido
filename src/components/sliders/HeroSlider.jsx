@@ -65,7 +65,6 @@ function HeroSlider() {
           <Link to={`/campaigns/${slugify(campaign.title, { lower: true })}`}>
             <div key={campaign.id} className="slide">
               <img src={campaign.image} alt={campaign.title} />
-              <Link className="slide-btn" to={`/campaigns/${slugify(campaign.title, { lower: true })}`}>Kampaniyaya bax<IoIosArrowForward /></Link>
             </div>
           </Link>
         ))}
