@@ -440,45 +440,42 @@
   
   }
   .delivery-billing-container {
-    h1{
-        color: $white;
+  background-color: $main-dark;
+
+  h2 {
+    color: $white;
+  }
+
+  .section {
+    h3 {
+      color: $white-2nd;
     }
-  
-    .tabs {
-      button {
-        &.active {
-          color: $white;
-        }
+
+    .option {
+      color: $white;
+    background-color: $box-dark;
+
+      input[type="radio"] {
+        margin-right: 0.5rem;
+      }
+
+      label {
+        cursor: pointer;
       }
     }
-    .items-div{
-        display: flex;
-        flex-direction: column;
-        gap: 35px;
-    }
-    .content-box {
-      .info-box{
-        background: $box-dark;
-        .text{
-            flex: 1;
-            h1 {
-                color: $white;
-              }
-        
-              p {
-                color: $white;
-              }
-        
-              a {
-                color: $white;
-              }
-        }
-        .h6{
-            color: $white;
-        }  
-      }
+
+    p {
+      color: $white;
     }
   }
+  .bannered{
+    background-color: $box-dark;
+}
+.etiquet{
+  background-color: $box-dark;
+}
+}
+
 
   .service-centers,
   .shops {

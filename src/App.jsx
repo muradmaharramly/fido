@@ -38,6 +38,7 @@ import Checkout from "./pages/CheckOut";
 import AdminFAQs from "./components/Dashboard/pages/AdminFaqs";
 import AddFAQ from "./components/Dashboard/pages/AddFaqs";
 import EditFAQ from "./components/Dashboard/pages/EditFaqs";
+import DeliveryBilling from "./pages/DeliveryandBilling";
 
 const App = () => {
   return (
@@ -48,7 +49,7 @@ const App = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/delivery-and-billing" element={<DeliveryandBilling />} />
+          <Route path="/delivery-and-billing" element={<DeliveryBilling />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:slug" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
