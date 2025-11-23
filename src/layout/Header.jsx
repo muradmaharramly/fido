@@ -474,7 +474,7 @@ const Header = () => {
                     )}
 
                 </div>
-                <Link className="nav-contact"><div className="icon"><FaWhatsapp /></div> +994 55 875 93 82</Link>
+                <Link className="nav-contact" to="https://wa.me/994558759382?text=Salam%2C%20m%C9%99lumat%20ala%20bil%C9%99c%C9%99yim%20biri%20var%3F" target="_blank"><div className="icon"><FaWhatsapp /></div> +994 55 875 93 82</Link>
                 <div className="actions">
                     <NavLink to="/wishlist">
                         <Badge count={totalWishlistItems} className="custom-badge" showZero>
