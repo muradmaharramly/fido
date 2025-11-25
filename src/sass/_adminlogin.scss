@@ -58,7 +58,10 @@
         -moz-border-radius: 30px;
         -ms-border-radius: 30px;
         -o-border-radius: 30px;
-        background-color: $white;
+        background-color: $box-light;
+        h1{
+            color: $black;
+        }
         form{
             width: 100%;
             display: flex;
@@ -87,6 +90,7 @@
                     }
                 }
                 label{
+                    color: $black;
                     position: absolute;
                     left: 15px;
                     top: 12px;
@@ -102,7 +106,7 @@
                         font-size: 10px;
                         left: 5px;
                         padding: 4px 10px;
-                        background-color: $white;
+                        background-color: $box-light;
                         transform: translateY(-25px);
                         -webkit-transform: translateY(-25px);
                         -moz-transform: translateY(-25px);
@@ -152,7 +156,7 @@
                 -o-border-radius: 15px;
                 @include transition();
                 &:hover{
-                    background-color: #343434;
+                    background-color: $black-2nd;
                 }
             }
         }
