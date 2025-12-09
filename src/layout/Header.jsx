@@ -166,6 +166,26 @@ const Header = () => {
         }
     }, [theme]);
 
+    useEffect(() => {
+        const handleLinkClick = () => {
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
+        };
+
+        const links = document.querySelectorAll(".mobile-navbar-menu a, .mobile-navbar-top-icons a");
+        links.forEach((link) => {
+            link.addEventListener("click", handleLinkClick);
+        });
+
+        return () => {
+            links.forEach((link) => {
+                link.removeEventListener("click", handleLinkClick);
+            });
+        };
+    }, []);
+
     const handleInputClick = () => setIsSearchOpen(true);
 
     const handleSearchLinkClick = () => {
